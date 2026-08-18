@@ -1,6 +1,6 @@
 # 试标缺陷目录（私有）
 
-本目录仅供校准与验收使用，Gold/Test 模型不得读取。
+本目录仅供校准与验收使用，Gold/Test 模型不得读取。所有题目只允许修改 Go 后端生产代码；前端只能用于人工操作入口和 API 黑盒验证，不设计前端缺陷。
 
 | 编号 | 类型 | 功能域 | 缺陷边界 | 计划涉及生产层 |
 |---|---|---|---|---|
@@ -34,4 +34,3 @@
 | BUG-028 | bugfix | 报表导出 | 白名单排序之外的字段可进入 SQL ORDER BY | report handler / report repository |
 | BUG-029 | diagnosis | 审批中心 | 审批步骤跳过当前审核人仍能完成审批 | approval service / approval repository |
 | BUG-030 | diagnosis | 账单计划重试 | 失败重试跨租约修改了错误计划的 next_period_start | billing plan service / billing repository |
-
