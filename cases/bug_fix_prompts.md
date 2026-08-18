@@ -3,38 +3,38 @@
 ## BUG-001
 
 房源状态功能存在一个需要修复的业务问题：问题表现为非法状态被当作成功写入，正确业务行为是非法状态必须返回失败且数据库状态保持不变。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-001.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-002
 
 房源设施功能存在一个需要修复的业务问题：问题表现为替换设施后旧关联仍残留，正确业务行为是替换后关联集合必须与请求完全一致且无脏数据。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-002.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-003
 
 租客状态与租约准入功能存在一个需要修复的业务问题：问题表现为disabled 租客被错误映射并可创建租约，正确业务行为是停用租客必须保持 disabled 且不能进入新租约。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-003.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-004
 
@@ -53,14 +53,14 @@ go build ./...
 ## BUG-005
 
 租约续租功能存在一个需要修复的业务问题：问题表现为续租租金和押金跨层错位，正确业务行为是续租版本必须分别保存正确租金与押金。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-005.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-006
 
@@ -79,26 +79,26 @@ go build ./...
 ## BUG-007
 
 账单幂等生成功能存在一个需要修复的业务问题：问题表现为相同幂等键重复生成账单，正确业务行为是重复请求必须返回同一结果且不得新增第二张账单。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-007.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-008
 
 账单滞纳金功能存在一个需要修复的业务问题：问题表现为已结清账单仍增加滞纳金和余额，正确业务行为是已结清账单不得再次产生滞纳金或余额变化。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-008.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-009
 
@@ -117,14 +117,14 @@ go build ./...
 ## BUG-010
 
 收款幂等与核销功能存在一个需要修复的业务问题：问题表现为重复收款引用产生重复收款和核销，正确业务行为是相同业务引用只能成功一次且账单余额守恒。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-010.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-011
 
@@ -143,26 +143,26 @@ go build ./...
 ## BUG-012
 
 押金收取幂等功能存在一个需要修复的业务问题：问题表现为重复押金引用重复增加余额和流水，正确业务行为是相同业务引用不得重复增加押金余额或流水。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-012.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-013
 
 审批撤销权限与审计功能存在一个需要修复的业务问题：问题表现为非申请人可撤销且审计 actor 写错，正确业务行为是仅申请人可撤销，审批状态与审计 actor 必须一致。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-013.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-014
 
@@ -181,26 +181,26 @@ go build ./...
 ## BUG-015
 
 维修租客确认功能存在一个需要修复的业务问题：问题表现为reported 工单可跳过派单和维修直接确认，正确业务行为是必须完成合法状态链后租客才能确认。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-015.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-016
 
 维修材料费用功能存在一个需要修复的业务问题：问题表现为材料数量、单价和总价被交叉写错，正确业务行为是材料明细与总费用必须按数量乘单价准确汇总。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-016.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-017
 
@@ -219,62 +219,62 @@ go build ./...
 ## BUG-018
 
 租客资料功能存在一个需要修复的业务问题：问题表现为姓名、电话和证件字段错位保存，正确业务行为是所有租客字段必须按 API 契约准确持久化。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-018.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-019
 
 退租完成事务功能存在一个需要修复的业务问题：问题表现为完成人和房态恢复破坏事务一致性，正确业务行为是结算完成、审计和房态恢复必须在同一事务一致提交。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-019.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-020
 
 房源分页功能存在一个需要修复的业务问题：问题表现为offset 在服务层和仓储层重复应用导致跳页，正确业务行为是分页偏移只能应用一次且相邻页连续无遗漏。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-020.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-021
 
 用户停用与会话功能存在一个需要修复的业务问题：问题表现为停用用户的访问令牌和刷新令牌仍有效，正确业务行为是停用必须撤销全部会话并阻止继续访问和刷新。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-021.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-022
 
 用户角色授权功能存在一个需要修复的业务问题：问题表现为替换角色后旧角色残留且旧令牌权限未失效，正确业务行为是角色集合必须完整替换并使旧权限会话失效。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-022.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-023
 
@@ -293,26 +293,26 @@ go build ./...
 ## BUG-024
 
 修改密码功能存在一个需要修复的业务问题：问题表现为明文密码写入错误用户且会话撤销目标错误，正确业务行为是必须 bcrypt 保存到当前用户并撤销该用户既有会话。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-024.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-025
 
 审计日志查询功能存在一个需要修复的业务问题：问题表现为resource 前缀在服务层和仓储层重复添加，正确业务行为是resource 过滤值必须原样传递并返回匹配日志。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-025.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-026
 
@@ -331,26 +331,26 @@ go build ./...
 ## BUG-027
 
 仪表盘缓存降级功能存在一个需要修复的业务问题：问题表现为Redis 缓存损坏时返回零值，正确业务行为是缓存损坏或不可解析时必须回退 MySQL 事实数据。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-027.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-028
 
 租金报表日期边界功能存在一个需要修复的业务问题：问题表现为租期结束日等于查询开始日时被排除，正确业务行为是日期范围必须包含相等边界且 API/CSV 结果一致。
-请阅读当前分支代码，先实际执行以下命令确认问题：
+请阅读当前分支代码，执行以下命令确认问题：
 docker compose down -v
 docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-028.sh
 go build ./...
 
 请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
+修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-029
 
