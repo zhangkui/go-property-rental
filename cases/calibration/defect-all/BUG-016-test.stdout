@@ -1,0 +1,7 @@
+ASSERTION_FAILED=BUG-016: work order status/material cost expected assigned/7500 got assigned|2503
+ASSERTION_FAILED=BUG-016: material row quantity/cost calculation mismatch got 1|2500|3|7500
+ASSERTION_FAILED=BUG-016: API material quantity mismatch body={"materials":[{"ID":"d2a99ee0-b9b9-4935-86ce-75092d05c4f6","WorkOrderID":"d1afb734-f499-47bf-a06a-d0227b34add8","Name":"filter","Quantity":2500,"UnitCost":3}],"work_order":{"ID":"d1afb734-f499-47bf-a06a-d0227b34add8","PropertyID":"ee95519d-9b1c-11f1-a98e-062771f717fb","TenantID":"","AssigneeID":"eb3a9795-9b1c-11f1-a98e-062771f717fb","Description":"material calculation","Status":"assigned","MaterialCost":2503,"TenantConfirmed":false,"CreatedAt":"2026-08-18T15:53:19Z","UpdatedAt":"2026-08-18T15:53:19Z"}}
+
+ASSERTION_FAILED=BUG-016: API material cost mismatch body={"materials":[{"ID":"d2a99ee0-b9b9-4935-86ce-75092d05c4f6","WorkOrderID":"d1afb734-f499-47bf-a06a-d0227b34add8","Name":"filter","Quantity":2500,"UnitCost":3}],"work_order":{"ID":"d1afb734-f499-47bf-a06a-d0227b34add8","PropertyID":"ee95519d-9b1c-11f1-a98e-062771f717fb","TenantID":"","AssigneeID":"eb3a9795-9b1c-11f1-a98e-062771f717fb","Description":"material calculation","Status":"assigned","MaterialCost":2503,"TenantConfirmed":false,"CreatedAt":"2026-08-18T15:53:19Z","UpdatedAt":"2026-08-18T15:53:19Z"}}
+
+PRE_FIX_RED=BUG-016 failures=4

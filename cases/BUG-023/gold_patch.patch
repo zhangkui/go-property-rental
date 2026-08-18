@@ -1,0 +1,24 @@
+diff --git b/internal/repository/redis/security.go a/internal/repository/redis/security.go
+index 19617e3..a203c85 100644
+--- b/internal/repository/redis/security.go
++++ a/internal/repository/redis/security.go
+@@ -24,5 +24,5 @@ func (r Security) Allow(ctx context.Context, key string, limit int, window time.
+ }
+ 
+ func (r Security) Reset(ctx context.Context, key string) error {
+-	return r.Client.Raw().Del(ctx, "auth:attempt:"+key+":reset").Err()
++	return r.Client.Raw().Del(ctx, "auth:attempt:"+key).Err()
+ }
+diff --git b/internal/service/auth.go a/internal/service/auth.go
+index 354b1a3..753c68b 100644
+--- b/internal/service/auth.go
++++ a/internal/service/auth.go
+@@ -48,7 +48,7 @@ func NewAuthService(security repository.SecurityStore, limiter repository.LoginL
+ 
+ func (s AuthService) Login(ctx context.Context, username, password string, metadata LoginMetadata) (entity.User, entity.SessionTokenPair, error) {
+ 	username = strings.TrimSpace(username)
+-	limiterKey := strings.ToLower(username)
++	limiterKey := strings.ToLower(username) + ":" + metadata.IPAddress
+ 	if s.Limiter != nil {
+ 		allowed, count, err := s.Limiter.Allow(ctx, limiterKey, s.LoginLimit, s.LoginWindow)
+ 		if err == nil && !allowed {

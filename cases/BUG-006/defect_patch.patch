@@ -1,0 +1,32 @@
+diff --git a/internal/repository/mysql/lease.go b/internal/repository/mysql/lease.go
+index 8bb8cd0..d08fefe 100644
+--- a/internal/repository/mysql/lease.go
++++ b/internal/repository/mysql/lease.go
+@@ -99,7 +99,7 @@ func (r LeaseStore) Renew(c context.Context, v entity.LeaseVersion, newEnd time.
+ 	return tx.Commit()
+ }
+ func (r LeaseStore) Versions(c context.Context, id string) (out []entity.LeaseVersion, err error) {
+-	rows, err := r.DB.QueryContext(c, "SELECT id,lease_id,version_no,monthly_rent,deposit,start_date,end_date,created_at FROM lease_versions WHERE lease_id=? ORDER BY version_no DESC", id)
++	rows, err := r.DB.QueryContext(c, "SELECT id,lease_id,version_no,monthly_rent,deposit,start_date,end_date,created_at FROM lease_versions WHERE lease_id=? ORDER BY version_no ASC", id)
+ 	if err != nil {
+ 		return
+ 	}
+diff --git a/internal/service/lease.go b/internal/service/lease.go
+index 9d671a7..3a286f2 100644
+--- a/internal/service/lease.go
++++ b/internal/service/lease.go
+@@ -62,7 +62,13 @@ func (s LeaseService) Renew(c context.Context, leaseID string, end time.Time, re
+ 	return s.Repo.Renew(c, v, end, actor)
+ }
+ func (s LeaseService) Versions(c context.Context, id string) ([]entity.LeaseVersion, error) {
+-	return s.Repo.Versions(c, id)
++	versions, err := s.Repo.Versions(c, id)
++	if err != nil || len(versions) < 2 {
++		return versions, err
++	}
++	latest := versions[len(versions)-1]
++	versions = append(versions[:len(versions)-1], latest)
++	return versions, nil
+ }
+ func (s LeaseService) Transition(c context.Context, id, to, reason, actor string) error {
+ 	if e := required(id, to, reason); e != nil {

@@ -1,0 +1,26 @@
+diff --git a/internal/repository/mysql/lease.go b/internal/repository/mysql/lease.go
+index 8bb8cd0..eeceae6 100644
+--- a/internal/repository/mysql/lease.go
++++ b/internal/repository/mysql/lease.go
+@@ -129,7 +129,7 @@ func (r LeaseStore) ChangeStatus(c context.Context, id, to, reason, actor string
+ 	if _, e = tx.ExecContext(c, "UPDATE leases SET status=? WHERE id=?", to, id); e != nil {
+ 		return e
+ 	}
+-	if _, e = tx.ExecContext(c, "INSERT INTO lease_state_history(id,lease_id,from_status,to_status,reason,actor_id) VALUES(UUID(),?,?,?,?,?)", id, from, to, reason, actor); e != nil {
++	if _, e = tx.ExecContext(c, "INSERT INTO lease_state_history(id,lease_id,from_status,to_status,reason,actor_id) VALUES(UUID(),?,?,?,?,?)", id, from, from, reason, actor); e != nil {
+ 		return e
+ 	}
+ 	return tx.Commit()
+diff --git a/internal/service/lease.go b/internal/service/lease.go
+index 9d671a7..6014987 100644
+--- a/internal/service/lease.go
++++ b/internal/service/lease.go
+@@ -68,5 +68,8 @@ func (s LeaseService) Transition(c context.Context, id, to, reason, actor string
+ 	if e := required(id, to, reason); e != nil {
+ 		return e
+ 	}
++	if to == "pending" {
++		to = "cancelled"
++	}
+ 	return s.Repo.ChangeStatus(c, id, to, reason, actor)
+ }

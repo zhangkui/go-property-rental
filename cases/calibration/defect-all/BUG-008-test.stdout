@@ -1,0 +1,5 @@
+ASSERTION_FAILED=BUG-008: paid bill state changed or regained balance got paid|10000|1700|1700
+ASSERTION_FAILED=BUG-008: adjustment ledger written for closed bill count=1
+ASSERTION_FAILED=BUG-008: API detail reports late penalty body={"bill":{"ID":"5d6c0ee4-9b1c-11f1-a93e-7aac572b65c5","LeaseID":"5d6ef687-9b1c-11f1-a93e-7aac572b65c5","PeriodStart":"2026-07-01T00:00:00Z","PeriodEnd":"2026-08-01T00:00:00Z","Status":"paid","Amount":10000,"Penalty":1700,"Discount":0,"Paid":10000,"DueDate":"2026-08-01T00:00:00Z"},"items":[]}
+
+PRE_FIX_RED=BUG-008 failures=3

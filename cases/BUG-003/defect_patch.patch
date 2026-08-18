@@ -1,0 +1,26 @@
+diff --git a/internal/repository/mysql/tenant.go b/internal/repository/mysql/tenant.go
+index 4878a79..c7e6592 100644
+--- a/internal/repository/mysql/tenant.go
++++ b/internal/repository/mysql/tenant.go
+@@ -24,7 +24,7 @@ func (r Tenants) List(c context.Context, limit, offset int, status string) (out
+ 	return out, rows.Err()
+ }
+ func (r Tenants) Get(c context.Context, id string) (x entity.Tenant, err error) {
+-	err = r.DB.QueryRowContext(c, "SELECT id,name,phone,email,identity_no,status,created_at,updated_at FROM tenants WHERE id=?", id).Scan(&x.ID, &x.Name, &x.Phone, &x.Email, &x.IdentityNo, &x.Status, &x.CreatedAt, &x.UpdatedAt)
++	err = r.DB.QueryRowContext(c, "SELECT id,name,phone,email,identity_no,CASE WHEN status='disabled' THEN 'suspended' ELSE status END,created_at,updated_at FROM tenants WHERE id=?", id).Scan(&x.ID, &x.Name, &x.Phone, &x.Email, &x.IdentityNo, &x.Status, &x.CreatedAt, &x.UpdatedAt)
+ 	return
+ }
+ func (r Tenants) Create(c context.Context, x entity.Tenant) error {
+diff --git a/internal/service/lease.go b/internal/service/lease.go
+index 9d671a7..7b05563 100644
+--- a/internal/service/lease.go
++++ b/internal/service/lease.go
+@@ -35,7 +35,7 @@ func (s LeaseService) Create(c context.Context, x entity.Lease, occupants []enti
+ 	if e != nil {
+ 		return x, e
+ 	}
+-	if !tenant.CanLease() {
++	if tenant.Status == "disabled" {
+ 		return x, errors.New("tenant is disabled")
+ 	}
+ 	x.ID = id.New()

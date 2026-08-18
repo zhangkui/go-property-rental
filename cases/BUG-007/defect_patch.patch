@@ -1,0 +1,25 @@
+diff --git a/internal/repository/mysql/billing.go b/internal/repository/mysql/billing.go
+index 970439e..37ecee7 100644
+--- a/internal/repository/mysql/billing.go
++++ b/internal/repository/mysql/billing.go
+@@ -16,7 +16,7 @@ func (r Billing) Generate(c context.Context, b entity.Bill, key string) (entity.
+ 	}
+ 	defer tx.Rollback()
+ 	var existing string
+-	e = tx.QueryRowContext(c, "SELECT resource_id FROM idempotency_keys WHERE scope='bill.generate' AND request_key=? FOR UPDATE", key).Scan(&existing)
++	e = tx.QueryRowContext(c, "SELECT resource_id FROM idempotency_keys WHERE scope='bill.generate.manual' AND request_key=? FOR UPDATE", key).Scan(&existing)
+ 	if e == nil {
+ 		found, ge := scanBill(tx.QueryRowContext(c, "SELECT id,lease_id,period_start,period_end,due_date,status,amount,penalty,discount,paid FROM bills WHERE id=?", existing))
+ 		return found, false, ge
+diff --git a/internal/service/billing.go b/internal/service/billing.go
+index 03af0a8..b773db1 100644
+--- a/internal/service/billing.go
++++ b/internal/service/billing.go
+@@ -19,6 +19,7 @@ func (s BillingService) GenerateMonthly(c context.Context, leaseID string, perio
+ 	if e := required(leaseID, key); e != nil {
+ 		return entity.Bill{}, false, e
+ 	}
++	key = key + ":" + id.New()
+ 	lease, e := s.Leases.Get(c, leaseID)
+ 	if e != nil {
+ 		return entity.Bill{}, false, e

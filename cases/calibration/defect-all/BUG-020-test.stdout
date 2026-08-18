@@ -1,0 +1,4 @@
+ASSERTION_FAILED=BUG-020: page 2 expected ids 3a7b13b1-9b1d-11f1-a5b0-86d81a37b40f then 3a81270a-9b1d-11f1-a5b0-86d81a37b40f body={"items":[{"ID":"3a8e3bf1-9b1d-11f1-a5b0-86d81a37b40f","Building":"000-BUG020-3a6acea3-9b1d-11f1-a5b0-86d81a37b40f","Room":"06","Status":"maintenance","Facilities":null,"AvailableFrom":"2026-01-01T00:00:00Z"}],"page":2,"page_size":2}
+
+ASSERTION_FAILED=BUG-020: page leaked rows outside expected fixture slice
+PRE_FIX_RED=BUG-020 failures=2

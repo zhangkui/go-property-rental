@@ -1,0 +1,26 @@
+diff --git a/internal/repository/mysql/security.go b/internal/repository/mysql/security.go
+index 0953bf7..2fded88 100644
+--- a/internal/repository/mysql/security.go
++++ b/internal/repository/mysql/security.go
+@@ -92,7 +92,7 @@ func (r Security) SetUserStatus(ctx context.Context, id, status string) error {
+ }
+ 
+ func (r Security) UpdateUserPassword(ctx context.Context, id, passwordHash string) error {
+-	_, err := r.DB.ExecContext(ctx, `UPDATE users SET password_hash=?,updated_at=UTC_TIMESTAMP() WHERE id=?`, passwordHash, id)
++	_, err := r.DB.ExecContext(ctx, `UPDATE users SET password_hash=?,updated_at=UTC_TIMESTAMP() WHERE username=?`, passwordHash, id)
+ 	return err
+ }
+ 
+diff --git a/internal/service/auth.go b/internal/service/auth.go
+index 753c68b..a82b658 100644
+--- a/internal/service/auth.go
++++ b/internal/service/auth.go
+@@ -215,7 +215,7 @@ func (s AuthService) ChangePassword(ctx context.Context, identity entity.AuthIde
+ 	if err := validatePassword(nextPassword); err != nil {
+ 		return err
+ 	}
+-	hash, err := bcrypt.GenerateFromPassword([]byte(nextPassword), bcrypt.DefaultCost)
++	hash, err := bcrypt.GenerateFromPassword([]byte(currentPassword), bcrypt.DefaultCost)
+ 	if err != nil {
+ 		return err
+ 	}

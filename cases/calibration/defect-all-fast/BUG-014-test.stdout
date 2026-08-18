@@ -1,0 +1,6 @@
+ASSERTION_FAILED=BUG-014: settlement money mismatch got draft|2800|2001|2998
+ASSERTION_FAILED=BUG-014: settlement deposit ledger mismatch got deduct:2001|refund:2998
+ASSERTION_FAILED=BUG-014: settlement must consume/refund full deposit got available=1
+ASSERTION_FAILED=BUG-014: API settlement deduction/refund mismatch body={"ID":"c563d3e3-b049-4c4f-955e-88e4585cbd76","LeaseID":"e062f86e-9b1e-11f1-afcb-4ac724818c17","Status":"draft","Total":2800,"DepositDeduction":2001,"Refund":2998,"SettledAt":null,"CreatedAt":"0001-01-01T00:00:00Z"}
+
+PRE_FIX_RED=BUG-014 failures=4

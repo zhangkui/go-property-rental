@@ -1,0 +1,13 @@
+ go-property-rental-formal-gold-web  Built
+ go-property-rental-formal-gold-api  Built
+ Container go-property-rental-formal-gold-redis-1  Recreate
+ Container go-property-rental-formal-gold-mysql-1  Recreate
+ Container go-property-rental-formal-gold-redis-1  Recreated
+ Container go-property-rental-formal-gold-mysql-1  Recreated
+ Container go-property-rental-formal-gold-api-1  Recreate
+ Container go-property-rental-formal-gold-api-1  Recreated
+ Container go-property-rental-formal-gold-web-1  Recreate
+ Container go-property-rental-formal-gold-web-1  Recreated
+ Container go-property-rental-formal-gold-redis-1  Starting
+ Container go-property-rental-formal-gold-mysql-1  Starting
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint go-property-rental-formal-gold-mysql-1 (11c742b82d17405243165e5d2e620d3871e5b088ecfc7a4e6ce8215e54fcc9c6): Bind for 0.0.0.0:33306 failed: port is already allocated

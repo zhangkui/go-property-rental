@@ -1,0 +1,4 @@
+ASSERTION_FAILED=BUG-022: old access token expected 401 got 201
+ASSERTION_FAILED=BUG-022: database roles expected readonly_auditor got business_admin,readonly_auditor
+ASSERTION_FAILED=BUG-022: new session retained property:create permission
+PRE_FIX_RED=BUG-022 failures=3

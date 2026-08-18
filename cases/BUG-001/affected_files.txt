@@ -1,0 +1,2 @@
+internal/repository/mysql/repositories.go
+internal/service/property.go

@@ -1,0 +1,5 @@
+ASSERTION_FAILED=BUG-015: early confirmation expected HTTP 409 got 200
+ASSERTION_FAILED=BUG-015: reported work order was changed early got closed|1|
+ASSERTION_FAILED=BUG-015: API detail status mismatch body={"materials":null,"work_order":{"ID":"4337f23b-a646-4ca0-9eef-a7505aa757ff","PropertyID":"dd0e8ee0-9b1c-11f1-8be3-6ab65013648f","TenantID":"","AssigneeID":"","Description":"reported issue","Status":"closed","MaterialCost":0,"TenantConfirmed":true,"CreatedAt":"2026-08-18T15:52:49Z","UpdatedAt":"2026-08-18T15:52:49Z"}}
+
+PRE_FIX_RED=BUG-015 failures=3

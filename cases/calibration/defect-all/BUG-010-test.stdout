@@ -1,0 +1,8 @@
+ASSERTION_FAILED=BUG-010: duplicate payment reference was accepted
+ASSERTION_FAILED=BUG-010: expected one payment receipt got 2
+ASSERTION_FAILED=BUG-010: expected one allocation got 2
+ASSERTION_FAILED=BUG-010: bill expected partial paid/outstanding 5000/5000 got paid|10000|0
+ASSERTION_FAILED=BUG-010: bill API detail missing paid amount body={"bill":{"ID":"7e9e57a4-9b1c-11f1-a064-d6a9658ac3ac","LeaseID":"7ea17b12-9b1c-11f1-a064-d6a9658ac3ac","PeriodStart":"2026-08-01T00:00:00Z","PeriodEnd":"2026-09-01T00:00:00Z","Status":"paid","Amount":10000,"Penalty":0,"Discount":0,"Paid":10000,"DueDate":"2026-08-05T00:00:00Z"},"items":[]}
+
+ASSERTION_FAILED=BUG-010: stored reference differs from client key got BUG010-7ea4711b-9b1c-11f1-a064-d6a9658ac3ac:d0338948-294e-4c03-801e-c174281b7cad
+PRE_FIX_RED=BUG-010 failures=6

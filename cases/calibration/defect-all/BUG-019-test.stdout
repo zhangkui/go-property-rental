@@ -1,0 +1,6 @@
+ASSERTION_FAILED=BUG-019: completion expected HTTP 200 got 409 body={"error":{"message":"Error 1406 (22001): Data too long for column 'status' at row 1","status":409}}
+
+ASSERTION_FAILED=BUG-019: settlement/lease/property atomic state mismatch got draft|terminating|occupied|0
+ASSERTION_FAILED=BUG-019: lease history actor expected admin got 
+ASSERTION_FAILED=BUG-019: completion audit actor expected admin got 
+PRE_FIX_RED=BUG-019 failures=4

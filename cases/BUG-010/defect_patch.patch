@@ -1,0 +1,32 @@
+diff --git a/internal/repository/mysql/billing.go b/internal/repository/mysql/billing.go
+index 970439e..78edc6c 100644
+--- a/internal/repository/mysql/billing.go
++++ b/internal/repository/mysql/billing.go
+@@ -111,6 +111,13 @@ func (r Billing) RecordPayment(c context.Context, p entity.Payment, allocations
+ 		return e
+ 	}
+ 	defer tx.Rollback()
++	var duplicate int
++	if e = tx.QueryRowContext(c, "SELECT COUNT(*) FROM payment_receipts WHERE reference=?", p.Reference).Scan(&duplicate); e != nil {
++		return e
++	}
++	if duplicate > 0 {
++		return nil
++	}
+ 	var sum int64
+ 	for _, a := range allocations {
+ 		sum += int64(a.Amount)
+diff --git a/internal/service/billing.go b/internal/service/billing.go
+index 03af0a8..04cc40c 100644
+--- a/internal/service/billing.go
++++ b/internal/service/billing.go
+@@ -84,7 +84,8 @@ func (s BillingService) Pay(c context.Context, reference, payer string, amount i
+ 	if amount <= 0 || len(allocations) == 0 {
+ 		return entity.Payment{}, errors.New("payment and allocations are required")
+ 	}
+-	p := entity.Payment{ID: id.New(), Reference: reference, Payer: payer, Amount: money(amount), PaidAt: time.Now().UTC(), Status: "posted"}
++	paymentID := id.New()
++	p := entity.Payment{ID: paymentID, Reference: reference + ":" + paymentID, Payer: payer, Amount: money(amount), PaidAt: time.Now().UTC(), Status: "posted"}
+ 	for i := range allocations {
+ 		allocations[i].ID = id.New()
+ 		allocations[i].PaymentID = p.ID

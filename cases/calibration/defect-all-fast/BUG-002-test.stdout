@@ -1,0 +1,4 @@
+ASSERTION_FAILED=BUG-002: API detail retained stale facilities body={"items":[{"ID":"bf03a31c-9b1e-11f1-afcb-4ac724818c17","Name":"A-bf006b23"},{"ID":"bf06b7cd-9b1e-11f1-afcb-4ac724818c17","Name":"B-bf006b23"},{"ID":"bf0a2387-9b1e-11f1-afcb-4ac724818c17","Name":"C-bf006b23"}]}
+
+ASSERTION_FAILED=BUG-002: database retained stale facility associations count=3
+PRE_FIX_RED=BUG-002 failures=2

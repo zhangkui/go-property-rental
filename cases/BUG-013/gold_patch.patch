@@ -1,0 +1,26 @@
+diff --git b/internal/repository/mysql/approval.go a/internal/repository/mysql/approval.go
+index dffa8a6..e82c843 100644
+--- b/internal/repository/mysql/approval.go
++++ a/internal/repository/mysql/approval.go
+@@ -175,7 +175,7 @@ func (r Approvals) Cancel(ctx context.Context, approvalID, applicantID, comment
+ 	if err = tx.QueryRowContext(ctx, `SELECT status,applicant_id FROM approval_requests WHERE id=? FOR UPDATE`, approvalID).Scan(&status, &owner); err != nil {
+ 		return err
+ 	}
+-	if status != "pending" {
++	if owner != applicantID || status != "pending" {
+ 		return errors.New("approval cannot be cancelled")
+ 	}
+ 	now := time.Now().UTC()
+diff --git b/internal/service/approval.go a/internal/service/approval.go
+index c6943cc..3f5b83a 100644
+--- b/internal/service/approval.go
++++ a/internal/service/approval.go
+@@ -62,7 +62,7 @@ func (s ApprovalService) Cancel(ctx context.Context, approvalID, applicantID, co
+ 		return err
+ 	}
+ 	if s.Audits != nil {
+-		_ = s.Audits.Append(ctx, entity.AuditLog{ID: id.New(), ActorID: approvalID, Action: "approval.cancel", Resource: "approval", ResourceID: approvalID, Detail: comment})
++		_ = s.Audits.Append(ctx, entity.AuditLog{ID: id.New(), ActorID: applicantID, Action: "approval.cancel", Resource: "approval", ResourceID: approvalID, Detail: comment})
+ 	}
+ 	return nil
+ }

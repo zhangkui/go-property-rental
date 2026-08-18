@@ -1,0 +1,26 @@
+diff --git b/internal/repository/redis/dashboard.go a/internal/repository/redis/dashboard.go
+index bb0dfe8..3c9426c 100644
+--- b/internal/repository/redis/dashboard.go
++++ a/internal/repository/redis/dashboard.go
+@@ -22,7 +22,7 @@ func (r Dashboard) Get(ctx context.Context, key string) (entity.DashboardSummary
+ 	}
+ 	var summary entity.DashboardSummary
+ 	if err := json.Unmarshal([]byte(value), &summary); err != nil {
+-		return entity.DashboardSummary{}, true, err
++		return entity.DashboardSummary{}, false, err
+ 	}
+ 	return summary, true, nil
+ }
+diff --git b/internal/service/dashboard.go a/internal/service/dashboard.go
+index ddc0dcc..5dd5e63 100644
+--- b/internal/service/dashboard.go
++++ a/internal/service/dashboard.go
+@@ -18,7 +18,7 @@ type DashboardService struct {
+ func (s DashboardService) Summary(ctx context.Context, userID string) (entity.DashboardSummary, error) {
+ 	cacheKey := "summary:" + userID
+ 	if s.Cache != nil {
+-		if summary, found, _ := s.Cache.Get(ctx, cacheKey); found {
++		if summary, found, err := s.Cache.Get(ctx, cacheKey); err == nil && found {
+ 			return summary, nil
+ 		}
+ 	}

@@ -1,0 +1,5 @@
+ASSERTION_FAILED=BUG-001: invalid property status expected HTTP 400 got 200 body={"status":"retired"}
+
+ASSERTION_FAILED=BUG-001: rejected status must leave property occupied got available
+ASSERTION_FAILED=BUG-001: rejected status must not create success audit got 1
+PRE_FIX_RED=BUG-001 failures=3

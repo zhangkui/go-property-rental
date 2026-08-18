@@ -1,0 +1,4 @@
+docker compose down -v
+docker compose up -d --build
+docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-005.sh
+go build ./...

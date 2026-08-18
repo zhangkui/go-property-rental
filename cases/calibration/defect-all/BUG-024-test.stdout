@@ -1,0 +1,4 @@
+ASSERTION_FAILED=BUG-024: password hash must change after password update
+ASSERTION_FAILED=BUG-024: old password expected HTTP 401 after change got 200
+ASSERTION_FAILED=BUG-024: new password expected HTTP 200 got 401
+PRE_FIX_RED=BUG-024 failures=3

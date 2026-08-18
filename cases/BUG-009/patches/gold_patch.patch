@@ -1,0 +1,26 @@
+diff --git b/internal/repository/mysql/notification.go a/internal/repository/mysql/notification.go
+index 614d7bf..c2acc69 100644
+--- b/internal/repository/mysql/notification.go
++++ a/internal/repository/mysql/notification.go
+@@ -51,7 +51,7 @@ func (r Notifications) CreateMany(ctx context.Context, items []entity.Notificati
+ }
+ 
+ func (r Notifications) MarkRead(ctx context.Context, userID, notificationID string) error {
+-	_, err := r.DB.ExecContext(ctx, `UPDATE notifications SET status='read',read_at=UTC_TIMESTAMP() WHERE id=?`, notificationID)
++	_, err := r.DB.ExecContext(ctx, `UPDATE notifications SET status='read',read_at=UTC_TIMESTAMP() WHERE id=? AND user_id=?`, notificationID, userID)
+ 	return err
+ }
+ 
+diff --git b/internal/service/notification.go a/internal/service/notification.go
+index a07fa7a..954b045 100644
+--- b/internal/service/notification.go
++++ a/internal/service/notification.go
+@@ -24,7 +24,7 @@ func (s NotificationService) MarkRead(ctx context.Context, userID, notificationI
+ 	if notificationID == "" {
+ 		return errors.New("notification id is required")
+ 	}
+-	return s.Repo.MarkRead(ctx, notificationID, userID)
++	return s.Repo.MarkRead(ctx, userID, notificationID)
+ }
+ func (s NotificationService) MarkAllRead(ctx context.Context, userID string) error {
+ 	return s.Repo.MarkAllRead(ctx, userID)

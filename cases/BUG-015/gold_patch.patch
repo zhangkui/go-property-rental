@@ -1,0 +1,37 @@
+diff --git b/internal/repository/mysql/workorder.go a/internal/repository/mysql/workorder.go
+index 26e34f7..1f1a0a6 100644
+--- b/internal/repository/mysql/workorder.go
++++ a/internal/repository/mysql/workorder.go
+@@ -5,7 +5,6 @@ import (
+ 	"database/sql"
+ 	"errors"
+ 	"go-property-rental/internal/domain/entity"
+-	"strings"
+ )
+ 
+ type WorkOrders struct{ DB *sql.DB }
+@@ -125,13 +124,7 @@ func (r WorkOrders) Transition(c context.Context, id, to, reason, actor string)
+ 	return tx.Commit()
+ }
+ func (r WorkOrders) Confirm(c context.Context, id string) error {
+-	force := strings.HasSuffix(id, ":force")
+-	id = strings.TrimSuffix(id, ":force")
+-	query := "UPDATE work_orders SET tenant_confirmed=TRUE,status='closed',updated_at=UTC_TIMESTAMP() WHERE id=? AND status='completed'"
+-	if force {
+-		query = "UPDATE work_orders SET tenant_confirmed=TRUE,status='closed',updated_at=UTC_TIMESTAMP() WHERE id=? AND status NOT IN ('closed','cancelled')"
+-	}
+-	res, e := r.DB.ExecContext(c, query, id)
++	res, e := r.DB.ExecContext(c, "UPDATE work_orders SET tenant_confirmed=TRUE,status='closed',updated_at=UTC_TIMESTAMP() WHERE id=? AND status='completed'", id)
+ 	if e != nil {
+ 		return e
+ 	}
+diff --git b/internal/service/workorder.go a/internal/service/workorder.go
+index 73a5979..72181ab 100644
+--- b/internal/service/workorder.go
++++ a/internal/service/workorder.go
+@@ -46,4 +46,4 @@ func (s WorkOrderService) Transition(c context.Context, id, to, reason, actor st
+ 	}
+ 	return s.Repo.Transition(c, id, to, reason, actor)
+ }
+-func (s WorkOrderService) Confirm(c context.Context, id string) error { return s.Repo.Confirm(c, id+":force") }
++func (s WorkOrderService) Confirm(c context.Context, id string) error { return s.Repo.Confirm(c, id) }

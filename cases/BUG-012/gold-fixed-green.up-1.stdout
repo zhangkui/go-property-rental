@@ -1,0 +1,139 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.15kB 0.0s done
+#1 DONE 0.0s
+
+#2 [api internal] load build definition from Dockerfile
+#2 transferring dockerfile:
+#2 transferring dockerfile: 375B done
+#2 DONE 0.1s
+
+#3 [web internal] load build definition from Dockerfile
+#3 transferring dockerfile: 273B done
+#3 DONE 0.2s
+
+#4 [api internal] load metadata for docker.io/library/alpine:3.20
+#4 DONE 0.1s
+
+#5 [web internal] load metadata for docker.io/library/nginx:1.27-alpine
+#5 DONE 0.1s
+
+#6 [web internal] load metadata for docker.io/library/node:24-alpine
+#6 ...
+
+#7 [api internal] load metadata for docker.io/library/golang:1.22-alpine
+#7 DONE 0.3s
+
+#8 [api internal] load .dockerignore
+#8 transferring context: 114B done
+#8 DONE 0.0s
+
+#6 [web internal] load metadata for docker.io/library/node:24-alpine
+#6 DONE 0.3s
+
+#9 [api internal] load build context
+#9 DONE 0.0s
+
+#10 [web internal] load .dockerignore
+#10 transferring context: 79B done
+#10 DONE 0.0s
+
+#11 [web internal] load build context
+#11 transferring context: 1.49kB done
+#11 DONE 0.0s
+
+#12 [api build 1/7] FROM docker.io/library/golang:1.22-alpine@sha256:1699c10032ca2582ec89a24a1312d986a3f094aed3d5c1147b19880afe40e052
+#12 resolve docker.io/library/golang:1.22-alpine@sha256:1699c10032ca2582ec89a24a1312d986a3f094aed3d5c1147b19880afe40e052 0.1s done
+#12 DONE 0.1s
+
+#13 [api stage-1 1/3] FROM docker.io/library/alpine:3.20@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc
+#13 resolve docker.io/library/alpine:3.20@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc 0.1s done
+#13 DONE 0.1s
+
+#14 [web stage-1 1/3] FROM docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10
+#14 resolve docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10 0.1s done
+#14 DONE 0.1s
+
+#9 [api internal] load build context
+#9 transferring context: 16.62kB 0.0s done
+#9 DONE 0.1s
+
+#15 [web build 1/6] FROM docker.io/library/node:24-alpine@sha256:d32cdf619f63fe0471182d08996dd516c6275bb5fd31ae06e55a570bd9e1ad43
+#15 resolve docker.io/library/node:24-alpine@sha256:d32cdf619f63fe0471182d08996dd516c6275bb5fd31ae06e55a570bd9e1ad43 0.1s done
+#15 DONE 0.1s
+
+#16 [web build 4/6] RUN npm install
+#16 CACHED
+
+#17 [web build 3/6] COPY package.json .
+#17 CACHED
+
+#18 [web stage-1 2/3] COPY --from=build /app/dist /usr/share/nginx/html
+#18 CACHED
+
+#19 [web build 2/6] WORKDIR /app
+#19 CACHED
+
+#20 [web build 6/6] RUN npm run build
+#20 CACHED
+
+#21 [web build 5/6] COPY . .
+#21 CACHED
+
+#22 [api build 3/7] COPY go.mod go.sum ./
+#22 CACHED
+
+#23 [api build 4/7] RUN go mod download
+#23 CACHED
+
+#24 [api build 2/7] WORKDIR /src
+#24 CACHED
+
+#25 [web stage-1 3/3] COPY nginx.conf /etc/nginx/conf.d/default.conf
+#25 CACHED
+
+#26 [api build 5/7] COPY cmd ./cmd
+#26 CACHED
+
+#27 [web] exporting to image
+#27 exporting layers 0.0s done
+#27 exporting manifest sha256:e53b73568ee8aefdf214c82df547432f365268ca42dd5b856e5d2a80e71285ff done
+#27 exporting config sha256:73db321c5384147f98f2958207109e65c2829b7d661c12f5d2d55c3cad4d9d41 done
+#27 exporting attestation manifest sha256:6d36c90cf0f780129f9085535cbace0a2a957ae3587b27f0e6de0cfc96b898c5
+#27 exporting attestation manifest sha256:6d36c90cf0f780129f9085535cbace0a2a957ae3587b27f0e6de0cfc96b898c5 0.1s done
+#27 exporting manifest list sha256:dcfb4d29b2efc6db858aea81b65a3f5dbb14d22a851b842186c804e53104416d 0.0s done
+#27 naming to docker.io/library/go-property-rental-formal-gold-web:latest done
+#27 unpacking to docker.io/library/go-property-rental-formal-gold-web:latest
+#27 unpacking to docker.io/library/go-property-rental-formal-gold-web:latest 0.0s done
+#27 DONE 0.2s
+
+#28 [api build 6/7] COPY internal ./internal
+#28 DONE 0.6s
+
+#29 [api build 7/7] RUN CGO_ENABLED=0 go build -buildvcs=false -trimpath -o /out/api ./cmd/api
+#29 ...
+
+#30 [web] resolving provenance for metadata file
+#30 DONE 0.0s
+
+#29 [api build 7/7] RUN CGO_ENABLED=0 go build -buildvcs=false -trimpath -o /out/api ./cmd/api
+#29 DONE 9.0s
+
+#31 [api stage-1 2/3] RUN adduser -D -u 10001 app
+#31 CACHED
+
+#32 [api stage-1 3/3] COPY --from=build /out/api /api
+#32 DONE 0.0s
+
+#33 [api] exporting to image
+#33 exporting layers
+#33 exporting layers 0.3s done
+#33 exporting manifest sha256:c4b760f46557a5c6e58e07d9684000d1eb5bf5f7d3fdcadbc92d80579e2d2bb7 done
+#33 exporting config sha256:e89fe87ce3a8e56be3021c18b432357f773a73bf400cf2f114700eceeac41134 0.0s done
+#33 exporting attestation manifest sha256:670db9e037441e5f72cb6c90811ef3b6d6a897f22a60d73320e71d22a580606c 0.0s done
+#33 exporting manifest list sha256:33f8c4d86f524608a2daefddaf809c1c7cd9cec0e3fccdb4846685f4956080dd done
+#33 naming to docker.io/library/go-property-rental-formal-gold-api:latest done
+#33 unpacking to docker.io/library/go-property-rental-formal-gold-api:latest 0.1s done
+#33 DONE 0.5s
+
+#34 [api] resolving provenance for metadata file
+#34 DONE 0.0s

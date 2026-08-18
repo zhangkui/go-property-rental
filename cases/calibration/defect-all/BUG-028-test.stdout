@@ -1,0 +1,6 @@
+ASSERTION_FAILED=BUG-028: boundary rent-roll API omitted lease c244affb-9b1d-11f1-88f8-2e1cbd501a4e body={"items":[]}
+
+ASSERTION_FAILED=BUG-028: boundary rent-roll API omitted rent amount
+ASSERTION_FAILED=BUG-028: CSV export omitted boundary lease tenant
+ASSERTION_FAILED=BUG-028: CSV export omitted boundary lease rent
+PRE_FIX_RED=BUG-028 failures=4

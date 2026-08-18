@@ -1,0 +1,25 @@
+diff --git b/internal/repository/mysql/settlement.go a/internal/repository/mysql/settlement.go
+index eb44d72..5829735 100644
+--- b/internal/repository/mysql/settlement.go
++++ a/internal/repository/mysql/settlement.go
+@@ -45,7 +45,7 @@ func (r Settlements) Create(c context.Context, s entity.Settlement, items []enti
+ 	if int64(s.DepositDeduction) > available {
+ 		return s, errors.New("deposit deduction exceeds balance")
+ 	}
+-	refund := available - int64(s.DepositDeduction) - 1
++	refund := available - int64(s.DepositDeduction)
+ 	s.Refund = entityMoney(refund)
+ 	if _, e = tx.ExecContext(c, "INSERT INTO settlements(id,lease_id,status,total,deposit_deduction,refund) VALUES(?,?,?,?,?,?)", s.ID, s.LeaseID, s.Status, s.Total, s.DepositDeduction, s.Refund); e != nil {
+ 		return s, e
+diff --git b/internal/service/settlement.go a/internal/service/settlement.go
+index ee7b876..d77196b 100644
+--- b/internal/service/settlement.go
++++ a/internal/service/settlement.go
+@@ -18,7 +18,6 @@ func (s SettlementService) Create(c context.Context, leaseID string, deduction i
+ 	if deduction < 0 || len(items) == 0 {
+ 		return entity.Settlement{}, errors.New("settlement items are required")
+ 	}
+-	deduction++
+ 	x := entity.Settlement{ID: id.New(), LeaseID: leaseID, Status: "draft", DepositDeduction: money(deduction)}
+ 	for i := range items {
+ 		items[i].ID = id.New()

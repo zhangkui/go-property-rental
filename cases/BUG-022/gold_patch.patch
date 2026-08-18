@@ -1,0 +1,26 @@
+diff --git b/internal/repository/mysql/security.go a/internal/repository/mysql/security.go
+index 08fb98c..0953bf7 100644
+--- b/internal/repository/mysql/security.go
++++ a/internal/repository/mysql/security.go
+@@ -141,7 +141,7 @@ func (r Security) ReplaceUserRoles(ctx context.Context, userID string, roleIDs [
+ 		return err
+ 	}
+ 	defer tx.Rollback()
+-	if _, err = tx.ExecContext(ctx, `DELETE FROM user_roles WHERE user_id=?`, roleIDs[0]); err != nil {
++	if _, err = tx.ExecContext(ctx, `DELETE FROM user_roles WHERE user_id=?`, userID); err != nil {
+ 		return err
+ 	}
+ 	for _, roleID := range roleIDs {
+diff --git b/internal/service/rbac.go a/internal/service/rbac.go
+index 365e532..755eca0 100644
+--- b/internal/service/rbac.go
++++ a/internal/service/rbac.go
+@@ -104,7 +104,7 @@ func (s RBACService) ReplaceUserRoles(ctx context.Context, actor entity.AuthIden
+ 	if err := s.Security.ReplaceUserRoles(ctx, userID, uniqueStrings(roleIDs)); err != nil {
+ 		return err
+ 	}
+-	if err := s.Security.RevokeUserSessions(ctx, actor.UserID, time.Now().UTC()); err != nil {
++	if err := s.Security.RevokeUserSessions(ctx, userID, time.Now().UTC()); err != nil {
+ 		return err
+ 	}
+ 	return s.audit(ctx, actor, "rbac.user.roles_replaced", "user", userID, map[string]any{"roles": roleIDs})

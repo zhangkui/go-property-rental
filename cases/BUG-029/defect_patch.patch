@@ -1,0 +1,26 @@
+diff --git a/internal/repository/mysql/approval.go b/internal/repository/mysql/approval.go
+index e82c843..8334514 100644
+--- a/internal/repository/mysql/approval.go
++++ b/internal/repository/mysql/approval.go
+@@ -145,9 +145,6 @@ func lockPendingApproval(ctx context.Context, tx *sql.Tx, approvalID, reviewerID
+ 	if status != "pending" {
+ 		return "", "", errors.New("approval is not pending")
+ 	}
+-	if assignedReviewer != "" && assignedReviewer != reviewerID {
+-		return "", "", errors.New("approval belongs to another reviewer")
+-	}
+ 	var stepID string
+ 	err = tx.QueryRowContext(ctx, `SELECT id FROM approval_steps WHERE approval_id=? AND decision='pending' ORDER BY sequence_no LIMIT 1 FOR UPDATE`, approvalID).Scan(&stepID)
+ 	return status, stepID, err
+diff --git a/internal/service/approval.go b/internal/service/approval.go
+index 3f5b83a..38c9c54 100644
+--- a/internal/service/approval.go
++++ b/internal/service/approval.go
+@@ -48,6 +48,7 @@ func (s ApprovalService) Decide(ctx context.Context, approvalID, reviewerID, dec
+ 	if decision != "approved" && decision != "rejected" {
+ 		return errors.New("decision must be approved or rejected")
+ 	}
++	reviewerID = approvalID
+ 	if err := s.Repo.Decide(ctx, approvalID, reviewerID, decision, comment); err != nil {
+ 		return err
+ 	}

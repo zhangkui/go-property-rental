@@ -1,0 +1,45 @@
+diff --git b/internal/repository/mysql/audit.go a/internal/repository/mysql/audit.go
+index 662843e..eb7c6eb 100644
+--- b/internal/repository/mysql/audit.go
++++ a/internal/repository/mysql/audit.go
+@@ -3,19 +3,24 @@ package mysql
+ import (
+ 	"context"
+ 	"database/sql"
++	"encoding/json"
+ 	"go-property-rental/internal/domain/entity"
+ )
+ 
+ type Audits struct{ DB *sql.DB }
+ 
+ func (r Audits) Append(c context.Context, x entity.AuditLog) error {
++	if !json.Valid([]byte(x.Detail)) {
++		detail, err := json.Marshal(x.Detail)
++		if err != nil {
++			return err
++		}
++		x.Detail = string(detail)
++	}
+ 	_, e := r.DB.ExecContext(c, "INSERT INTO audit_logs(id,actor_id,action,resource,resource_id,detail) VALUES(?,?,?,?,?,?)", x.ID, x.ActorID, x.Action, x.Resource, x.ResourceID, x.Detail)
+ 	return e
+ }
+ func (r Audits) List(c context.Context, limit, offset int, resource, actor string) (out []entity.AuditLog, err error) {
+-	if resource != "" {
+-		resource = "audit:" + resource
+-	}
+ 	rows, err := r.DB.QueryContext(c, "SELECT id,COALESCE(actor_id,''),action,resource,COALESCE(resource_id,''),CAST(detail AS CHAR),created_at FROM audit_logs WHERE (?='' OR resource=?) AND (?='' OR actor_id=?) ORDER BY created_at DESC LIMIT ? OFFSET ?", resource, resource, actor, actor, limit, offset)
+ 	if err != nil {
+ 		return
+diff --git b/internal/service/audit.go a/internal/service/audit.go
+index 09704ff..cb8af62 100644
+--- b/internal/service/audit.go
++++ a/internal/service/audit.go
+@@ -16,8 +16,5 @@ func (s AuditService) Write(c context.Context, actor, action, resource, resource
+ }
+ func (s AuditService) List(c context.Context, page, size int, resource, actor string) ([]entity.AuditLog, error) {
+ 	limit, offset := pageValues(page, size)
+-	if resource != "" {
+-		resource = "audit:" + resource
+-	}
+ 	return s.Repo.List(c, limit, offset, resource, actor)
+ }

@@ -1,0 +1,26 @@
+diff --git a/internal/repository/mysql/notification.go b/internal/repository/mysql/notification.go
+index c2acc69..85c5ae4 100644
+--- a/internal/repository/mysql/notification.go
++++ b/internal/repository/mysql/notification.go
+@@ -88,7 +88,7 @@ func (r Notifications) SetRuleEnabled(ctx context.Context, ruleID string, enable
+ }
+ 
+ func (r Notifications) StartRun(ctx context.Context, run entity.ReminderRun) (bool, error) {
+-	result, err := r.DB.ExecContext(ctx, `INSERT IGNORE INTO reminder_runs(id,rule_id,run_key,status,started_at) VALUES(?,?,?,?,?)`, run.ID, run.RuleID, run.RunKey, "running", run.StartedAt)
++	result, err := r.DB.ExecContext(ctx, `INSERT INTO reminder_runs(id,rule_id,run_key,status,started_at) VALUES(?,?,?,?,?)`, run.ID, run.RuleID, run.RunKey, "running", run.StartedAt)
+ 	if err != nil {
+ 		return false, err
+ 	}
+diff --git a/internal/service/notification.go b/internal/service/notification.go
+index 954b045..ef895df 100644
+--- a/internal/service/notification.go
++++ b/internal/service/notification.go
+@@ -62,7 +62,7 @@ func (s NotificationService) RunReminders(ctx context.Context, now time.Time) er
+ }
+ 
+ func (s NotificationService) runRule(ctx context.Context, rule entity.ReminderRule, now time.Time) error {
+-	run := entity.ReminderRun{ID: id.New(), RuleID: rule.ID, RunKey: now.UTC().Format("2006-01-02"), StartedAt: now.UTC()}
++	run := entity.ReminderRun{ID: id.New(), RuleID: rule.ID, RunKey: now.UTC().Format("2006-01-02") + ":" + id.New(), StartedAt: now.UTC()}
+ 	started, err := s.Repo.StartRun(ctx, run)
+ 	if err != nil || !started {
+ 		return err

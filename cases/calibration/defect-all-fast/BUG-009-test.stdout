@@ -1,0 +1,4 @@
+ASSERTION_FAILED=BUG-009: own target notification expected read with timestamp got unread|0
+ASSERTION_FAILED=BUG-009: admin unread count expected one control notification got 2 body={"items":[{"ID":"d13f9964-9b1e-11f1-afcb-4ac724818c17","UserID":"b7a3262e-9b1e-11f1-afcb-4ac724818c17","Category":"lease","Title":"Own Control","Content":"control","ResourceType":"","ResourceID":"","Status":"unread","CreatedAt":"2026-08-18T16:06:48Z","ReadAt":null},{"ID":"d13bfbf4-9b1e-11f1-afcb-4ac724818c17","UserID":"b7a3262e-9b1e-11f1-afcb-4ac724818c17","Category":"lease","Title":"Own Target","Content":"target","ResourceType":"","ResourceID":"","Status":"unread","CreatedAt":"2026-08-18T16:06:48Z","ReadAt":null}],"page":1,"page_size":20,"unread":2}
+
+PRE_FIX_RED=BUG-009 failures=2

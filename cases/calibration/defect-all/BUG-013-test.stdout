@@ -1,0 +1,5 @@
+ASSERTION_FAILED=BUG-013: own cancellation history/audit actor expected admin got b0dab6ce-9b1c-11f1-8c94-ba8e63dd9a68/b48ba278-9b1c-11f1-8c94-ba8e63dd9a68
+ASSERTION_FAILED=BUG-013: non-applicant cancellation expected HTTP 400 got 200
+ASSERTION_FAILED=BUG-013: foreign approval must remain pending for original applicant got cancelled|b488bb45-9b1c-11f1-8c94-ba8e63dd9a68
+ASSERTION_FAILED=BUG-013: rejected foreign cancellation must not create history/audit got 1/1
+PRE_FIX_RED=BUG-013 failures=4

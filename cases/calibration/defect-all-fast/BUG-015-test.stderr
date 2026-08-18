@@ -1,0 +1,8 @@
+ Container go-property-rental-folder-calibration-mysql-1  Running
+ Container go-property-rental-folder-calibration-redis-1  Running
+ Container go-property-rental-folder-calibration-api-1  Running
+ Container go-property-rental-folder-calibration-mysql-1  Waiting
+ Container go-property-rental-folder-calibration-redis-1  Waiting
+ Container go-property-rental-folder-calibration-redis-1  Healthy
+ Container go-property-rental-folder-calibration-mysql-1  Healthy
+

@@ -1,0 +1,10 @@
+ASSERTION_FAILED=BUG-018: detail name mismatch body={"ID":"16a1fa2b-9b1d-11f1-bdbd-ce9b39ce1e07","Name":"ID-2026-018","Phone":"updated@example.com","Email":"13912345678","IdentityNo":"Updated Tenant","Status":"active","CreatedAt":"2026-08-18T15:54:26Z","UpdatedAt":"2026-08-18T15:54:26Z"}
+
+ASSERTION_FAILED=BUG-018: detail phone mismatch body={"ID":"16a1fa2b-9b1d-11f1-bdbd-ce9b39ce1e07","Name":"ID-2026-018","Phone":"updated@example.com","Email":"13912345678","IdentityNo":"Updated Tenant","Status":"active","CreatedAt":"2026-08-18T15:54:26Z","UpdatedAt":"2026-08-18T15:54:26Z"}
+
+ASSERTION_FAILED=BUG-018: detail email mismatch body={"ID":"16a1fa2b-9b1d-11f1-bdbd-ce9b39ce1e07","Name":"ID-2026-018","Phone":"updated@example.com","Email":"13912345678","IdentityNo":"Updated Tenant","Status":"active","CreatedAt":"2026-08-18T15:54:26Z","UpdatedAt":"2026-08-18T15:54:26Z"}
+
+ASSERTION_FAILED=BUG-018: detail identity number mismatch body={"ID":"16a1fa2b-9b1d-11f1-bdbd-ce9b39ce1e07","Name":"ID-2026-018","Phone":"updated@example.com","Email":"13912345678","IdentityNo":"Updated Tenant","Status":"active","CreatedAt":"2026-08-18T15:54:26Z","UpdatedAt":"2026-08-18T15:54:26Z"}
+
+ASSERTION_FAILED=BUG-018: persisted tenant fields mismatch got ID-2026-018|updated@example.com|13912345678|Updated Tenant|active
+PRE_FIX_RED=BUG-018 failures=5

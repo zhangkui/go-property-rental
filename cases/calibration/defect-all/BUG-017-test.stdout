@@ -1,0 +1,2 @@
+ASSERTION_FAILED=BUG-017: work order must store requested assignee got assigned|fcfd3ff1-9b1c-11f1-88b6-b672bf46407a
+PRE_FIX_RED=BUG-017 failures=1

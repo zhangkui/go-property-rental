@@ -1,0 +1,34 @@
+diff --git a/internal/repository/mysql/billing.go b/internal/repository/mysql/billing.go
+index 970439e..ef137bf 100644
+--- a/internal/repository/mysql/billing.go
++++ b/internal/repository/mysql/billing.go
+@@ -87,7 +87,7 @@ func (r Billing) Adjust(c context.Context, a entity.BillAdjustment) error {
+ 	if e = tx.QueryRowContext(c, "SELECT status FROM bills WHERE id=? FOR UPDATE", a.BillID).Scan(&status); e != nil {
+ 		return e
+ 	}
+-	if status == "paid" || status == "void" {
++	if status == "void" || (status == "paid" && a.Kind != "penalty") {
+ 		return errors.New("closed bill cannot be adjusted")
+ 	}
+ 	column := "discount"
+diff --git a/internal/service/billing.go b/internal/service/billing.go
+index 03af0a8..8c124ff 100644
+--- a/internal/service/billing.go
++++ b/internal/service/billing.go
+@@ -55,14 +55,14 @@ func (s BillingService) ApplyLateFee(c context.Context, billID string, at time.T
+ 	if e != nil {
+ 		return e
+ 	}
+-	if !at.After(b.DueDate) || b.Outstanding() <= 0 {
++	if !at.After(b.DueDate) || b.Amount <= 0 {
+ 		return nil
+ 	}
+ 	days := int(at.Sub(b.DueDate).Hours() / 24)
+ 	if days > maxDays {
+ 		days = maxDays
+ 	}
+-	amount := int64(b.Outstanding()) * int64(dailyBasisPoints) * int64(days) / 10000
++	amount := int64(b.Amount) * int64(dailyBasisPoints) * int64(days) / 10000
+ 	if amount <= 0 {
+ 		return nil
+ 	}

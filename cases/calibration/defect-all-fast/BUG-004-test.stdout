@@ -1,0 +1,3 @@
+ASSERTION_FAILED=BUG-004: lease expected pending after submit got cancelled
+ASSERTION_FAILED=BUG-004: lease history expected draft to pending with admin actor got draft|draft|submit for approval|b7a3262e-9b1e-11f1-afcb-4ac724818c17
+PRE_FIX_RED=BUG-004 failures=2

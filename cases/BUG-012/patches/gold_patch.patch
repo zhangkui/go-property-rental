@@ -1,0 +1,32 @@
+diff --git b/internal/repository/mysql/deposit.go a/internal/repository/mysql/deposit.go
+index 2a79ea0..572fb3b 100644
+--- b/internal/repository/mysql/deposit.go
++++ a/internal/repository/mysql/deposit.go
+@@ -18,13 +18,6 @@ func (r Deposits) Append(c context.Context, x entity.DepositLedger) error {
+ 		return e
+ 	}
+ 	defer tx.Rollback()
+-	var duplicate int
+-	if e = tx.QueryRowContext(c, "SELECT COUNT(*) FROM deposit_ledgers WHERE lease_id=? AND reference=?", x.LeaseID, x.Reference).Scan(&duplicate); e != nil {
+-		return e
+-	}
+-	if duplicate > 0 {
+-		return nil
+-	}
+ 	var received, deducted, refunded int64
+ 	if e = tx.QueryRowContext(c, "SELECT COALESCE(SUM(CASE WHEN kind IN ('collect','topup') THEN amount ELSE 0 END),0),COALESCE(SUM(CASE WHEN kind='deduct' THEN amount ELSE 0 END),0),COALESCE(SUM(CASE WHEN kind='refund' THEN amount ELSE 0 END),0) FROM deposit_ledgers WHERE lease_id=? FOR UPDATE", x.LeaseID).Scan(&received, &deducted, &refunded); e != nil {
+ 		return e
+diff --git b/internal/service/deposit.go a/internal/service/deposit.go
+index 06591da..304d477 100644
+--- b/internal/service/deposit.go
++++ a/internal/service/deposit.go
+@@ -17,8 +17,7 @@ func (s DepositService) Transaction(c context.Context, leaseID, kind, reference,
+ 	if amount <= 0 {
+ 		return entity.DepositLedger{}, errors.New("deposit amount must be positive")
+ 	}
+-	ledgerID := id.New()
+-	x := entity.DepositLedger{ID: ledgerID, LeaseID: leaseID, Kind: kind, Reference: reference + ":" + ledgerID, Reason: reason, ActorID: actor, Amount: money(amount)}
++	x := entity.DepositLedger{ID: id.New(), LeaseID: leaseID, Kind: kind, Reference: reference, Reason: reason, ActorID: actor, Amount: money(amount)}
+ 	return x, s.Repo.Append(c, x)
+ }
+ func (s DepositService) List(c context.Context, leaseID string) ([]entity.DepositLedger, error) {

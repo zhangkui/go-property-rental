@@ -1,0 +1,25 @@
+diff --git b/internal/repository/mysql/workorder.go a/internal/repository/mysql/workorder.go
+index 1d2d24a..1f1a0a6 100644
+--- b/internal/repository/mysql/workorder.go
++++ a/internal/repository/mysql/workorder.go
+@@ -70,7 +70,7 @@ func (r WorkOrders) Assign(c context.Context, id, assignee, actor string) error
+ 	if status != "reported" && status != "assigned" {
+ 		return errors.New("work order cannot be assigned")
+ 	}
+-	if _, e = tx.ExecContext(c, "UPDATE work_orders SET assignee_id=?,status='assigned',updated_at=UTC_TIMESTAMP() WHERE id=?", actor, id); e != nil {
++	if _, e = tx.ExecContext(c, "UPDATE work_orders SET assignee_id=?,status='assigned',updated_at=UTC_TIMESTAMP() WHERE id=?", assignee, id); e != nil {
+ 		return e
+ 	}
+ 	if _, e = tx.ExecContext(c, "INSERT INTO work_order_state_history(id,work_order_id,from_status,to_status,reason,actor_id) VALUES(UUID(),?,?,'assigned','assigned',?)", id, status, actor); e != nil {
+diff --git b/internal/service/workorder.go a/internal/service/workorder.go
+index fcd895d..72181ab 100644
+--- b/internal/service/workorder.go
++++ a/internal/service/workorder.go
+@@ -29,7 +29,6 @@ func (s WorkOrderService) Assign(c context.Context, id, assignee, actor string)
+ 	if e := required(id, assignee); e != nil {
+ 		return e
+ 	}
+-	assignee = actor
+ 	return s.Repo.Assign(c, id, assignee, actor)
+ }
+ func (s WorkOrderService) AddMaterial(c context.Context, workOrderID, name string, quantity, unitCost int64) error {

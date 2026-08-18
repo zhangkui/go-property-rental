@@ -1,0 +1,6 @@
+ASSERTION_FAILED=BUG-003: disabled tenant lease expected HTTP 409 got 201 body={"ID":"96f24850-39a9-4da1-8d2e-e4db66af8042","PropertyID":"07960cd3-9b1c-11f1-962c-0af7c712d043","TenantID":"0799beab-9b1c-11f1-962c-0af7c712d043","Status":"draft","StartDate":"2026-09-01T00:00:00Z","EndDate":"2027-08-31T00:00:00Z","MonthlyRent":200000,"Deposit":200000}
+
+ASSERTION_FAILED=BUG-003: lease row created for disabled tenant count=1
+ASSERTION_FAILED=BUG-003: lease version created for disabled tenant count=1
+ASSERTION_FAILED=BUG-003: lease history created for disabled tenant count=1
+PRE_FIX_RED=BUG-003 failures=4

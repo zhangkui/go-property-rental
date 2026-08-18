@@ -1,0 +1,5 @@
+ASSERTION_FAILED=BUG-007: duplicate generation expected HTTP 200 created=false got 409 body={"error":{"message":"Error 1062 (23000): Duplicate entry '4ba68cae-9b1c-11f1-a073-fabbf00d8c07-2026-09-01-2026-10-01' for key 'bills.lease_id'","status":409}}
+
+ASSERTION_FAILED=BUG-007: duplicate request did not return the same bill id
+ASSERTION_FAILED=BUG-007: expected one persisted idempotency key got 0
+PRE_FIX_RED=BUG-007 failures=3

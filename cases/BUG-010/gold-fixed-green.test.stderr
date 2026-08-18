@@ -1,0 +1,7 @@
+ Container go-property-rental-formal-gold-redis-1  Running
+ Container go-property-rental-formal-gold-mysql-1  Running
+ Container go-property-rental-formal-gold-api-1  Running
+ Container go-property-rental-formal-gold-mysql-1  Waiting
+ Container go-property-rental-formal-gold-redis-1  Waiting
+ Container go-property-rental-formal-gold-mysql-1  Healthy
+ Container go-property-rental-formal-gold-redis-1  Healthy

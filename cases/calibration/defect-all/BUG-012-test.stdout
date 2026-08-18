@@ -1,0 +1,5 @@
+ASSERTION_FAILED=BUG-012: duplicate deposit reference was accepted
+ASSERTION_FAILED=BUG-012: expected one ledger row got 2
+ASSERTION_FAILED=BUG-012: received and available balance expected 5000 got 10000
+ASSERTION_FAILED=BUG-012: stored reference differs from client key got BUG012-a1dd818a-9b1c-11f1-83c9-6efe721fad66:401e0bee-42c1-4af3-87aa-bb9597a9d11d
+PRE_FIX_RED=BUG-012 failures=4

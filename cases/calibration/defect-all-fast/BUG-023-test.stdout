@@ -1,0 +1,13 @@
+ASSERTION_FAILED=BUG-023: post-reset failure 1 must remain allowed through boundary 5 status=401 body={"error":{"message":"too many login attempts","status":401}}
+
+ASSERTION_FAILED=BUG-023: post-reset failure 2 must remain allowed through boundary 5 status=401 body={"error":{"message":"too many login attempts","status":401}}
+
+ASSERTION_FAILED=BUG-023: post-reset failure 3 must remain allowed through boundary 5 status=401 body={"error":{"message":"too many login attempts","status":401}}
+
+ASSERTION_FAILED=BUG-023: post-reset failure 4 must remain allowed through boundary 5 status=401 body={"error":{"message":"too many login attempts","status":401}}
+
+ASSERTION_FAILED=BUG-023: post-reset failure 5 must remain allowed through boundary 5 status=401 body={"error":{"message":"too many login attempts","status":401}}
+
+ASSERTION_FAILED=BUG-023: independent IP first failure must not be rate limited status=401 body={"error":{"message":"too many login attempts","status":401}}
+
+PRE_FIX_RED=BUG-023 failures=6

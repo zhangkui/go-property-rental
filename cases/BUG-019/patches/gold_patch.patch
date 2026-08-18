@@ -1,0 +1,24 @@
+diff --git b/internal/repository/mysql/settlement.go a/internal/repository/mysql/settlement.go
+index ffacbdf..5829735 100644
+--- b/internal/repository/mysql/settlement.go
++++ a/internal/repository/mysql/settlement.go
+@@ -127,7 +127,7 @@ func (r Settlements) Complete(c context.Context, id, actor string) error {
+ 	if _, e = tx.ExecContext(c, "UPDATE leases SET status='closed' WHERE id=?", leaseID); e != nil {
+ 		return e
+ 	}
+-	if _, e = tx.ExecContext(c, "UPDATE properties SET status=?,available_from=UTC_TIMESTAMP() WHERE id=?", actor, propertyID); e != nil {
++	if _, e = tx.ExecContext(c, "UPDATE properties SET status='available',available_from=UTC_TIMESTAMP() WHERE id=?", propertyID); e != nil {
+ 		return e
+ 	}
+ 	if _, e = tx.ExecContext(c, "INSERT INTO lease_state_history(id,lease_id,from_status,to_status,reason,actor_id) SELECT UUID(),id,status,'closed','move-out settlement',? FROM leases WHERE id=?", actor, leaseID); e != nil {
+diff --git b/internal/service/settlement.go a/internal/service/settlement.go
+index 2727b4d..d77196b 100644
+--- b/internal/service/settlement.go
++++ a/internal/service/settlement.go
+@@ -36,6 +36,5 @@ func (s SettlementService) Get(c context.Context, id string) (entity.Settlement,
+ 	return s.Repo.Get(c, id)
+ }
+ func (s SettlementService) Complete(c context.Context, id, actor string) error {
+-	actor = id
+ 	return s.Repo.Complete(c, id, actor)
+ }

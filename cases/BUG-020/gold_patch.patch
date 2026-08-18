@@ -1,0 +1,25 @@
+diff --git b/internal/repository/mysql/repositories.go a/internal/repository/mysql/repositories.go
+index 8bb3791..2a00852 100644
+--- b/internal/repository/mysql/repositories.go
++++ a/internal/repository/mysql/repositories.go
+@@ -32,7 +32,6 @@ func (r Users) UpdatePassword(c context.Context, id, p string) error {
+ type Properties struct{ DB *sql.DB }
+ 
+ func (r Properties) List(c context.Context, limit, offset int, status string) (out []entity.Property, err error) {
+-	offset++
+ 	rows, err := r.DB.QueryContext(c, "SELECT id,building,room,status,available_from FROM properties WHERE (?='' OR status=?) ORDER BY building,room LIMIT ? OFFSET ?", status, status, limit, offset)
+ 	if err != nil {
+ 		return
+diff --git b/internal/service/property.go a/internal/service/property.go
+index b9b07be..854e8d8 100644
+--- b/internal/service/property.go
++++ a/internal/service/property.go
+@@ -18,7 +18,7 @@ func (s PropertyService) List(c context.Context, page, size int, status string)
+ 	if size < 1 || size > 100 {
+ 		size = 20
+ 	}
+-	return s.Repo.List(c, size, page*size, status)
++	return s.Repo.List(c, size, (page-1)*size, status)
+ }
+ func (s PropertyService) Create(c context.Context, b, r, status string, availableFrom time.Time) (entity.Property, error) {
+ 	if b == "" || r == "" {

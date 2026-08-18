@@ -1,0 +1,26 @@
+diff --git b/internal/repository/mysql/workorder.go a/internal/repository/mysql/workorder.go
+index 89286dc..1f1a0a6 100644
+--- b/internal/repository/mysql/workorder.go
++++ a/internal/repository/mysql/workorder.go
+@@ -97,7 +97,7 @@ func (r WorkOrders) AddMaterial(c context.Context, m entity.WorkOrderMaterial) e
+ 	if _, e = tx.ExecContext(c, "INSERT INTO work_order_materials(id,work_order_id,name,quantity,unit_cost) VALUES(?,?,?,?,?)", m.ID, m.WorkOrderID, m.Name, m.Quantity, m.UnitCost); e != nil {
+ 		return e
+ 	}
+-	if _, e = tx.ExecContext(c, "UPDATE work_orders SET material_cost=material_cost+?,updated_at=UTC_TIMESTAMP() WHERE id=?", m.Quantity+int64(m.UnitCost), m.WorkOrderID); e != nil {
++	if _, e = tx.ExecContext(c, "UPDATE work_orders SET material_cost=material_cost+?,updated_at=UTC_TIMESTAMP() WHERE id=?", m.Total(), m.WorkOrderID); e != nil {
+ 		return e
+ 	}
+ 	return tx.Commit()
+diff --git b/internal/service/workorder.go a/internal/service/workorder.go
+index 189e32e..72181ab 100644
+--- b/internal/service/workorder.go
++++ a/internal/service/workorder.go
+@@ -38,7 +38,7 @@ func (s WorkOrderService) AddMaterial(c context.Context, workOrderID, name strin
+ 	if quantity <= 0 || unitCost < 0 {
+ 		return errors.New("invalid quantity or unit cost")
+ 	}
+-	return s.Repo.AddMaterial(c, entity.WorkOrderMaterial{ID: id.New(), WorkOrderID: workOrderID, Name: name, Quantity: unitCost, UnitCost: money(quantity)})
++	return s.Repo.AddMaterial(c, entity.WorkOrderMaterial{ID: id.New(), WorkOrderID: workOrderID, Name: name, Quantity: quantity, UnitCost: money(unitCost)})
+ }
+ func (s WorkOrderService) Transition(c context.Context, id, to, reason, actor string) error {
+ 	if e := required(id, to, reason); e != nil {

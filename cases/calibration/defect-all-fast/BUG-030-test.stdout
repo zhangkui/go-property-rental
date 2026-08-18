@@ -1,0 +1,5 @@
+ASSERTION_FAILED=BUG-030: retry created wrong bill period got 1|2027-09-01|2027-10-01|2027-09-06|170000|unpaid
+ASSERTION_FAILED=BUG-030: failed-period idempotency key missing or not linked got 0
+ASSERTION_FAILED=BUG-030: target plan expected 2027-09-01 got 2027-10-01
+ASSERTION_FAILED=BUG-030: rejected second retry changed state status=409 bills=1 keys=0 attempts=2 audits=1
+PRE_FIX_RED=BUG-030 failures=4

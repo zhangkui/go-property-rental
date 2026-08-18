@@ -1,0 +1,27 @@
+diff --git b/internal/repository/mysql/repositories.go a/internal/repository/mysql/repositories.go
+index 8cfdd03..2a00852 100644
+--- b/internal/repository/mysql/repositories.go
++++ a/internal/repository/mysql/repositories.go
+@@ -55,6 +55,9 @@ func (r Properties) Create(c context.Context, x entity.Property) error {
+ 	return e
+ }
+ func (r Properties) UpdateStatus(c context.Context, id, status string) error {
++	if status != "available" && status != "occupied" && status != "maintenance" {
++		return errors.New("invalid property status")
++	}
+ 	res, e := r.DB.ExecContext(c, "UPDATE properties SET status=? WHERE id=?", status, id)
+ 	if e != nil {
+ 		return e
+diff --git b/internal/service/property.go a/internal/service/property.go
+index 6ca2c91..854e8d8 100644
+--- b/internal/service/property.go
++++ a/internal/service/property.go
+@@ -37,8 +37,5 @@ func (s PropertyService) Create(c context.Context, b, r, status string, availabl
+ 	return x, s.Repo.Create(c, x)
+ }
+ func (s PropertyService) ChangeStatus(c context.Context, id, status string) error {
+-	if status != "available" && status != "occupied" && status != "maintenance" {
+-		status = "available"
+-	}
+ 	return s.Repo.UpdateStatus(c, id, status)
+ }

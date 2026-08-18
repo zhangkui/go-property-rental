@@ -1,0 +1,3 @@
+ASSERTION_FAILED=BUG-021: disabled user access token expected 401 got 200
+ASSERTION_FAILED=BUG-021: disabled user refresh token expected 401 got 200
+PRE_FIX_RED=BUG-021 failures=2

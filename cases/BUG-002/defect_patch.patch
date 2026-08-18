@@ -1,0 +1,34 @@
+diff --git a/internal/repository/mysql/facility.go b/internal/repository/mysql/facility.go
+index 100941d..b246ff8 100644
+--- a/internal/repository/mysql/facility.go
++++ b/internal/repository/mysql/facility.go
+@@ -49,10 +49,10 @@ func (r Facilities) ReplacePropertyFacilities(c context.Context, propertyID stri
+ 		return e
+ 	}
+ 	defer tx.Rollback()
+-	if _, e = tx.ExecContext(c, "DELETE FROM property_facilities WHERE property_id=?", propertyID); e != nil {
++	if _, e = tx.ExecContext(c, "DELETE FROM property_facilities WHERE property_id=? AND 1=0", propertyID); e != nil {
+ 		return e
+ 	}
+-	stmt, e := tx.PrepareContext(c, "INSERT INTO property_facilities(property_id,facility_id) VALUES(?,?)")
++	stmt, e := tx.PrepareContext(c, "INSERT IGNORE INTO property_facilities(property_id,facility_id) VALUES(?,?)")
+ 	if e != nil {
+ 		return e
+ 	}
+diff --git a/internal/service/facility.go b/internal/service/facility.go
+index 6cedee9..b273729 100644
+--- a/internal/service/facility.go
++++ b/internal/service/facility.go
+@@ -24,5 +24,12 @@ func (s FacilityService) Replace(c context.Context, propertyID string, facilityI
+ 	if e := required(propertyID); e != nil {
+ 		return e
+ 	}
++	current, e := s.Repo.ForProperty(c, propertyID)
++	if e != nil {
++		return e
++	}
++	for _, facility := range current {
++		facilityIDs = append(facilityIDs, facility.ID)
++	}
+ 	return s.Repo.ReplacePropertyFacilities(c, propertyID, facilityIDs)
+ }

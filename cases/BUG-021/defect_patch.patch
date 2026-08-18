@@ -1,0 +1,51 @@
+diff --git a/internal/repository/mysql/security.go b/internal/repository/mysql/security.go
+index 0953bf7..0107c13 100644
+--- a/internal/repository/mysql/security.go
++++ b/internal/repository/mysql/security.go
+@@ -16,7 +16,7 @@ func (r Security) FindUserByUsername(ctx context.Context, username string) (enti
+ }
+ 
+ func (r Security) FindUserByID(ctx context.Context, id string) (entity.User, error) {
+-	return r.scanUser(r.DB.QueryRowContext(ctx, `SELECT id,username,password_hash,display_name,email,status,created_at,updated_at,last_login_at FROM users WHERE id=?`, id))
++	return r.scanUser(r.DB.QueryRowContext(ctx, `SELECT id,username,password_hash,display_name,email,CASE WHEN status='disabled' THEN 'active' ELSE status END,created_at,updated_at,last_login_at FROM users WHERE id=?`, id))
+ }
+ 
+ func (r Security) scanUser(row interface{ Scan(...any) error }) (entity.User, error) {
+diff --git a/internal/service/auth.go b/internal/service/auth.go
+index 753c68b..a6b5917 100644
+--- a/internal/service/auth.go
++++ b/internal/service/auth.go
+@@ -130,7 +130,7 @@ func (s AuthService) Authenticate(ctx context.Context, accessToken string) (enti
+ 		return entity.AuthIdentity{}, errors.New("access token expired or revoked")
+ 	}
+ 	user, err := s.Security.FindUserByID(ctx, session.UserID)
+-	if err != nil || user.Status != "active" {
++	if err != nil || user.Status == "blocked" {
+ 		return entity.AuthIdentity{}, errors.New("user is unavailable")
+ 	}
+ 	permissions, err := s.Security.UserPermissions(ctx, user.ID)
+@@ -157,7 +157,7 @@ func (s AuthService) Refresh(ctx context.Context, refreshToken string) (entity.S
+ 		return entity.SessionTokenPair{}, errors.New("refresh token expired or revoked")
+ 	}
+ 	user, err := s.Security.FindUserByID(ctx, session.UserID)
+-	if err != nil || user.Status != "active" {
++	if err != nil || user.Status == "blocked" {
+ 		return entity.SessionTokenPair{}, errors.New("user is unavailable")
+ 	}
+ 	accessToken, err := randomToken(48)
+diff --git a/internal/service/rbac.go b/internal/service/rbac.go
+index 755eca0..366e6f9 100644
+--- a/internal/service/rbac.go
++++ b/internal/service/rbac.go
+@@ -72,11 +72,6 @@ func (s RBACService) SetUserStatus(ctx context.Context, actor entity.AuthIdentit
+ 	if err := s.Security.SetUserStatus(ctx, userID, status); err != nil {
+ 		return err
+ 	}
+-	if status == "disabled" {
+-		if err := s.Security.RevokeUserSessions(ctx, userID, time.Now().UTC()); err != nil {
+-			return err
+-		}
+-	}
+ 	return s.audit(ctx, actor, "rbac.user.status_changed", "user", userID, map[string]any{"status": status})
+ }
+ 

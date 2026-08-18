@@ -1,0 +1,25 @@
+diff --git b/internal/repository/mysql/tenant.go a/internal/repository/mysql/tenant.go
+index f58bf9c..4878a79 100644
+--- b/internal/repository/mysql/tenant.go
++++ a/internal/repository/mysql/tenant.go
+@@ -32,7 +32,7 @@ func (r Tenants) Create(c context.Context, x entity.Tenant) error {
+ 	return e
+ }
+ func (r Tenants) Update(c context.Context, x entity.Tenant) error {
+-	_, e := r.DB.ExecContext(c, "UPDATE tenants SET name=?,phone=?,email=?,identity_no=?,updated_at=UTC_TIMESTAMP() WHERE id=?", x.IdentityNo, x.Phone, x.Email, x.Name, x.ID)
++	_, e := r.DB.ExecContext(c, "UPDATE tenants SET name=?,phone=?,email=?,identity_no=?,updated_at=UTC_TIMESTAMP() WHERE id=?", x.Name, x.Phone, x.Email, x.IdentityNo, x.ID)
+ 	return e
+ }
+ func (r Tenants) SetStatus(c context.Context, id, status string) error {
+diff --git b/internal/service/tenant.go a/internal/service/tenant.go
+index fbf0efd..023264d 100644
+--- b/internal/service/tenant.go
++++ a/internal/service/tenant.go
+@@ -33,7 +33,6 @@ func (s TenantService) Update(c context.Context, x entity.Tenant) error {
+ 	if e := required(x.ID, x.Name, x.Phone); e != nil {
+ 		return e
+ 	}
+-	x.Phone, x.Email = x.Email, x.Phone
+ 	return s.Repo.Update(c, x)
+ }
+ func (s TenantService) SetStatus(c context.Context, id, status string) error {
