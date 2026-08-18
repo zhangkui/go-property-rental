@@ -1,6 +1,6 @@
 # 30 题测试协议（私有）
 
-所有题目验证脚本只放在对应题目的 `bugN_main` 分支内，例如 `bug001_main/cases/BUG-001/`；不复制到 `main` 或其他题目分支。30 个缺陷的根因、错误行为和参考修复必须全部位于 Go 后端生产代码；Vue、TypeScript、Nginx、静态资源和前端路由不能作为缺陷文件、根因文件或 Gold 修复文件。
+每个 `bugN_main` 分支只提交本题公开验证测试和运行命令，例如 `verification_tests/` 与 `verify_cmds.ps1`；`BUG_REPRO.md`、`user_query.md`、`private_tests/`、`gold_patch.patch`、修复提示词和轨迹材料不得提交到 `bugN_main`、`main` 或 Gold/Test 模型可见分支。30 个缺陷的根因、错误行为和参考修复必须全部位于 Go 后端生产代码；Vue、TypeScript、Nginx、静态资源和前端路由不能作为缺陷文件、根因文件或 Gold 修复文件。
 
 每个题目必须同时满足：
 
@@ -14,7 +14,7 @@
 8. 对状态流转题覆盖合法前进、非法回退和重复请求三条路径。
 9. 每题的 `verify_cmds.ps1` 必须从仓库根目录执行，输出 `PRE_FIX_RED` 或 `POST_FIX_GREEN` 标记及完整 HTTP 响应摘要。
 10. diagnosis 题的验证命令只复现并收集证据，不能修改生产源码；bugfix 题还必须提供 fixed green 命令。每题的根因与正确修复至少涉及两个 Go 生产文件，并跨 repository/service/handler/middleware/platform 中的两个职责层。
-11. 每个 `bugN_main` 必须自带且只自带自己的 `verify_cmds.ps1`、验证测试和复现文档；执行命令不能引用其他题目目录、主分支测试或未提交的本地文件。
+11. 每个 `bugN_main` 必须自带且只自带自己的 `verify_cmds.ps1` 和验证测试；执行命令不能引用其他题目目录、主分支测试或未提交的本地文件。复现文档、用户提示词和私有测试在模型运行和分支提交之外单独保存。
 12. 只有对应测试在该分支上稳定输出 `PRE_FIX_RED` 且退出码非零，才允许提交 `bugN_main`；红色原因必须来自目标 Go 缺陷，而不是编译失败、Docker 未启动、认证失败或测试数据缺失。
 
 ## 固定命令约定
