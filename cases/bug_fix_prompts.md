@@ -11,7 +11,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-001.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-002
@@ -25,7 +25,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-002.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-003
@@ -39,7 +39,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-003.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-004
@@ -67,7 +67,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-005.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-006
@@ -95,7 +95,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-007.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-008
@@ -109,7 +109,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-008.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-009
@@ -137,7 +137,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-010.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-011
@@ -165,7 +165,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-012.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-013
@@ -179,7 +179,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-013.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-014
@@ -207,7 +207,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-015.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-016
@@ -221,7 +221,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-016.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-017
@@ -249,7 +249,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-018.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-019
@@ -263,7 +263,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-019.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-020
@@ -277,7 +277,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-020.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-021
@@ -291,7 +291,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-021.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-022
@@ -305,7 +305,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-022.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-023
@@ -333,7 +333,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-024.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-025
@@ -347,7 +347,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-025.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-026
@@ -375,7 +375,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-027.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-028
@@ -389,7 +389,7 @@ docker compose up -d --build
 docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-028.sh
 go build ./...
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。
+请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
 修复完成后，必须再次逐条执行下面完全相同的命令，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过。
 
 ## BUG-029
