@@ -89,7 +89,7 @@ func (r LeaseStore) Renew(c context.Context, v entity.LeaseVersion, newEnd time.
 	if _, e = tx.ExecContext(c, "INSERT INTO lease_versions(id,lease_id,version_no,monthly_rent,deposit,start_date,end_date) VALUES(?,?,?,?,?,?,?)", v.ID, v.LeaseID, v.VersionNo, v.MonthlyRent, v.Deposit, v.StartDate, v.EndDate); e != nil {
 		return e
 	}
-	if _, e = tx.ExecContext(c, "UPDATE leases SET end_date=?,monthly_rent=?,deposit=? WHERE id=?", newEnd, v.Deposit, v.Deposit, v.LeaseID); e != nil {
+	if _, e = tx.ExecContext(c, "UPDATE leases SET end_date=?,monthly_rent=?,deposit=? WHERE id=?", newEnd, v.MonthlyRent, v.Deposit, v.LeaseID); e != nil {
 		return e
 	}
 	_, e = tx.ExecContext(c, "INSERT INTO lease_state_history(id,lease_id,from_status,to_status,reason,actor_id) VALUES(UUID(),?,?,?,'renewed',?)", v.LeaseID, status, status, actor)
