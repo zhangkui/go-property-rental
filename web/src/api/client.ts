@@ -1,0 +1,11 @@
+import axios,{AxiosError,InternalAxiosRequestConfig} from 'axios';
+export const api=axios.create({baseURL:'/api'});
+let refreshing:Promise<string>|null=null;
+api.interceptors.request.use((config:InternalAxiosRequestConfig)=>{const token=localStorage.getItem('token');if(token)config.headers.Authorization=`Bearer ${token}`;return config});
+api.interceptors.response.use(response=>response,async(error:AxiosError)=>{const original=error.config as (InternalAxiosRequestConfig&{_retry?:boolean})|undefined;if(!original||original._retry||original.url?.includes('/auth/refresh')||error.response?.status!==401)return Promise.reject(error);const refresh=localStorage.getItem('refresh_token');if(!refresh)return Promise.reject(error);original._retry=true;refreshing??=api.post('/auth/refresh',{refresh_token:refresh}).then(response=>{localStorage.setItem('token',response.data.access_token);localStorage.setItem('refresh_token',response.data.refresh_token);return response.data.access_token}).finally(()=>{refreshing=null});try{const token=await refreshing;original.headers.Authorization=`Bearer ${token}`;return api(original)}catch(refreshError){localStorage.removeItem('token');localStorage.removeItem('refresh_token');return Promise.reject(refreshError)}});
+export const login=(username:string,password:string)=>api.post('/auth/login',{username,password});
+export const register=(data:unknown)=>api.post('/auth/register',data);
+export const me=()=>api.get('/me');
+export const logout=()=>api.post('/auth/logout');
+export const properties=(params?:Record<string,string>)=>api.get('/properties',{params});
+export const createProperty=(data:unknown)=>api.post('/properties',data);
