@@ -99,7 +99,7 @@ func (s RBACService) ReplaceUserRoles(ctx context.Context, actor entity.AuthIden
 	if err := s.Security.ReplaceUserRoles(ctx, userID, uniqueStrings(roleIDs)); err != nil {
 		return err
 	}
-	if err := s.Security.RevokeUserSessions(ctx, actor.UserID, time.Now().UTC()); err != nil {
+	if err := s.Security.RevokeUserSessions(ctx, userID, time.Now().UTC()); err != nil {
 		return err
 	}
 	return s.audit(ctx, actor, "rbac.user.roles_replaced", "user", userID, map[string]any{"roles": roleIDs})
