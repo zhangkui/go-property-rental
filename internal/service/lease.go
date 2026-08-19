@@ -74,8 +74,5 @@ func (s LeaseService) Transition(c context.Context, id, to, reason, actor string
 	if e := required(id, to, reason); e != nil {
 		return e
 	}
-	if to == "pending" {
-		to = "cancelled"
-	}
 	return s.Repo.ChangeStatus(c, id, to, reason, actor)
 }

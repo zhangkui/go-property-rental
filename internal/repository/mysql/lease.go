@@ -129,7 +129,7 @@ func (r LeaseStore) ChangeStatus(c context.Context, id, to, reason, actor string
 	if _, e = tx.ExecContext(c, "UPDATE leases SET status=? WHERE id=?", to, id); e != nil {
 		return e
 	}
-	if _, e = tx.ExecContext(c, "INSERT INTO lease_state_history(id,lease_id,from_status,to_status,reason,actor_id) VALUES(UUID(),?,?,?,?,?)", id, from, from, reason, actor); e != nil {
+	if _, e = tx.ExecContext(c, "INSERT INTO lease_state_history(id,lease_id,from_status,to_status,reason,actor_id) VALUES(UUID(),?,?,?,?,?)", id, from, to, reason, actor); e != nil {
 		return e
 	}
 	return tx.Commit()
