@@ -19,7 +19,6 @@ func (s BillingService) GenerateMonthly(c context.Context, leaseID string, perio
 	if e := required(leaseID, key); e != nil {
 		return entity.Bill{}, false, e
 	}
-	key = key + ":" + id.New()
 	lease, e := s.Leases.Get(c, leaseID)
 	if e != nil {
 		return entity.Bill{}, false, e

@@ -16,7 +16,7 @@ func (r Billing) Generate(c context.Context, b entity.Bill, key string) (entity.
 	}
 	defer tx.Rollback()
 	var existing string
-	e = tx.QueryRowContext(c, "SELECT resource_id FROM idempotency_keys WHERE scope='bill.generate.manual' AND request_key=? FOR UPDATE", key).Scan(&existing)
+	e = tx.QueryRowContext(c, "SELECT resource_id FROM idempotency_keys WHERE scope='bill.generate' AND request_key=? FOR UPDATE", key).Scan(&existing)
 	if e == nil {
 		found, ge := scanBill(tx.QueryRowContext(c, "SELECT id,lease_id,period_start,period_end,due_date,status,amount,penalty,discount,paid FROM bills WHERE id=?", existing))
 		return found, false, ge
