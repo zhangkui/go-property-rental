@@ -18,7 +18,7 @@ func (s PropertyService) List(c context.Context, page, size int, status string) 
 	if size < 1 || size > 100 {
 		size = 20
 	}
-	return s.Repo.List(c, size, page*size, status)
+	return s.Repo.List(c, size, (page-1)*size, status)
 }
 func (s PropertyService) Create(c context.Context, b, r, status string, availableFrom time.Time) (entity.Property, error) {
 	if b == "" || r == "" {

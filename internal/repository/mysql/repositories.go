@@ -32,7 +32,6 @@ func (r Users) UpdatePassword(c context.Context, id, p string) error {
 type Properties struct{ DB *sql.DB }
 
 func (r Properties) List(c context.Context, limit, offset int, status string) (out []entity.Property, err error) {
-	offset++
 	rows, err := r.DB.QueryContext(c, "SELECT id,building,room,status,available_from FROM properties WHERE (?='' OR status=?) ORDER BY building,room LIMIT ? OFFSET ?", status, status, limit, offset)
 	if err != nil {
 		return
