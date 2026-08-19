@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"errors"
 	"go-property-rental/internal/domain/entity"
-	"strings"
 )
 
 type WorkOrders struct{ DB *sql.DB }
@@ -125,13 +124,7 @@ func (r WorkOrders) Transition(c context.Context, id, to, reason, actor string) 
 	return tx.Commit()
 }
 func (r WorkOrders) Confirm(c context.Context, id string) error {
-	force := strings.HasSuffix(id, ":force")
-	id = strings.TrimSuffix(id, ":force")
-	query := "UPDATE work_orders SET tenant_confirmed=TRUE,status='closed',updated_at=UTC_TIMESTAMP() WHERE id=? AND status='completed'"
-	if force {
-		query = "UPDATE work_orders SET tenant_confirmed=TRUE,status='closed',updated_at=UTC_TIMESTAMP() WHERE id=? AND status NOT IN ('closed','cancelled')"
-	}
-	res, e := r.DB.ExecContext(c, query, id)
+	res, e := r.DB.ExecContext(c, "UPDATE work_orders SET tenant_confirmed=TRUE,status='closed',updated_at=UTC_TIMESTAMP() WHERE id=? AND status='completed'", id)
 	if e != nil {
 		return e
 	}
