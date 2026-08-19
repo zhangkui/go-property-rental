@@ -99,7 +99,7 @@ func (r LeaseStore) Renew(c context.Context, v entity.LeaseVersion, newEnd time.
 	return tx.Commit()
 }
 func (r LeaseStore) Versions(c context.Context, id string) (out []entity.LeaseVersion, err error) {
-	rows, err := r.DB.QueryContext(c, "SELECT id,lease_id,version_no,monthly_rent,deposit,start_date,end_date,created_at FROM lease_versions WHERE lease_id=? ORDER BY version_no ASC", id)
+	rows, err := r.DB.QueryContext(c, "SELECT id,lease_id,version_no,monthly_rent,deposit,start_date,end_date,created_at FROM lease_versions WHERE lease_id=? ORDER BY version_no DESC", id)
 	if err != nil {
 		return
 	}

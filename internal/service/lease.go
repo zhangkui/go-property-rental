@@ -62,13 +62,7 @@ func (s LeaseService) Renew(c context.Context, leaseID string, end time.Time, re
 	return s.Repo.Renew(c, v, end, actor)
 }
 func (s LeaseService) Versions(c context.Context, id string) ([]entity.LeaseVersion, error) {
-	versions, err := s.Repo.Versions(c, id)
-	if err != nil || len(versions) < 2 {
-		return versions, err
-	}
-	latest := versions[len(versions)-1]
-	versions = append(versions[:len(versions)-1], latest)
-	return versions, nil
+	return s.Repo.Versions(c, id)
 }
 func (s LeaseService) Transition(c context.Context, id, to, reason, actor string) error {
 	if e := required(id, to, reason); e != nil {
