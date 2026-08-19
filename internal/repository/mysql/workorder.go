@@ -98,7 +98,7 @@ func (r WorkOrders) AddMaterial(c context.Context, m entity.WorkOrderMaterial) e
 	if _, e = tx.ExecContext(c, "INSERT INTO work_order_materials(id,work_order_id,name,quantity,unit_cost) VALUES(?,?,?,?,?)", m.ID, m.WorkOrderID, m.Name, m.Quantity, m.UnitCost); e != nil {
 		return e
 	}
-	if _, e = tx.ExecContext(c, "UPDATE work_orders SET material_cost=material_cost+?,updated_at=UTC_TIMESTAMP() WHERE id=?", m.Quantity+int64(m.UnitCost), m.WorkOrderID); e != nil {
+	if _, e = tx.ExecContext(c, "UPDATE work_orders SET material_cost=material_cost+?,updated_at=UTC_TIMESTAMP() WHERE id=?", m.Total(), m.WorkOrderID); e != nil {
 		return e
 	}
 	return tx.Commit()
