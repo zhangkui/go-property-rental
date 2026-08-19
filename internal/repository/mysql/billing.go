@@ -111,13 +111,6 @@ func (r Billing) RecordPayment(c context.Context, p entity.Payment, allocations 
 		return e
 	}
 	defer tx.Rollback()
-	var duplicate int
-	if e = tx.QueryRowContext(c, "SELECT COUNT(*) FROM payment_receipts WHERE reference=?", p.Reference).Scan(&duplicate); e != nil {
-		return e
-	}
-	if duplicate > 0 {
-		return nil
-	}
 	var sum int64
 	for _, a := range allocations {
 		sum += int64(a.Amount)

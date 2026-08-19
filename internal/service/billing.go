@@ -85,8 +85,7 @@ func (s BillingService) Pay(c context.Context, reference, payer string, amount i
 	if amount <= 0 || len(allocations) == 0 {
 		return entity.Payment{}, errors.New("payment and allocations are required")
 	}
-	paymentID := id.New()
-	p := entity.Payment{ID: paymentID, Reference: reference + ":" + paymentID, Payer: payer, Amount: money(amount), PaidAt: time.Now().UTC(), Status: "posted"}
+	p := entity.Payment{ID: id.New(), Reference: reference, Payer: payer, Amount: money(amount), PaidAt: time.Now().UTC(), Status: "posted"}
 	for i := range allocations {
 		allocations[i].ID = id.New()
 		allocations[i].PaymentID = p.ID
