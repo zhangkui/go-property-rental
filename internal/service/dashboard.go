@@ -18,7 +18,7 @@ type DashboardService struct {
 func (s DashboardService) Summary(ctx context.Context, userID string) (entity.DashboardSummary, error) {
 	cacheKey := "summary:" + userID
 	if s.Cache != nil {
-		if summary, found, _ := s.Cache.Get(ctx, cacheKey); found {
+		if summary, found, err := s.Cache.Get(ctx, cacheKey); err == nil && found {
 			return summary, nil
 		}
 	}

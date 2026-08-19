@@ -22,7 +22,7 @@ func (r Dashboard) Get(ctx context.Context, key string) (entity.DashboardSummary
 	}
 	var summary entity.DashboardSummary
 	if err := json.Unmarshal([]byte(value), &summary); err != nil {
-		return entity.DashboardSummary{}, true, err
+		return entity.DashboardSummary{}, false, err
 	}
 	return summary, true, nil
 }
