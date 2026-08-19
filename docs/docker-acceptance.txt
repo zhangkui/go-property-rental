@@ -1,0 +1,13 @@
+Docker cold-start acceptance
+Date: 2026-08-18
+Command: docker compose down; docker compose up -d --build
+Volumes: project-scoped go-property-rental_mysql_data and go-property-rental_redis_data
+Images: mysql:8.0.46, redis:7.4.10-bookworm
+Containers: api healthy, mysql healthy, redis healthy, web running
+API health: HTTP 200 {"status":"ok"}
+Frontend root: HTTP 200 at http://localhost:28080/
+Frontend billing plan route: HTTP 200 at http://localhost:28080/billing-plans
+Default local admin login: passed
+GET /api/me: passed with business_admin role and backend permission list
+Applied migrations: 001_core through 008_billing_plans
+Ports: web 28080, api 28081, mysql 23306, redis 26379
