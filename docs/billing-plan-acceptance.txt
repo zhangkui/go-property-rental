@@ -1,0 +1,14 @@
+Billing plan acceptance
+Date: 2026-08-18
+Migration: 008_billing_plans
+Plan ID: e36a612c-4c61-4a30-818a-d1a02f1eccf9
+Lease ID: b3842a38-140e-4d30-bef0-0035d5bc2fd0
+Preview count: 1
+Preview total minor units: 15501
+Rent minor units: 1
+Enabled additional charges: water 1800, electricity 4200, property fee 8000, service fee 1500
+Generated run: completed, total 1, succeeded 1, failed 0
+Generated bill item count: 5
+Generated period: 2026-08-18 through 2026-08-22 (capped at lease end)
+Second preview count: 0 (plan advanced; duplicate generation prevented)
+Service tests: enabled charges included, disabled charges excluded, lease range validated, retry reuses failed run item
