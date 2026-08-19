@@ -172,7 +172,7 @@ func (r Approvals) Cancel(ctx context.Context, approvalID, applicantID, comment 
 	if err = tx.QueryRowContext(ctx, `SELECT status,applicant_id FROM approval_requests WHERE id=? FOR UPDATE`, approvalID).Scan(&status, &owner); err != nil {
 		return err
 	}
-	if status != "pending" {
+	if owner != applicantID || status != "pending" {
 		return errors.New("approval cannot be cancelled")
 	}
 	now := time.Now().UTC()

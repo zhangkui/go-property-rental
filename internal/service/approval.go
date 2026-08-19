@@ -63,7 +63,7 @@ func (s ApprovalService) Cancel(ctx context.Context, approvalID, applicantID, co
 		return err
 	}
 	if s.Audits != nil {
-		_ = s.Audits.Append(ctx, entity.AuditLog{ID: id.New(), ActorID: approvalID, Action: "approval.cancel", Resource: "approval", ResourceID: approvalID, Detail: comment})
+		_ = s.Audits.Append(ctx, entity.AuditLog{ID: id.New(), ActorID: applicantID, Action: "approval.cancel", Resource: "approval", ResourceID: approvalID, Detail: comment})
 	}
 	return nil
 }
