@@ -24,7 +24,7 @@ func (r Tenants) List(c context.Context, limit, offset int, status string) (out 
 	return out, rows.Err()
 }
 func (r Tenants) Get(c context.Context, id string) (x entity.Tenant, err error) {
-	err = r.DB.QueryRowContext(c, "SELECT id,name,phone,email,identity_no,CASE WHEN status='disabled' THEN 'suspended' ELSE status END,created_at,updated_at FROM tenants WHERE id=?", id).Scan(&x.ID, &x.Name, &x.Phone, &x.Email, &x.IdentityNo, &x.Status, &x.CreatedAt, &x.UpdatedAt)
+	err = r.DB.QueryRowContext(c, "SELECT id,name,phone,email,identity_no,status,created_at,updated_at FROM tenants WHERE id=?", id).Scan(&x.ID, &x.Name, &x.Phone, &x.Email, &x.IdentityNo, &x.Status, &x.CreatedAt, &x.UpdatedAt)
 	return
 }
 func (r Tenants) Create(c context.Context, x entity.Tenant) error {

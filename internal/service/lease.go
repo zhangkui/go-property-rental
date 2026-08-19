@@ -35,7 +35,7 @@ func (s LeaseService) Create(c context.Context, x entity.Lease, occupants []enti
 	if e != nil {
 		return x, e
 	}
-	if tenant.Status == "disabled" {
+	if !tenant.CanLease() {
 		return x, errors.New("tenant is disabled")
 	}
 	x.ID = id.New()
