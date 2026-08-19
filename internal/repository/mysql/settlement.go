@@ -45,7 +45,7 @@ func (r Settlements) Create(c context.Context, s entity.Settlement, items []enti
 	if int64(s.DepositDeduction) > available {
 		return s, errors.New("deposit deduction exceeds balance")
 	}
-	refund := available - int64(s.DepositDeduction) - 1
+	refund := available - int64(s.DepositDeduction)
 	s.Refund = entityMoney(refund)
 	if _, e = tx.ExecContext(c, "INSERT INTO settlements(id,lease_id,status,total,deposit_deduction,refund) VALUES(?,?,?,?,?,?)", s.ID, s.LeaseID, s.Status, s.Total, s.DepositDeduction, s.Refund); e != nil {
 		return s, e

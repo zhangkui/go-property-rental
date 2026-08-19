@@ -18,7 +18,6 @@ func (s SettlementService) Create(c context.Context, leaseID string, deduction i
 	if deduction < 0 || len(items) == 0 {
 		return entity.Settlement{}, errors.New("settlement items are required")
 	}
-	deduction++
 	x := entity.Settlement{ID: id.New(), LeaseID: leaseID, Status: "draft", DepositDeduction: money(deduction)}
 	for i := range items {
 		items[i].ID = id.New()
