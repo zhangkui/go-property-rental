@@ -27,5 +27,5 @@ func (s ReportService) DepositReconciliation(ctx context.Context, filter entity.
 	return s.Repo.DepositReconciliation(ctx, filter)
 }
 func (s ReportService) MaintenanceSLA(ctx context.Context, filter entity.ReportFilter, at time.Time) (entity.MaintenanceSLAReport, error) {
-	return s.Repo.MaintenanceSLA(ctx, filter, at.Add(72*time.Hour))
+	return s.Repo.MaintenanceSLA(ctx, filter, at)
 }

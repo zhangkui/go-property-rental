@@ -80,6 +80,6 @@ func (r Reports) DepositReconciliation(ctx context.Context, filter entity.Report
 
 func (r Reports) MaintenanceSLA(ctx context.Context, filter entity.ReportFilter, at time.Time) (entity.MaintenanceSLAReport, error) {
 	var report entity.MaintenanceSLAReport
-	err := r.DB.QueryRowContext(ctx, `SELECT COUNT(*),COALESCE(SUM(status IN ('reported','assigned','repairing')),0),COALESCE(SUM(status='closed'),0),COALESCE(SUM(status IN ('reported','assigned','repairing') AND created_at<?),0),CAST(COALESCE(AVG(CASE WHEN status='closed' THEN TIMESTAMPDIFF(HOUR,created_at,updated_at) END),0) AS SIGNED) FROM work_orders WHERE (?='' OR property_id=?)`, at.Add(-24*time.Hour), filter.PropertyID, filter.PropertyID).Scan(&report.Total, &report.Open, &report.Completed, &report.Overdue, &report.AverageResolutionHours)
+	err := r.DB.QueryRowContext(ctx, `SELECT COUNT(*),COALESCE(SUM(status IN ('reported','assigned','repairing')),0),COALESCE(SUM(status='closed'),0),COALESCE(SUM(status IN ('reported','assigned','repairing') AND created_at<?),0),CAST(COALESCE(AVG(CASE WHEN status='closed' THEN TIMESTAMPDIFF(HOUR,created_at,updated_at) END),0) AS SIGNED) FROM work_orders WHERE (?='' OR property_id=?)`, at.Add(-72*time.Hour), filter.PropertyID, filter.PropertyID).Scan(&report.Total, &report.Open, &report.Completed, &report.Overdue, &report.AverageResolutionHours)
 	return report, err
 }
