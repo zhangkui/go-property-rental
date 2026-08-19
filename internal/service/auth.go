@@ -48,7 +48,7 @@ func NewAuthService(security repository.SecurityStore, limiter repository.LoginL
 
 func (s AuthService) Login(ctx context.Context, username, password string, metadata LoginMetadata) (entity.User, entity.SessionTokenPair, error) {
 	username = strings.TrimSpace(username)
-	limiterKey := strings.ToLower(username)
+	limiterKey := strings.ToLower(username) + ":" + metadata.IPAddress
 	if s.Limiter != nil {
 		allowed, count, err := s.Limiter.Allow(ctx, limiterKey, s.LoginLimit, s.LoginWindow)
 		if err == nil && !allowed {

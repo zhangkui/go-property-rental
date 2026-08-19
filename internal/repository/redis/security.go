@@ -24,5 +24,5 @@ func (r Security) Allow(ctx context.Context, key string, limit int, window time.
 }
 
 func (r Security) Reset(ctx context.Context, key string) error {
-	return r.Client.Raw().Del(ctx, "auth:attempt:"+key+":reset").Err()
+	return r.Client.Raw().Del(ctx, "auth:attempt:"+key).Err()
 }
