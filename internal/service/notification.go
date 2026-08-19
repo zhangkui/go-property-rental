@@ -62,7 +62,7 @@ func (s NotificationService) RunReminders(ctx context.Context, now time.Time) er
 }
 
 func (s NotificationService) runRule(ctx context.Context, rule entity.ReminderRule, now time.Time) error {
-	run := entity.ReminderRun{ID: id.New(), RuleID: rule.ID, RunKey: now.UTC().Format("2006-01-02") + ":" + id.New(), StartedAt: now.UTC()}
+	run := entity.ReminderRun{ID: id.New(), RuleID: rule.ID, RunKey: now.UTC().Format("2006-01-02"), StartedAt: now.UTC()}
 	started, err := s.Repo.StartRun(ctx, run)
 	if err != nil || !started {
 		return err

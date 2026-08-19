@@ -88,7 +88,7 @@ func (r Notifications) SetRuleEnabled(ctx context.Context, ruleID string, enable
 }
 
 func (r Notifications) StartRun(ctx context.Context, run entity.ReminderRun) (bool, error) {
-	result, err := r.DB.ExecContext(ctx, `INSERT INTO reminder_runs(id,rule_id,run_key,status,started_at) VALUES(?,?,?,?,?)`, run.ID, run.RuleID, run.RunKey, "running", run.StartedAt)
+	result, err := r.DB.ExecContext(ctx, `INSERT IGNORE INTO reminder_runs(id,rule_id,run_key,status,started_at) VALUES(?,?,?,?,?)`, run.ID, run.RuleID, run.RunKey, "running", run.StartedAt)
 	if err != nil {
 		return false, err
 	}
