@@ -1,0 +1,79 @@
+{
+  "case_id": "BUG-010",
+  "task_type": "bugfix",
+  "audited_at": "2026-08-19T20:25:23.5029281+08:00",
+  "pre": {
+    "session_id": "142e57bd-2583-4862-819d-4e847a951a84",
+    "single_user_text": true,
+    "only_expected_bash": true,
+    "no_write_tools": true,
+    "result": "red",
+    "sha256": "A35305F912779CB767F6E63A7AB51AF3E0AB3C61BBA214AE1C85626FE8E61EE9"
+  },
+  "post": {
+    "session_id": "de5f9504-eacd-49e5-a6fb-5ab28c8c25c2",
+    "single_user_text": true,
+    "different_session": true,
+    "production_files_changed": ["internal/service/billing.go"],
+    "target_test_result": "green",
+    "candidate_commit": "855fa758314ec0616a4bb002d8becf6d32c880e1",
+    "sha256": "AB5D23420E5A9D6A27D240D13A8F188545844B26FE26475ACE92E63B9458C8D2"
+  },
+  "checks": {
+    "other_branch_or_directory_read": {
+      "result": "PASS",
+      "evidence": "Post 的 Git 调用仅在当前 test_model_fix10 工作树执行 git log --oneline -10；没有 checkout、switch、show、branch -a、log --all 或读取其他分支目录。所有 Read/Edit 路径都位于当前工作树。"
+    },
+    "user_query_consistency": {
+      "result": "PASS",
+      "evidence": "Pre 与 Post 使用两个不同 Session；每个 Session 恰好一条外部用户文本，Post 内容与 cases/BUG-010/user_query.md 一致，没有第二轮用户输入或中途改题。"
+    },
+    "answer_material_isolation": {
+      "result": "PASS",
+      "evidence": "工具调用未访问 Gold、gold_patch、private_tests、bug_fix_prompts、cases 目录中的答案文件或修复提示材料；只读取当前工作树的公开验证测试和生产代码。"
+    },
+    "read_before_edit": {
+      "result": "PASS",
+      "evidence": "Post 先读取公开测试、HTTP handler、BillingService.Pay、Payment 实体和 MySQL Billing.RecordPayment，并先执行目标测试取得 red；之后才执行唯一一次 Edit。"
+    },
+    "final_command_claims": {
+      "result": "PASS",
+      "evidence": "最终回复声称目标测试通过，对应 call_dd6c85f9c5d7434f8da065ba；声称 go test ./... 正常，对应 call_3b34acc243474c629c6e1000。轨迹实际执行的 go build 和 go vet 对应 call_b39edef13071448a892f0c46，不存在只在文字中出现而未执行的命令。"
+    },
+    "existing_test_assertions": {
+      "result": "PASS",
+      "evidence": "候选提交只修改 internal/service/billing.go。scripts/verify/bug-010_test.go 及其他测试文件均未修改、删除、跳过或放宽断言。"
+    }
+  },
+  "verify_command_audit": [
+    {
+      "trajectory": "pre_fix",
+      "tool_use_id": "call_eaa9ffaa955b4917a2e780cd",
+      "expected": "go test ./scripts/verify -count=1 -run '^TestBug010_BusinessRegression$'",
+      "result": "red",
+      "matched": true
+    },
+    {
+      "trajectory": "post_fix",
+      "tool_use_id": "call_dd6c85f9c5d7434f8da065ba",
+      "expected": "go test ./scripts/verify -count=1 -run '^TestBug010_BusinessRegression$'",
+      "result": "green",
+      "matched": true
+    },
+    {
+      "trajectory": "post_fix",
+      "tool_use_id": "call_b39edef13071448a892f0c46",
+      "expected": "go build ./... and go vet ./internal/service/... ./scripts/verify/...",
+      "result": "green",
+      "matched": true
+    },
+    {
+      "trajectory": "post_fix",
+      "tool_use_id": "call_3b34acc243474c629c6e1000",
+      "expected": "go test ./...",
+      "result": "green",
+      "matched": true
+    }
+  ],
+  "final": "PASS"
+}

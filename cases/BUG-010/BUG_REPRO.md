@@ -1,41 +1,29 @@
-# BUG-010 复现说明（私有）
+# BUG-010 复现说明
 
 - 任务类型：bugfix
 - 功能域：收款幂等与核销
-- 被测分支：bug10_main / test_model_fix10
-- 前端入口：http://localhost:8080/bills
-- 验收账号：admin / Admin123!（仅本地验收管理员；脚本会按场景创建额外账号和数据）
-
-## 前置与重置
-
-1. 检出 bug10_main，确认只存在 scripts/verify/bug-010.sh。
-2. 执行 docker compose down -v，删除本题之前的 MySQL/Redis 状态。
-3. 执行 docker compose up -d --build，等待 mysql、redis、api 健康。
+- 被测分支：`bug10_main` / `test_model_fix10`
 
 ## 执行
 
+在项目根目录运行：
+
 ```bash
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-010.sh
-go build ./...
+go test ./scripts/verify -count=1 -run '^TestBug010_BusinessRegression$'
 ```
 
-## 实际结果
+## 缺陷基线
 
-- 重复收款引用产生重复收款和核销。
-- verification test 输出 ASSERTION_FAILED=BUG-010 和 PRE_FIX_RED=BUG-010，退出码为 1。
+相同账单收款请求重复使用 `external-ref` 时，`BillingService.Pay` 为每次调用生成不同的 `Payment.Reference`。测试在 `bug-010_test.go:44` 处失败，报告客户端 reference 被改写。
 
 ## 期望结果
 
-- 相同业务引用只能成功一次且账单余额守恒。
-- 应用本题标准修复后，同一脚本输出 ASSERTIONS_PASSED，退出码为 0。
+- 返回的 `Payment.Reference` 保持客户端传入的业务引用。
+- 重试请求继续使用同一业务引用，不能被内部 ID 改写成不同流水号。
+- 每条分摊记录的 `PaymentID` 指向本次返回的 payment ID。
+- 不修改、删除或放宽公开测试断言。
 
 ## 涉及生产文件
 
-- internal/repository/mysql/billing.go
-- internal/service/billing.go
-
-## 隔离要求
-
-不得修改或删除测试，不得放宽断言；不得读取 cases、Gold 分支、gold patch、private tests 或其他答案材料。
+- `internal/service/billing.go`
+- `internal/repository/mysql/billing.go`

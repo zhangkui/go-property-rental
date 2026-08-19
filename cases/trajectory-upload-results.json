@@ -178,5 +178,25 @@
         "local_path":  "cases/BUG-009/trajectories/diagnosis.jsonl",
         "sha256":  "D0547A17CDCC05D9E805652839E73664BAC0EBEDE95DBBE13E8627839E769E2C",
         "download_recheck":  "PASS"
+    },
+    {
+        "case_id":  "BUG-010",
+        "trajectory_type":  "pre_fix",
+        "session_id":  "142e57bd-2583-4862-819d-4e847a951a84",
+        "object_key":  "uploads/2026/08/19/202248-10d76548/pre_fix.jsonl",
+        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/202248-10d76548/pre_fix.jsonl",
+        "local_path":  "cases/BUG-010/trajectories/pre_fix.jsonl",
+        "sha256":  "A35305F912779CB767F6E63A7AB51AF3E0AB3C61BBA214AE1C85626FE8E61EE9",
+        "download_recheck":  "PASS"
+    },
+    {
+        "case_id":  "BUG-010",
+        "trajectory_type":  "post_fix",
+        "session_id":  "de5f9504-eacd-49e5-a6fb-5ab28c8c25c2",
+        "object_key":  "uploads/2026/08/19/202249-77543498/post_fix.jsonl",
+        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/202249-77543498/post_fix.jsonl",
+        "local_path":  "cases/BUG-010/trajectories/post_fix.jsonl",
+        "sha256":  "AB5D23420E5A9D6A27D240D13A8F188545844B26FE26475ACE92E63B9458C8D2",
+        "download_recheck":  "PASS"
     }
 ]

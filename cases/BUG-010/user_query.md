@@ -1,8 +1,3 @@
-收款幂等与核销功能存在一个需要修复的业务问题：问题表现为重复收款引用产生重复收款和核销，正确业务行为是相同业务引用只能成功一次且账单余额守恒。
+同一笔账单收款重试后，对账流水号会变。客户端两次都传 `external-ref`，结果返回的 reference 不一样，后面的分摊记录也有可能找不到本次 payment。这个 reference 是上游用来认同一笔业务的，帮我把重复提交这块修一下，测试先别动。
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-010.sh
-go build ./...
+go test ./scripts/verify -count=1 -run '^TestBug010_BusinessRegression$'

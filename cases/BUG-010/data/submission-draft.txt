@@ -1,0 +1,21 @@
+session_id:de5f9504-eacd-49e5-a6fb-5ab28c8c25c2
+bug_id:go-property-rental-bug-010
+task_type:bugfix
+bug_category:other
+feature_area:收款幂等与核销
+affected_flow:账单收款接口使用相同客户端 reference 重试并写入 payment 与分摊记录
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix10
+candidate_commit:855fa758314ec0616a4bb002d8becf6d32c880e1
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:同一笔账单收款重试后，对账流水号会变。客户端两次都传 `external-ref`，结果返回的 reference 不一样，后面的分摊记录也有可能找不到本次 payment。这个 reference 是上游用来认同一笔业务的，帮我把重复提交这块修一下，测试先别动。
+
+go test ./scripts/verify -count=1 -run '^TestBug010_BusinessRegression$'
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/202249-77543498/post_fix.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug010_BusinessRegression$'
+gold_root_cause:文件 internal/service/billing.go，符号 BillingService.Pay 在创建 Payment 时把客户端 reference 改写为 reference + ":" + paymentID；每次重试都会得到不同流水号，导致上游无法按原 reference 识别同一笔收款。文件 internal/repository/mysql/billing.go，符号 Billing.RecordPayment 的 duplicate > 0 分支发现相同 reference 后直接 return nil，未让 handler 知道本次没有落库；只修 service 后仍会产生未落库的新 payment 并返回成功。Gold 同时保留原 reference 并删除静默重复分支，让唯一约束错误返回上层，首次合法收款和分摊关联保持不变。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/cd4152a
+success_criteria:目标测试 go test ./scripts/verify -count=1 -run '^TestBug010_BusinessRegression$' 在缺陷基线为 red，Post 修复后为 green；reference 保持客户端值，分摊 PaymentID 指向本次 payment。轨迹证据显示模型先读公开测试和生产代码再修改，只改 internal/service/billing.go，未修改既有测试；实际执行的目标 go test、go build ./...、go vet ./internal/service/... ./scripts/verify/... 和 go test ./... 均有工具调用记录并通过。候选修改文件数量不作为验收条件。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/202248-10d76548/pre_fix.jsonl","session_id":"142e57bd-2583-4862-819d-4e847a951a84","result":"red"},"post_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/202249-77543498/post_fix.jsonl","session_id":"de5f9504-eacd-49e5-a6fb-5ab28c8c25c2","result":"green"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex
