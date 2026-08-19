@@ -51,7 +51,7 @@ func (r Notifications) CreateMany(ctx context.Context, items []entity.Notificati
 }
 
 func (r Notifications) MarkRead(ctx context.Context, userID, notificationID string) error {
-	_, err := r.DB.ExecContext(ctx, `UPDATE notifications SET status='read',read_at=UTC_TIMESTAMP() WHERE id=?`, notificationID)
+	_, err := r.DB.ExecContext(ctx, `UPDATE notifications SET status='read',read_at=UTC_TIMESTAMP() WHERE id=? AND user_id=?`, notificationID, userID)
 	return err
 }
 

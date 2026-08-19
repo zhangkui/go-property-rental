@@ -24,7 +24,7 @@ func (s NotificationService) MarkRead(ctx context.Context, userID, notificationI
 	if notificationID == "" {
 		return errors.New("notification id is required")
 	}
-	return s.Repo.MarkRead(ctx, notificationID, userID)
+	return s.Repo.MarkRead(ctx, userID, notificationID)
 }
 func (s NotificationService) MarkAllRead(ctx context.Context, userID string) error {
 	return s.Repo.MarkAllRead(ctx, userID)
