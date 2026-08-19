@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "latest",
+    "axios": "latest",
+    "pinia": "latest",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "typescript": "latest",
+    "vite": "latest"
+  },
+  "type": "module"
+}
