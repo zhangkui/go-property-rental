@@ -1,0 +1,64 @@
+{
+  "case_id": "BUG-009",
+  "task_type": "diagnosis",
+  "pre_fix": {
+    "session_id": "da9d2d68-8422-4705-9d44-eaf0669dbecb",
+    "single_user_text": true,
+    "no_write_tools": true,
+    "result": "red",
+    "verify_command_tool_use_id": "call_1315037d2fe24471bf717384",
+    "sha256": "944241D2D65ABA821121C129967B513D7F3CF7B37347433E8EA3959F097946AC"
+  },
+  "diagnosis": {
+    "session_id": "3f4f168c-578e-4d91-9ecf-65fbf61c7784",
+    "single_user_text": true,
+    "different_session": true,
+    "zero_repository_changes": true,
+    "root_cause_hit": true,
+    "target_test_result": "red",
+    "sha256": "D0547A17CDCC05D9E805652839E73664BAC0EBEDE95DBBE13E8627839E769E2C"
+  },
+  "checks": {
+    "other_branch_or_directory_read": {
+      "result": "PASS",
+      "evidence": "正式轨迹的 Git 调用仅执行当前工作树的 git log -5 和 git branch --show-current，没有 checkout、show、--all 或其他分支路径；所有 Read 路径均位于 F:/gonew/cc-data/go-property-rental/branches/test_model_fix9。"
+    },
+    "user_query_consistency": {
+      "result": "PASS",
+      "evidence": "pre_fix 和 diagnosis 是不同 Session；每个 Session 恰好一条外部用户文本消息，没有第二轮用户输入。"
+    },
+    "answer_material_isolation": {
+      "result": "PASS",
+      "evidence": "轨迹未读取 Gold、patch、private_tests、bug_fix_prompts、cases、trajectories、submission 或其他修复答案材料。"
+    },
+    "read_before_conclusion": {
+      "result": "PASS",
+      "evidence": "正式调查先读取通知实体、service、repository、handler、router、接口和公开测试，再执行目标测试并给出结论；没有直接猜测修复。"
+    },
+    "final_command_claims": {
+      "result": "PASS",
+      "evidence": "最终回复只声称执行 go test ./scripts/verify -count=1 -run '^TestBug009_BusinessRegression$'，对应 Bash tool_use_id call_fb15df94b93048ac9f5dc3d，且有匹配的失败输出；没有未执行的 build、vet、Docker 或全量测试声明。"
+    },
+    "existing_test_assertions": {
+      "result": "PASS",
+      "evidence": "正式轨迹没有 Edit、Write 或其他写工具；test_model_fix9 工作区保持 clean，公开测试文件和既有断言未修改。"
+    }
+  },
+  "verify_command_audit": [
+    {
+      "trajectory": "pre_fix",
+      "tool_use_id": "call_1315037d2fe24471bf717384",
+      "expected": "go test ./scripts/verify -count=1 -run '^TestBug009_BusinessRegression$'",
+      "result": "red",
+      "matched": true
+    },
+    {
+      "trajectory": "diagnosis",
+      "tool_use_id": "call_fb15df94b93048ac9f5dc3d3",
+      "expected": "go test ./scripts/verify -count=1 -run '^TestBug009_BusinessRegression$'",
+      "result": "red",
+      "matched": true
+    }
+  ],
+  "final": "PASS"
+}

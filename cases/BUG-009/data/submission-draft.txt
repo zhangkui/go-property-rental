@@ -1,0 +1,27 @@
+session_id:3f4f168c-578e-4d91-9ecf-65fbf61c7784
+bug_id:go-property-rental-bug-009
+task_type:diagnosis
+bug_category:business-validation
+feature_area:notification-read-authorization
+affected_flow:mark one notification as read while preserving notification ownership
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix9
+candidate_commit:67b85eee932d2a34415ecf9afd4a2cfc2b341ffd
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:这题只做调查，不要提交修复。现在有用户能够把不属于自己的通知标记为已读，需要查清通知 ID 和用户身份从接口进入服务层、再到 MySQL 更新语句的完整传递过程。
+
+请先阅读当前分支的相关 Go 代码，明确指出出错的文件和方法、参数在调用链中如何变化，以及仓储更新条件为什么没有守住通知归属。也请覆盖空通知 ID 的处理，说明它是否会在进入数据层前被拒绝。
+
+不要修改仓库内容。最终回复给出定位结论、代码证据和测试结果即可。
+
+请执行：
+
+go test ./scripts/verify -count=1 -run '^TestBug009_BusinessRegression$'
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/183643-6d77fdc5/diagnosis.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug009_BusinessRegression$'
+gold_root_cause:文件 internal/service/notification.go，符号 NotificationService.MarkRead 在空 notificationID 校验通过后调用仓储时把参数写成 Repo.MarkRead(ctx, notificationID, userID)，与仓储接口的 (userID, notificationID) 顺序相反，导致用户 ID 和通知 ID 在服务到仓储边界交换。文件 internal/repository/mysql/notification.go，符号 Notifications.MarkRead 的 UPDATE notifications SET status='read',read_at=UTC_TIMESTAMP() WHERE id=? 只按通知主键更新，没有把 userID 放进 WHERE 条件；因此即使上层传递顺序正确，数据层也不会验证通知归属，知道通知 ID 的用户仍可修改他人通知。两处错误共同破坏“当前用户只能标记自己的通知已读”的调用链：服务层先把身份参数传错，仓储层又没有用身份条件约束持久化；空 notificationID 则在 service 层返回错误，不进入仓储。测试中 fake repository 捕获到 userID=notification-1、notificationID=owner-1，直接证明参数反转；SQL 缺少 AND user_id=? 则是跨用户越权的持久化边界缺口。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/8bb4bf272e9f62b99b4db41fd31820f1dc1371cc
+success_criteria:本题只要求基于当前工作树完成调查，不修改生产代码、测试或配置。实际执行 go test ./scripts/verify -count=1 -run '^TestBug009_BusinessRegression$' 得到 red，关键断言为 service 传给 fake repository 的 userID=notification-1、notificationID=owner-1，而空 notificationID 的拒绝断言通过。正式调查应定位 internal/service/notification.go 的 NotificationService.MarkRead 参数反转，以及 internal/repository/mysql/notification.go 的 Notifications.MarkRead 缺少 user_id 归属条件，并说明二者如何从服务调用边界一路造成错误更新；同时说明空通知 ID 在 service 层被拦截且不进入数据层。正式轨迹必须保持目标工作区零改动，最终只报告调查结论、文件和符号、触发路径、测试证据及合法边界，不声称已应用修复或执行未记录的其他验证。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/183642-2761c7ca/pre_fix.jsonl","session_id":"da9d2d68-8422-4705-9d44-eaf0669dbecb","result":"red"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex
