@@ -1,0 +1,19 @@
+session_id:ec5277c4-032c-4ef6-aaf6-d69491c7674e
+bug_id:go-property-rental-bug-012
+task_type:bugfix
+bug_category:other
+feature_area:押金收取幂等
+affected_flow:同一租约使用相同客户端 reference 重试押金收取并更新流水与余额
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix12
+candidate_commit:fe4f75309aac0cc239486d9fcc47e557082dbca1
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:押金收取重试会被当成一笔新业务。`lease-1` 两次都用 `client-ref` 收 5000，入账后的 reference 却不一样，余额和流水就有重复增加的风险；另外 0 金额不能入账。请处理一下这块重试逻辑，保留现有测试。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/212412-a311d713/post_fix.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug012_BusinessRegression$'
+gold_root_cause:文件 internal/service/deposit.go，符号 DepositService.Transaction 在生成 ledgerID 后把客户端传入的 reference 改写为 reference + ":" + ledgerID。ledgerID 每次调用都是新的 UUID，所以同一租约用相同 client-ref 重试时，返回值和传入仓储的 DepositLedger.Reference 都不同；上游无法把两次请求识别为同一业务，仓储按 lease_id 和 reference 查询重复的逻辑也永远无法命中。文件 internal/repository/mysql/deposit.go，符号 Deposits.Append 在事务开始后先按 lease_id、reference 查询数量，发现 duplicate > 0 时直接 return nil；该分支没有返回既有流水，也没有向 service/handler 表明本次没有落库。只修 service 后，第二次调用仍生成新的 DepositLedger.ID，却可能由 repository 静默跳过并让 HTTP handler 返回一个未持久化的新流水及成功审计。deposit_ledgers.reference 的唯一约束本可拒绝重复，但提前 return nil 绕过了错误传播。Gold 修复保留原始 reference，并删除 repository 的静默重复分支，使重复约束错误返回上层，避免虚假的成功响应；首次合法押金收取和 amount <= 0 的前置拒绝行为保持不变。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/3393d1e8975e4db3f20f28dce255038560732cb2
+success_criteria:目标行为是 DepositService.Transaction 返回并传给仓储的 DepositLedger.Reference 与客户端输入完全一致，同一租约的两次 client-ref 调用保持同一业务引用；amount 为 0 时在 service 层返回错误且不调用仓储。缺陷基线执行 go test ./scripts/verify -count=1 -run '^TestBug012_BusinessRegression$' 为 red，首先因 reference 被追加 UUID 而失败。Post 提示词本身不包含任何命令；模型先读取公开测试、service、repository、handler 和相关接口后，只修改 internal/service/deposit.go，模型轨迹内执行的 BUG-012 测试与 go test ./... 均通过。Session 结束后流程又按 verify_cmds.txt 单独执行同一锚定测试并取得 green。测试文件未修改。候选修改一个生产文件而 Gold 涉及两个文件不作为测试模型验收门禁，本次以指定测试全绿和六项轨迹审计通过作为候选结果。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/212411-936451eb/pre_fix.jsonl","session_id":"8f4c3e69-2132-435d-88d9-d58a1c00526b","result":"red"},"post_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/212412-a311d713/post_fix.jsonl","session_id":"ec5277c4-032c-4ef6-aaf6-d69491c7674e","result":"green"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

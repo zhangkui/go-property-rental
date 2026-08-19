@@ -1,0 +1,79 @@
+{
+  "case_id": "BUG-012",
+  "task_type": "bugfix",
+  "audited_at": "2026-08-19T21:24:51.4685543+08:00",
+  "pre": {
+    "session_id": "8f4c3e69-2132-435d-88d9-d58a1c00526b",
+    "single_user_text": true,
+    "no_write_tools": true,
+    "result": "red",
+    "sha256": "BBF886D72CE26AB8C651CFFA0A240BB900A6AAE398242E8EAD90DB8EECCB7307"
+  },
+  "post": {
+    "session_id": "ec5277c4-032c-4ef6-aaf6-d69491c7674e",
+    "single_user_text": true,
+    "different_session": true,
+    "prompt_contains_command": false,
+    "production_files_changed": ["internal/service/deposit.go"],
+    "target_test_result": "green",
+    "candidate_commit": "fe4f75309aac0cc239486d9fcc47e557082dbca1",
+    "sha256": "7082A989BD15F649C7786C491150398155442C2728CD8BC2050C2F07D38BE3B6"
+  },
+  "checks": {
+    "other_branch_or_directory_read": {
+      "result": "PASS",
+      "evidence": "Post 的 Git 调用仅在当前 test_model_fix12 工作树执行 git log --oneline -5；没有 checkout、switch、show、branch -a、log --all 或读取其他分支目录。"
+    },
+    "user_query_consistency": {
+      "result": "PASS",
+      "evidence": "Post 只有一条外部用户文本，与 cases/BUG-012/user_query.md 完全一致且不包含命令；没有第二轮用户输入。"
+    },
+    "answer_material_isolation": {
+      "result": "PASS",
+      "evidence": "轨迹未读取 Gold、gold_patch、private_tests、bug_fix_prompts、cases 答案文件或其他修复提示材料。"
+    },
+    "read_before_edit": {
+      "result": "PASS",
+      "evidence": "Post 先读取公开测试、DepositService、实体、repository 接口、MySQL repository、handler 和 ID 实现，并先复现失败，之后才执行唯一一次 Edit。"
+    },
+    "final_command_claims": {
+      "result": "PASS",
+      "evidence": "最终回复声称 BUG-012 测试通过，对应 call_f633f88a45bf4e27b44bff8a；声称 go test ./... 全绿，对应 call_2d57dd09f27547ebae5ce706。没有未执行的命令声明。"
+    },
+    "existing_test_assertions": {
+      "result": "PASS",
+      "evidence": "候选提交只修改 internal/service/deposit.go；scripts/verify/bug-012_test.go 和其他测试文件未修改、删除、跳过或放宽断言。"
+    }
+  },
+  "verify_command_audit": [
+    {
+      "trajectory": "pre_fix",
+      "tool_use_id": "call_ea3d0aa2df714241b9e6d010",
+      "expected": "go test ./scripts/verify -count=1 -run '^TestBug012_BusinessRegression$'",
+      "result": "red",
+      "matched": true
+    },
+    {
+      "trajectory": "post_fix",
+      "tool_use_id": "call_f633f88a45bf4e27b44bff8a",
+      "expected": "go build ./... and go test ./scripts/verify/ -run TestBug012 -v",
+      "result": "green",
+      "matched": true
+    },
+    {
+      "trajectory": "post_fix",
+      "tool_use_id": "call_2d57dd09f27547ebae5ce706",
+      "expected": "go test ./...",
+      "result": "green",
+      "matched": true
+    },
+    {
+      "trajectory": "workflow_after_post",
+      "expected": "go test ./scripts/verify -count=1 -run '^TestBug012_BusinessRegression$'",
+      "result": "green",
+      "matched": true,
+      "evidence": "Post Session 结束后由流程在 test_model_fix12 工作树单独执行 verify_cmds.txt。"
+    }
+  ],
+  "final": "PASS"
+}
