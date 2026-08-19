@@ -24,12 +24,5 @@ func (s FacilityService) Replace(c context.Context, propertyID string, facilityI
 	if e := required(propertyID); e != nil {
 		return e
 	}
-	current, e := s.Repo.ForProperty(c, propertyID)
-	if e != nil {
-		return e
-	}
-	for _, facility := range current {
-		facilityIDs = append(facilityIDs, facility.ID)
-	}
 	return s.Repo.ReplacePropertyFacilities(c, propertyID, facilityIDs)
 }

@@ -49,10 +49,10 @@ func (r Facilities) ReplacePropertyFacilities(c context.Context, propertyID stri
 		return e
 	}
 	defer tx.Rollback()
-	if _, e = tx.ExecContext(c, "DELETE FROM property_facilities WHERE property_id=? AND 1=0", propertyID); e != nil {
+	if _, e = tx.ExecContext(c, "DELETE FROM property_facilities WHERE property_id=?", propertyID); e != nil {
 		return e
 	}
-	stmt, e := tx.PrepareContext(c, "INSERT IGNORE INTO property_facilities(property_id,facility_id) VALUES(?,?)")
+	stmt, e := tx.PrepareContext(c, "INSERT INTO property_facilities(property_id,facility_id) VALUES(?,?)")
 	if e != nil {
 		return e
 	}
