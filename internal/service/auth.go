@@ -130,7 +130,7 @@ func (s AuthService) Authenticate(ctx context.Context, accessToken string) (enti
 		return entity.AuthIdentity{}, errors.New("access token expired or revoked")
 	}
 	user, err := s.Security.FindUserByID(ctx, session.UserID)
-	if err != nil || user.Status == "blocked" {
+	if err != nil || user.Status != "active" {
 		return entity.AuthIdentity{}, errors.New("user is unavailable")
 	}
 	permissions, err := s.Security.UserPermissions(ctx, user.ID)
@@ -157,7 +157,7 @@ func (s AuthService) Refresh(ctx context.Context, refreshToken string) (entity.S
 		return entity.SessionTokenPair{}, errors.New("refresh token expired or revoked")
 	}
 	user, err := s.Security.FindUserByID(ctx, session.UserID)
-	if err != nil || user.Status == "blocked" {
+	if err != nil || user.Status != "active" {
 		return entity.SessionTokenPair{}, errors.New("user is unavailable")
 	}
 	accessToken, err := randomToken(48)

@@ -72,6 +72,11 @@ func (s RBACService) SetUserStatus(ctx context.Context, actor entity.AuthIdentit
 	if err := s.Security.SetUserStatus(ctx, userID, status); err != nil {
 		return err
 	}
+	if status == "disabled" {
+		if err := s.Security.RevokeUserSessions(ctx, userID, time.Now().UTC()); err != nil {
+			return err
+		}
+	}
 	return s.audit(ctx, actor, "rbac.user.status_changed", "user", userID, map[string]any{"status": status})
 }
 

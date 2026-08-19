@@ -16,7 +16,7 @@ func (r Security) FindUserByUsername(ctx context.Context, username string) (enti
 }
 
 func (r Security) FindUserByID(ctx context.Context, id string) (entity.User, error) {
-	return r.scanUser(r.DB.QueryRowContext(ctx, `SELECT id,username,password_hash,display_name,email,CASE WHEN status='disabled' THEN 'active' ELSE status END,created_at,updated_at,last_login_at FROM users WHERE id=?`, id))
+	return r.scanUser(r.DB.QueryRowContext(ctx, `SELECT id,username,password_hash,display_name,email,status,created_at,updated_at,last_login_at FROM users WHERE id=?`, id))
 }
 
 func (r Security) scanUser(row interface{ Scan(...any) error }) (entity.User, error) {
