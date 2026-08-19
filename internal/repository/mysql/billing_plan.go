@@ -186,7 +186,7 @@ func (r BillingPlans) Generate(ctx context.Context, runItem entity.BillingRunIte
 		if _, err = tx.ExecContext(ctx, `INSERT INTO billing_run_items(id,run_id,plan_id,lease_id,bill_id,period_start,period_end,due_date,amount,status,error_message,attempts) VALUES(?,?,?,?,?,?,?,?,?,'succeeded','',?) ON DUPLICATE KEY UPDATE bill_id=VALUES(bill_id),status='succeeded',error_message='',attempts=attempts+1`, runItem.ID, runItem.RunID, runItem.PlanID, runItem.LeaseID, existing, runItem.PeriodStart, runItem.PeriodEnd, runItem.DueDate, runItem.Amount, runItem.Attempts); err != nil {
 			return "", false, err
 		}
-		if _, err = tx.ExecContext(ctx, `UPDATE billing_plans SET next_period_start=DATE_ADD(next_period_start,INTERVAL 2 MONTH) WHERE id=? AND next_period_start=?`, runItem.PlanID, runItem.PeriodStart); err != nil {
+		if _, err = tx.ExecContext(ctx, `UPDATE billing_plans SET next_period_start=DATE_ADD(next_period_start,INTERVAL 1 MONTH) WHERE id=? AND next_period_start=?`, runItem.PlanID, runItem.PeriodStart); err != nil {
 			return "", false, err
 		}
 		return existing, false, tx.Commit()
@@ -215,7 +215,7 @@ func (r BillingPlans) Generate(ctx context.Context, runItem entity.BillingRunIte
 	if _, err = tx.ExecContext(ctx, `INSERT INTO billing_run_items(id,run_id,plan_id,lease_id,bill_id,period_start,period_end,due_date,amount,status,error_message,attempts) VALUES(?,?,?,?,?,?,?,?,?,'succeeded','',?) ON DUPLICATE KEY UPDATE bill_id=VALUES(bill_id),status='succeeded',error_message='',attempts=attempts+1`, runItem.ID, runItem.RunID, runItem.PlanID, runItem.LeaseID, bill.ID, runItem.PeriodStart, runItem.PeriodEnd, runItem.DueDate, runItem.Amount, runItem.Attempts); err != nil {
 		return "", false, err
 	}
-	if _, err = tx.ExecContext(ctx, `UPDATE billing_plans SET next_period_start=DATE_ADD(next_period_start,INTERVAL 2 MONTH) WHERE id=?`, runItem.PlanID); err != nil {
+	if _, err = tx.ExecContext(ctx, `UPDATE billing_plans SET next_period_start=DATE_ADD(next_period_start,INTERVAL 1 MONTH) WHERE id=?`, runItem.PlanID); err != nil {
 		return "", false, err
 	}
 	if err = tx.Commit(); err != nil {

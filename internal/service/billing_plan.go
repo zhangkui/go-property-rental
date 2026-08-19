@@ -209,7 +209,7 @@ func (s BillingPlanService) Retry(ctx context.Context, itemID string) error {
 	if err != nil {
 		return err
 	}
-	bundle.Plan.NextPeriodStart = item.PeriodStart.AddDate(0, 1, 0)
+	bundle.Plan.NextPeriodStart = item.PeriodStart
 	return s.executeBundle(ctx, item.RunID, bundle, item.ID)
 }
 func (s BillingPlanService) now() time.Time {
