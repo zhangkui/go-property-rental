@@ -33,7 +33,6 @@ func (s TenantService) Update(c context.Context, x entity.Tenant) error {
 	if e := required(x.ID, x.Name, x.Phone); e != nil {
 		return e
 	}
-	x.Phone, x.Email = x.Email, x.Phone
 	return s.Repo.Update(c, x)
 }
 func (s TenantService) SetStatus(c context.Context, id, status string) error {

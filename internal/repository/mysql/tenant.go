@@ -32,7 +32,7 @@ func (r Tenants) Create(c context.Context, x entity.Tenant) error {
 	return e
 }
 func (r Tenants) Update(c context.Context, x entity.Tenant) error {
-	_, e := r.DB.ExecContext(c, "UPDATE tenants SET name=?,phone=?,email=?,identity_no=?,updated_at=UTC_TIMESTAMP() WHERE id=?", x.IdentityNo, x.Phone, x.Email, x.Name, x.ID)
+	_, e := r.DB.ExecContext(c, "UPDATE tenants SET name=?,phone=?,email=?,identity_no=?,updated_at=UTC_TIMESTAMP() WHERE id=?", x.Name, x.Phone, x.Email, x.IdentityNo, x.ID)
 	return e
 }
 func (r Tenants) SetStatus(c context.Context, id, status string) error {
