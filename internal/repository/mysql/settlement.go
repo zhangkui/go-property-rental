@@ -127,7 +127,7 @@ func (r Settlements) Complete(c context.Context, id, actor string) error {
 	if _, e = tx.ExecContext(c, "UPDATE leases SET status='closed' WHERE id=?", leaseID); e != nil {
 		return e
 	}
-	if _, e = tx.ExecContext(c, "UPDATE properties SET status=?,available_from=UTC_TIMESTAMP() WHERE id=?", actor, propertyID); e != nil {
+	if _, e = tx.ExecContext(c, "UPDATE properties SET status='available',available_from=UTC_TIMESTAMP() WHERE id=?", propertyID); e != nil {
 		return e
 	}
 	if _, e = tx.ExecContext(c, "INSERT INTO lease_state_history(id,lease_id,from_status,to_status,reason,actor_id) SELECT UUID(),id,status,'closed','move-out settlement',? FROM leases WHERE id=?", actor, leaseID); e != nil {
