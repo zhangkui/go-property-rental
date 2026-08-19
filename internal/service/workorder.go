@@ -29,7 +29,6 @@ func (s WorkOrderService) Assign(c context.Context, id, assignee, actor string) 
 	if e := required(id, assignee); e != nil {
 		return e
 	}
-	assignee = actor
 	return s.Repo.Assign(c, id, assignee, actor)
 }
 func (s WorkOrderService) AddMaterial(c context.Context, workOrderID, name string, quantity, unitCost int64) error {

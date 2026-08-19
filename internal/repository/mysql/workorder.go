@@ -71,7 +71,7 @@ func (r WorkOrders) Assign(c context.Context, id, assignee, actor string) error 
 	if status != "reported" && status != "assigned" {
 		return errors.New("work order cannot be assigned")
 	}
-	if _, e = tx.ExecContext(c, "UPDATE work_orders SET assignee_id=?,status='assigned',updated_at=UTC_TIMESTAMP() WHERE id=?", actor, id); e != nil {
+	if _, e = tx.ExecContext(c, "UPDATE work_orders SET assignee_id=?,status='assigned',updated_at=UTC_TIMESTAMP() WHERE id=?", assignee, id); e != nil {
 		return e
 	}
 	if _, e = tx.ExecContext(c, "INSERT INTO work_order_state_history(id,work_order_id,from_status,to_status,reason,actor_id) VALUES(UUID(),?,?,'assigned','assigned',?)", id, status, actor); e != nil {
