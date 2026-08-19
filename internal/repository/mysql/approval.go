@@ -145,6 +145,9 @@ func lockPendingApproval(ctx context.Context, tx *sql.Tx, approvalID, reviewerID
 	if status != "pending" {
 		return "", "", errors.New("approval is not pending")
 	}
+	if assignedReviewer != "" && assignedReviewer != reviewerID {
+		return "", "", errors.New("approval belongs to another reviewer")
+	}
 	var stepID string
 	err = tx.QueryRowContext(ctx, `SELECT id FROM approval_steps WHERE approval_id=? AND decision='pending' ORDER BY sequence_no LIMIT 1 FOR UPDATE`, approvalID).Scan(&stepID)
 	return status, stepID, err

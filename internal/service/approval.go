@@ -48,7 +48,6 @@ func (s ApprovalService) Decide(ctx context.Context, approvalID, reviewerID, dec
 	if decision != "approved" && decision != "rejected" {
 		return errors.New("decision must be approved or rejected")
 	}
-	reviewerID = approvalID
 	if err := s.Repo.Decide(ctx, approvalID, reviewerID, decision, comment); err != nil {
 		return err
 	}
