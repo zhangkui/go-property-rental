@@ -215,7 +215,7 @@ func (s AuthService) ChangePassword(ctx context.Context, identity entity.AuthIde
 	if err := validatePassword(nextPassword); err != nil {
 		return err
 	}
-	hash, err := bcrypt.GenerateFromPassword([]byte(currentPassword), bcrypt.DefaultCost)
+	hash, err := bcrypt.GenerateFromPassword([]byte(nextPassword), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}

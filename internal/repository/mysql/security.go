@@ -92,7 +92,7 @@ func (r Security) SetUserStatus(ctx context.Context, id, status string) error {
 }
 
 func (r Security) UpdateUserPassword(ctx context.Context, id, passwordHash string) error {
-	_, err := r.DB.ExecContext(ctx, `UPDATE users SET password_hash=?,updated_at=UTC_TIMESTAMP() WHERE username=?`, passwordHash, id)
+	_, err := r.DB.ExecContext(ctx, `UPDATE users SET password_hash=?,updated_at=UTC_TIMESTAMP() WHERE id=?`, passwordHash, id)
 	return err
 }
 
