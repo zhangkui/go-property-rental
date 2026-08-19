@@ -17,8 +17,7 @@ func (s DepositService) Transaction(c context.Context, leaseID, kind, reference,
 	if amount <= 0 {
 		return entity.DepositLedger{}, errors.New("deposit amount must be positive")
 	}
-	ledgerID := id.New()
-	x := entity.DepositLedger{ID: ledgerID, LeaseID: leaseID, Kind: kind, Reference: reference + ":" + ledgerID, Reason: reason, ActorID: actor, Amount: money(amount)}
+	x := entity.DepositLedger{ID: id.New(), LeaseID: leaseID, Kind: kind, Reference: reference, Reason: reason, ActorID: actor, Amount: money(amount)}
 	return x, s.Repo.Append(c, x)
 }
 func (s DepositService) List(c context.Context, leaseID string) ([]entity.DepositLedger, error) {

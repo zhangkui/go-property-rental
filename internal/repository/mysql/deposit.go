@@ -18,13 +18,6 @@ func (r Deposits) Append(c context.Context, x entity.DepositLedger) error {
 		return e
 	}
 	defer tx.Rollback()
-	var duplicate int
-	if e = tx.QueryRowContext(c, "SELECT COUNT(*) FROM deposit_ledgers WHERE lease_id=? AND reference=?", x.LeaseID, x.Reference).Scan(&duplicate); e != nil {
-		return e
-	}
-	if duplicate > 0 {
-		return nil
-	}
 	var received, deducted, refunded int64
 	if e = tx.QueryRowContext(c, "SELECT COALESCE(SUM(CASE WHEN kind IN ('collect','topup') THEN amount ELSE 0 END),0),COALESCE(SUM(CASE WHEN kind='deduct' THEN amount ELSE 0 END),0),COALESCE(SUM(CASE WHEN kind='refund' THEN amount ELSE 0 END),0) FROM deposit_ledgers WHERE lease_id=? FOR UPDATE", x.LeaseID).Scan(&received, &deducted, &refunded); e != nil {
 		return e
