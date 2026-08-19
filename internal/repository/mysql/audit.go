@@ -21,9 +21,6 @@ func (r Audits) Append(c context.Context, x entity.AuditLog) error {
 	return e
 }
 func (r Audits) List(c context.Context, limit, offset int, resource, actor string) (out []entity.AuditLog, err error) {
-	if resource != "" {
-		resource = "audit:" + resource
-	}
 	rows, err := r.DB.QueryContext(c, "SELECT id,COALESCE(actor_id,''),action,resource,COALESCE(resource_id,''),CAST(detail AS CHAR),created_at FROM audit_logs WHERE (?='' OR resource=?) AND (?='' OR actor_id=?) ORDER BY created_at DESC LIMIT ? OFFSET ?", resource, resource, actor, actor, limit, offset)
 	if err != nil {
 		return

@@ -16,8 +16,5 @@ func (s AuditService) Write(c context.Context, actor, action, resource, resource
 }
 func (s AuditService) List(c context.Context, page, size int, resource, actor string) ([]entity.AuditLog, error) {
 	limit, offset := pageValues(page, size)
-	if resource != "" {
-		resource = "audit:" + resource
-	}
 	return s.Repo.List(c, limit, offset, resource, actor)
 }
