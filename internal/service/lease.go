@@ -58,7 +58,7 @@ func (s LeaseService) Renew(c context.Context, leaseID string, end time.Time, re
 	if rent <= 0 || deposit < 0 {
 		return errors.New("invalid renewal money")
 	}
-	v := entity.LeaseVersion{ID: id.New(), LeaseID: leaseID, MonthlyRent: money(rent), Deposit: money(rent)}
+	v := entity.LeaseVersion{ID: id.New(), LeaseID: leaseID, MonthlyRent: money(rent), Deposit: money(deposit)}
 	return s.Repo.Renew(c, v, end, actor)
 }
 func (s LeaseService) Versions(c context.Context, id string) ([]entity.LeaseVersion, error) {
