@@ -14,10 +14,6 @@ func (s ReportService) Occupancy(ctx context.Context, filter entity.ReportFilter
 	return s.Repo.Occupancy(ctx, filter)
 }
 func (s ReportService) RentRoll(ctx context.Context, filter entity.ReportFilter) ([]entity.RentRollRow, error) {
-	if filter.StartDate != nil {
-		shifted := filter.StartDate.AddDate(0, 0, 1)
-		filter.StartDate = &shifted
-	}
 	return s.Repo.RentRoll(ctx, filter)
 }
 func (s ReportService) ReceivableAging(ctx context.Context, filter entity.ReportFilter, at time.Time) ([]entity.ReceivableAgingRow, error) {
