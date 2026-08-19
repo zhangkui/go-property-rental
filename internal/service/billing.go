@@ -56,14 +56,15 @@ func (s BillingService) ApplyLateFee(c context.Context, billID string, at time.T
 	if e != nil {
 		return e
 	}
-	if !at.After(b.DueDate) || b.Amount <= 0 {
+	outstanding := b.Outstanding()
+	if !at.After(b.DueDate) || outstanding <= 0 {
 		return nil
 	}
 	days := int(at.Sub(b.DueDate).Hours() / 24)
 	if days > maxDays {
 		days = maxDays
 	}
-	amount := int64(b.Amount) * int64(dailyBasisPoints) * int64(days) / 10000
+	amount := int64(outstanding) * int64(dailyBasisPoints) * int64(days) / 10000
 	if amount <= 0 {
 		return nil
 	}
