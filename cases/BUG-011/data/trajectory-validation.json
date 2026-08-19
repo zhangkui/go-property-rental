@@ -1,0 +1,68 @@
+{
+  "case_id": "BUG-011",
+  "task_type": "diagnosis",
+  "audited_at": "2026-08-19T21:15:00+08:00",
+  "pre_fix": {
+    "session_id": "34b5b53b-f7b5-46b7-a7e3-048f7fdccc97",
+    "single_user_text": true,
+    "only_expected_bash": true,
+    "no_write_tools": true,
+    "result": "red",
+    "sha256": "D32E8D8869DCFD3C056F5028AC15B0524BCC2CC2D61548FF4766FA6BA9489F68"
+  },
+  "diagnosis": {
+    "session_id": "3e64f630-ab8a-4d03-b1c4-e3184040bc3d",
+    "single_user_text": true,
+    "different_session": true,
+    "zero_repository_changes": true,
+    "target_test_result": "red",
+    "root_cause_hit": true,
+    "sha256": "6CE8301C524AE633444106C8BBA97CC0A7373030A4D7E21301AB8F680CD34454"
+  },
+  "checks": {
+    "other_branch_or_directory_read": {
+      "result": "PASS",
+      "evidence": "正式 Diagnosis 没有 checkout、switch、show、log --all、branch -a 或读取其他分支目录；所有 Read 路径均位于当前 test_model_fix11 工作树。"
+    },
+    "user_query_consistency": {
+      "result": "PASS",
+      "evidence": "正式 Diagnosis 只有一条外部用户文本，内容与 cases/BUG-011/user_query.md 完全一致；Pre 与 Diagnosis 使用不同 Session。"
+    },
+    "answer_material_isolation": {
+      "result": "PASS",
+      "evidence": "轨迹未读取 Gold、gold_patch、private_tests、bug_fix_prompts、cases 目录或其他答案材料。"
+    },
+    "read_before_conclusion": {
+      "result": "PASS",
+      "evidence": "模型先检索并读取公开测试、service/report.go、handler/report.go、repository/mysql/report.go、实体和接口，再运行目标测试并形成诊断。"
+    },
+    "final_command_claims": {
+      "result": "PASS",
+      "evidence": "正式 Diagnosis 最终回复只声称未修改代码并报告诊断，没有声称实际执行 go test、go build、go vet、Docker 或其他验证命令。轨迹中的唯一 Bash 调用是查看当前工作树历史和目录结构，与最终回复不存在命令声明不一致。"
+    },
+    "existing_test_assertions": {
+      "result": "PASS",
+      "evidence": "正式 Diagnosis 没有 Edit、Write 或其他写工具，test_model_fix11 工作区保持 clean，测试断言未修改。"
+    }
+  },
+  "verify_command_audit": [
+    {
+      "trajectory": "pre_fix",
+      "tool_use_id": "call_da3f500e5d0b4a3f97c133ec",
+      "expected": "go test ./scripts/verify -count=1 -run '^TestBug011_BusinessRegression$'",
+      "result": "red",
+      "matched": true
+    }
+  ],
+  "diagnosis_finding": {
+    "file": "internal/service/report.go",
+    "symbol": "ReportService.MaintenanceSLA",
+    "mechanism": "该方法把调用方传入的 at 改写为 at.Add(72*time.Hour) 后传给 repository；repository/mysql/report.go 又用收到的 at.Add(-24*time.Hour) 作为逾期阈值，因此真实统计时点 2026-08-19 12:00 UTC 被传成 2026-08-22 12:00 UTC，公开桩测试捕获到 reporting instant drifted。Gold 还显示 repository 的正确 SLA 阈值应为 at.Add(-72*time.Hour)，但正式 Diagnosis 只报告原因，没有修改代码。",
+    "evidence": [
+      "scripts/verify/bug-011_test.go 捕获 repository 实际收到的 at 并断言与输入相等，Pre red。",
+      "internal/service/report.go 的 at.Add(72*time.Hour) 使收到值增加 72 小时。",
+      "internal/repository/mysql/report.go 使用 at.Add(-24*time.Hour)，导致边界工单的 overdue 阈值偏移。"
+    ]
+  },
+  "final": "PASS"
+}

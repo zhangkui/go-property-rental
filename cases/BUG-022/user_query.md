@@ -1,8 +1,1 @@
-用户角色授权功能存在一个需要修复的业务问题：问题表现为替换角色后旧角色残留且旧令牌权限未失效，正确业务行为是角色集合必须完整替换并使旧权限会话失效。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-022.sh
-go build ./...
+替换用户角色后，旧角色没有完全清掉，反而把操作管理员踢下线了。给 `target-1` 设置 `role-a` 和 `role-b` 后，测试提示撤销会话的对象不是 target。请修一下角色全量替换，空值和重复角色也一起处理掉。

@@ -1,8 +1,1 @@
-审批撤销权限与审计功能存在一个需要修复的业务问题：问题表现为非申请人可撤销且审计 actor 写错，正确业务行为是仅申请人可撤销，审批状态与审计 actor 必须一致。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-013.sh
-go build ./...
+审批撤销有越权情况。`applicant-1` 撤销自己的申请后，审计里的操作人不对；换成另一个用户去撤销，状态和审计也可能照样变化。看下撤销权限和审计记录为什么没对上，只改业务代码就行。

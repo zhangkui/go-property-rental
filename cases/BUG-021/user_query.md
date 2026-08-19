@@ -1,8 +1,1 @@
-用户停用与会话功能存在一个需要修复的业务问题：问题表现为停用用户的访问令牌和刷新令牌仍有效，正确业务行为是停用必须撤销全部会话并阻止继续访问和刷新。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-021.sh
-go build ./...
+用户被停用以后，旧 token 还能继续用。把 `target-1` 设为 disabled 后，原来的 access token 仍能鉴权，refresh token 也能换新会话，而且被清掉的会话有时不是这个用户的。需要把停用后的登录状态处理好，正常 active 用户不要受影响。

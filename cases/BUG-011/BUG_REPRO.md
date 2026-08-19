@@ -1,41 +1,28 @@
-# BUG-011 复现说明（私有）
+# BUG-011 复现说明
 
 - 任务类型：diagnosis
 - 功能域：维修 SLA 报表
-- 被测分支：bug11_main / test_model_fix11
-- 前端入口：http://localhost:8080/reports
-- 验收账号：admin / Admin123!（仅本地验收管理员；脚本会按场景创建额外账号和数据）
-
-## 前置与重置
-
-1. 检出 bug11_main，确认只存在 scripts/verify/bug-011.sh。
-2. 执行 docker compose down -v，删除本题之前的 MySQL/Redis 状态。
-3. 执行 docker compose up -d --build，等待 mysql、redis、api 健康。
+- 被测分支：`bug11_main` / `test_model_fix11`
 
 ## 执行
 
+在项目根目录运行：
+
 ```bash
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-011.sh
-go build ./...
+go test ./scripts/verify -count=1 -run '^TestBug011_BusinessRegression$'
 ```
 
-## 实际结果
+## 缺陷基线
 
-- 72 小时边界被扭曲为错误统计时点和 24 小时阈值。
-- verification test 输出 ASSERTION_FAILED=BUG-011 和 PRE_FIX_RED=BUG-011，退出码为 1。
+调用 `ReportService.MaintenanceSLA` 时传入 `2026-08-19 12:00:00 UTC`，数据层实际收到 `2026-08-22 12:00:00 UTC`。公开测试以 `reporting instant drifted` 失败。
 
 ## 期望结果
 
-- 统计时点不得漂移且仅超过 72 小时的未结工单算逾期。
-- 应用本题标准修复后，同一脚本输出 ASSERTIONS_PASSED，退出码为 0。
+- Service 向 repository 原样传递统计时点。
+- 未关闭工单只有创建时间早于统计时点 72 小时时才计入 overdue。
+- 正式 diagnosis 只调查原因，不修改生产代码、测试或配置。
 
 ## 涉及生产文件
 
-- internal/repository/mysql/report.go
-- internal/service/report.go
-
-## 隔离要求
-
-不得修改或删除测试，不得放宽断言；不得读取 cases、Gold 分支、gold patch、private tests 或其他答案材料。
+- `internal/service/report.go`
+- `internal/repository/mysql/report.go`

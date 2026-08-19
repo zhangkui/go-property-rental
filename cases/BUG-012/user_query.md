@@ -1,8 +1,1 @@
-押金收取幂等功能存在一个需要修复的业务问题：问题表现为重复押金引用重复增加余额和流水，正确业务行为是相同业务引用不得重复增加押金余额或流水。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-012.sh
-go build ./...
+押金收取重试会被当成一笔新业务。`lease-1` 两次都用 `client-ref` 收 5000，入账后的 reference 却不一样，余额和流水就有重复增加的风险；另外 0 金额不能入账。请处理一下这块重试逻辑，保留现有测试。

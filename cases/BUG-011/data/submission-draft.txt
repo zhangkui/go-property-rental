@@ -1,0 +1,19 @@
+session_id:3e64f630-ab8a-4d03-b1c4-e3184040bc3d
+bug_id:go-property-rental-bug-011
+task_type:diagnosis
+bug_category:other
+feature_area:维修 SLA 报表
+affected_flow:维护报表使用指定统计时点计算未关闭工单的 72 小时逾期数量
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix11
+candidate_commit:fb2f84daf820e5e8ef2f9df2e08835a4cf521c42
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:维修 SLA 报表偶尔会把边界工单算成逾期。调用时传的是 `2026-08-19 12:00:00 UTC`，但测试里记录到数据层收到的统计时间已经偏了，提示 `reporting instant drifted`。想确认一下这个统计时点是在哪儿发生变化的，先不要改代码。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/210356-37963f60/diagnosis.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug011_BusinessRegression$'
+gold_root_cause:文件 internal/service/report.go，符号 ReportService.MaintenanceSLA 没有原样传递调用方提供的统计时点，而是在调用 Repo.MaintenanceSLA 前执行 at.Add(72*time.Hour)。因此输入 2026-08-19 12:00:00 UTC 到达数据层时变成 2026-08-22 12:00:00 UTC，公开测试的 fake repository 直接捕获这 72 小时漂移并以 reporting instant drifted 失败。文件 internal/repository/mysql/report.go，符号 Reports.MaintenanceSLA 的 overdue 聚合条件使用 created_at < at.Add(-24*time.Hour)，把未关闭工单的 SLA 门槛设置为 24 小时，而题目业务规则是 72 小时。两层错误叠加后，有效阈值从正确的原始 at - 72h 变成了原始 at + 48h：service 先加 72h，repository 再减 24h，导致大量处于真实 72 小时边界以内的工单也被算作逾期。Handler 只是把 time.Now().UTC() 传给 service，接口契约也没有要求偏移，因此现有上下游不会抵消这两个错误。Gold 修复让 service 原样透传 at，并把 repository 阈值恢复为 at.Add(-72*time.Hour)。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/cad7355e3abc28f10241242c72f204442d0934ee
+success_criteria:本题为 diagnosis，正式 Session 必须保持 test_model_fix11 工作区零修改，只调查并报告具体文件、符号、失效机制和证据。缺陷基线实际执行 go test ./scripts/verify -count=1 -run '^TestBug011_BusinessRegression$' 为 red，关键输出是统计时点从 2026-08-19 12:00:00 UTC 漂移到 2026-08-22 12:00:00 UTC。正式轨迹应定位 internal/service/report.go 的 ReportService.MaintenanceSLA 对 at 增加 72 小时，以及 internal/repository/mysql/report.go 的 Reports.MaintenanceSLA 使用 24 小时而非 72 小时阈值，并解释二者如何造成边界工单误判。正式 Diagnosis 使用 user_query.md 原文且不附带验证命令；轨迹只有一条外部用户输入，没有写工具，最终没有声称执行未记录的命令。测试文件、生产代码和配置均保持不变。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/210355-e3dc3185/pre_fix.jsonl","session_id":"34b5b53b-f7b5-46b7-a7e3-048f7fdccc97","result":"red"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

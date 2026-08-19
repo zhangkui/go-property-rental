@@ -104,238 +104,86 @@ go build ./...
 
 ## BUG-010
 
-收款幂等与核销功能存在一个需要修复的业务问题：问题表现为重复收款引用产生重复收款和核销，正确业务行为是相同业务引用只能成功一次且账单余额守恒。
+同一笔账单收款重试后，对账流水号会变。客户端两次都传 `external-ref`，结果返回的 reference 不一样，后面的分摊记录也有可能找不到本次 payment。这个 reference 是上游用来认同一笔业务的，帮我把重复提交这块修一下，测试先别动。
 
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-010.sh
-go build ./...
+go test ./scripts/verify -count=1 -run '^TestBug010_BusinessRegression$'
 
 ## BUG-011
 
-维修 SLA 报表功能存在一个需要调查的业务异常：问题表现为72 小时边界被扭曲为错误统计时点和 24 小时阈值，正确业务行为是统计时点不得漂移且仅超过 72 小时的未结工单算逾期。
-请阅读当前分支代码，并执行以下命令收集问题证据：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-011.sh
-go build ./...
-
-请先分析相关 Go 后端生产代码、数据访问和 HTTP 调用链，定位具体文件、函数或方法、触发路径以及跨层失效机制。先不要改目标仓库代码，全程不得修改目标仓库中的生产代码、测试代码或配置。
-请调查并解释该异常的根本原因，给出可核查的调查证据。
+维修 SLA 报表偶尔会把边界工单算成逾期。调用时传的是 `2026-08-19 12:00:00 UTC`，但测试里记录到数据层收到的统计时间已经偏了，提示 `reporting instant drifted`。想确认一下这个统计时点是在哪儿发生变化的，先不要改代码。
 
 ## BUG-012
 
-押金收取幂等功能存在一个需要修复的业务问题：问题表现为重复押金引用重复增加余额和流水，正确业务行为是相同业务引用不得重复增加押金余额或流水。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-012.sh
-go build ./...
+押金收取重试会被当成一笔新业务。`lease-1` 两次都用 `client-ref` 收 5000，入账后的 reference 却不一样，余额和流水就有重复增加的风险；另外 0 金额不能入账。请处理一下这块重试逻辑，保留现有测试。
 
 ## BUG-013
 
-审批撤销权限与审计功能存在一个需要修复的业务问题：问题表现为非申请人可撤销且审计 actor 写错，正确业务行为是仅申请人可撤销，审批状态与审计 actor 必须一致。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-013.sh
-go build ./...
+审批撤销有越权情况。`applicant-1` 撤销自己的申请后，审计里的操作人不对；换成另一个用户去撤销，状态和审计也可能照样变化。看下撤销权限和审计记录为什么没对上，只改业务代码就行。
 
 ## BUG-014
 
-退租押金结算功能存在一个需要调查的业务异常：问题表现为押金抵扣和返还金额跨层漂移，正确业务行为是费用、抵扣、返还与押金流水必须守恒。
-请阅读当前分支代码，并执行以下命令收集问题证据：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-014.sh
-go build ./...
-
-请先分析相关 Go 后端生产代码、数据访问和 HTTP 调用链，定位具体文件、函数或方法、触发路径以及跨层失效机制。先不要改目标仓库代码，全程不得修改目标仓库中的生产代码、测试代码或配置。
-请调查并解释该异常的根本原因，给出可核查的调查证据。
+退租结算时押金会凭空少一部分。押金 5000、抵扣 2000，本来应该退 3000；抵扣为 0 时也应该全额退回，但现在两个场景都对不上。帮我查一下金额从创建结算到计算退款的过程中哪里发生了变化，先不要提交修改。
 
 ## BUG-015
 
-维修租客确认功能存在一个需要修复的业务问题：问题表现为reported 工单可跳过派单和维修直接确认，正确业务行为是必须完成合法状态链后租客才能确认。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-015.sh
-go build ./...
+维修单还在 `reported` 状态时，租客就能直接点确认关闭，派单和维修过程全被跳过了。测试里还发现 `work-1` 传到后面后被加了额外内容。这个确认流程需要修一下，未完成的工单不能直接关掉，测试文件不要改。
 
 ## BUG-016
 
-维修材料费用功能存在一个需要修复的业务问题：问题表现为材料数量、单价和总价被交叉写错，正确业务行为是材料明细与总费用必须按数量乘单价准确汇总。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-016.sh
-go build ./...
+维修单录材料后金额不对。给 `work-1` 加 3 个 filter，单价 2500，保存出来的数量、单价和 7500 的合计对不上，测试提示 `material values crossed`。请处理材料录入的问题，数量为 0 的请求也不能落库。
 
 ## BUG-017
 
-维修派单功能存在一个需要调查的业务异常：问题表现为指定维修人员被当前操作人覆盖，正确业务行为是派单对象必须保持请求中的维修人员并记录操作人。
-请阅读当前分支代码，并执行以下命令收集问题证据：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-017.sh
-go build ./...
-
-请先分析相关 Go 后端生产代码、数据访问和 HTTP 调用链，定位具体文件、函数或方法、触发路径以及跨层失效机制。先不要改目标仓库代码，全程不得修改目标仓库中的生产代码、测试代码或配置。
-请调查并解释该异常的根本原因，给出可核查的调查证据。
+派维修单时负责人会被换掉。`admin-1` 把 `work-1` 指派给 `technician-1`，最后保存的 assignee 却成了管理员，测试报 `assignee and actor crossed`。想查清这两个身份是在哪一步混到一起的，代码先不要改。
 
 ## BUG-018
 
-租客资料功能存在一个需要修复的业务问题：问题表现为姓名、电话和证件字段错位保存，正确业务行为是所有租客字段必须按 API 契约准确持久化。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-018.sh
-go build ./...
+租客资料编辑后字段串了。`tenant-1` 提交的新姓名、手机号、邮箱和证件号都没报错，但回读时电话和邮箱、姓名和证件信息对不上，回归提示 `tenant fields crossed`。把更新资料这块修好，状态和其它字段别受影响。
 
 ## BUG-019
 
-退租完成事务功能存在一个需要修复的业务问题：问题表现为完成人和房态恢复破坏事务一致性，正确业务行为是结算完成、审计和房态恢复必须在同一事务一致提交。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-019.sh
-go build ./...
+完成退租后房源没有恢复成可出租状态，操作记录里的管理员也变成了结算编号。复现是 `admin-1` 完成 `settlement-1`，测试报 `completion actor corrupted`。请处理这条完成流程，租约、房态和操作人要一起保持正确。
 
 ## BUG-020
 
-房源分页功能存在一个需要修复的业务问题：问题表现为offset 在服务层和仓储层重复应用导致跳页，正确业务行为是分页偏移只能应用一次且相邻页连续无遗漏。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-020.sh
-go build ./...
+房源列表翻第二页时会漏数据。筛选 `maintenance`，传 `page=2,size=2`，测试期望 offset 是 2，实际拿到的值不对；第一页和空分页参数也有类似偏差。帮忙看看分页为什么越翻越往后跳，修复时保留现有用例。
 
 ## BUG-021
 
-用户停用与会话功能存在一个需要修复的业务问题：问题表现为停用用户的访问令牌和刷新令牌仍有效，正确业务行为是停用必须撤销全部会话并阻止继续访问和刷新。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-021.sh
-go build ./...
+用户被停用以后，旧 token 还能继续用。把 `target-1` 设为 disabled 后，原来的 access token 仍能鉴权，refresh token 也能换新会话，而且被清掉的会话有时不是这个用户的。需要把停用后的登录状态处理好，正常 active 用户不要受影响。
 
 ## BUG-022
 
-用户角色授权功能存在一个需要修复的业务问题：问题表现为替换角色后旧角色残留且旧令牌权限未失效，正确业务行为是角色集合必须完整替换并使旧权限会话失效。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-022.sh
-go build ./...
+替换用户角色后，旧角色没有完全清掉，反而把操作管理员踢下线了。给 `target-1` 设置 `role-a` 和 `role-b` 后，测试提示撤销会话的对象不是 target。请修一下角色全量替换，空值和重复角色也一起处理掉。
 
 ## BUG-023
 
-登录失败限流功能存在一个需要调查的业务异常：问题表现为限流丢失 IP 维度且成功登录清理错误 Redis 键，正确业务行为是同用户不同 IP 独立计数，成功登录只重置对应键，第六次失败限流。
-请阅读当前分支代码，并执行以下命令收集问题证据：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-023.sh
-go build ./...
-
-请先分析相关 Go 后端生产代码、数据访问和 HTTP 调用链，定位具体文件、函数或方法、触发路径以及跨层失效机制。先不要改目标仓库代码，全程不得修改目标仓库中的生产代码、测试代码或配置。
-请调查并解释该异常的根本原因，给出可核查的调查证据。
+登录限流会把不同 IP 混在一起。用户名 ` Alice ` 从 `10.0.0.1` 和 `10.0.0.2` 登录时，本来应该各算各的，实际失败次数会互相影响；成功登录后计数也没清干净。想查一下限流键和清理逻辑，先别改代码。
 
 ## BUG-024
 
-修改密码功能存在一个需要修复的业务问题：问题表现为明文密码写入错误用户且会话撤销目标错误，正确业务行为是必须 bcrypt 保存到当前用户并撤销该用户既有会话。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-024.sh
-go build ./...
+用户 `user-1` 修改密码后，新密码登录不了，旧密码却还能用，回归报 `stored hash does not accept new password`。输入错误的当前密码时也不能更新任何东西。把改密码流程修好，会话撤销也要针对当前用户。
 
 ## BUG-025
 
-审计日志查询功能存在一个需要修复的业务问题：问题表现为resource 前缀在服务层和仓储层重复添加，正确业务行为是resource 过滤值必须原样传递并返回匹配日志。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-025.sh
-go build ./...
+审计列表用 `resource=property, actor=admin` 查询时，仓储收到的筛选条件和请求不一样，已有日志就查不到；两个条件都为空时也不能被偷偷补值。请修一下查询筛选，审计详情的正常写入别受影响。
 
 ## BUG-026
 
-通知任务幂等功能存在一个需要调查的业务异常：问题表现为每日任务键随机且仓储幂等检查失效，正确业务行为是同一任务周期只能生成一次通知，失败可重试但成功不重复。
-请阅读当前分支代码，并执行以下命令收集问题证据：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-026.sh
-go build ./...
-
-请先分析相关 Go 后端生产代码、数据访问和 HTTP 调用链，定位具体文件、函数或方法、触发路径以及跨层失效机制。先不要改目标仓库代码，全程不得修改目标仓库中的生产代码、测试代码或配置。
-请调查并解释该异常的根本原因，给出可核查的调查证据。
+每日提醒任务在同一天跑两次会生成两次运行记录。8 月 19 日的任务第一次已经成功，第二次不应该再创建新的 run，但回归报 `daily idempotency failed`。先查一下日期和运行记录是怎么对应的，失败重试的情况也别混在一起处理，暂时不要改代码。
 
 ## BUG-027
 
-仪表盘缓存降级功能存在一个需要修复的业务问题：问题表现为Redis 缓存损坏时返回零值，正确业务行为是缓存损坏或不可解析时必须回退 MySQL 事实数据。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-027.sh
-go build ./...
+仪表盘缓存偶尔会出现坏 JSON。遇到这种缓存时接口直接返回空汇总，没有去数据库取数据，回归提示 `corrupt cache did not fall back`。缓存读失败后的回源需要修好，正常缓存命中不要改坏。
 
 ## BUG-028
 
-租金报表日期边界功能存在一个需要修复的业务问题：问题表现为租期结束日等于查询开始日时被排除，正确业务行为是日期范围必须包含相等边界且 API/CSV 结果一致。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-028.sh
-go build ./...
+租金报表在日期刚好卡边界时会漏记录。查询从 `2026-08-18` 开始时，结束日正好是这一天的租约没有出现在结果里，测试报 `inclusive start boundary shifted`。帮忙查一下 API 到报表查询的日期传递，等于边界的情况要保留。
 
 ## BUG-029
 
-审批人权限功能存在一个需要调查的业务异常：问题表现为非当前审批人可以完成审批，正确业务行为是只有当前审批人可审批并留下正确状态和审计记录。
-请阅读当前分支代码，并执行以下命令收集问题证据：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-029.sh
-go build ./...
-
-请先分析相关 Go 后端生产代码、数据访问和 HTTP 调用链，定位具体文件、函数或方法、触发路径以及跨层失效机制。先不要改目标仓库代码，全程不得修改目标仓库中的生产代码、测试代码或配置。
-请调查并解释该异常的根本原因，给出可核查的调查证据。
+审批决定时操作人身份被换掉了。`reviewer-1` 处理 `approval-1`，结果里记录的 reviewer 不是他，测试报 `reviewer identity corrupted`；如果审批单已经指定了处理人，其他人也不应该能代签。请先查清这条审批链路，代码先别改。
 
 ## BUG-030
 
-账单计划失败重试功能存在一个需要调查的业务异常：问题表现为重试错移失败周期并额外推进计划月份，正确业务行为是重试必须针对原失败周期且成功账单不得重复生成或多推进月份。
-请阅读当前分支代码，并执行以下命令收集问题证据：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-030.sh
-go build ./...
-
-请先分析相关 Go 后端生产代码、数据访问和 HTTP 调用链，定位具体文件、函数或方法、触发路径以及跨层失效机制。先不要改目标仓库代码，全程不得修改目标仓库中的生产代码、测试代码或配置。
-请调查并解释该异常的根本原因，给出可核查的调查证据。
+账单计划重试时月份会跑偏。`item-1` 的失败周期是 2026-07-01，重试后应该还是这个周期，但回归发现生成的周期不一致，已有账单的路径还会把计划多推进一个月。成功过的账单项也不该再次生成。先看看重试和生成这两条路径为什么会互相影响，不要修改代码。

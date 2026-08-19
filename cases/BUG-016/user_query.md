@@ -1,8 +1,1 @@
-维修材料费用功能存在一个需要修复的业务问题：问题表现为材料数量、单价和总价被交叉写错，正确业务行为是材料明细与总费用必须按数量乘单价准确汇总。
-
-请只修改 Go 后端生产代码，定位并修复这个跨层业务问题。不得新增、删除或修改任何测试文件，不得跳过测试或放宽测试断言，也不得修改 Docker 验证脚本。只修复提到的业务问题，不扩展修复其他无关问题。
-修复完成后，需要执行以下命令验证，保证命令获取结果全绿，并确认相关功能测试、go build ./... 和合法业务场景全部通过：
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-016.sh
-go build ./...
+维修单录材料后金额不对。给 `work-1` 加 3 个 filter，单价 2500，保存出来的数量、单价和 7500 的合计对不上，测试提示 `material values crossed`。请处理材料录入的问题，数量为 0 的请求也不能落库。
