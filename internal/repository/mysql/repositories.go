@@ -56,6 +56,9 @@ func (r Properties) Create(c context.Context, x entity.Property) error {
 	return e
 }
 func (r Properties) UpdateStatus(c context.Context, id, status string) error {
+	if status != "available" && status != "occupied" && status != "maintenance" {
+		return errors.New("invalid property status")
+	}
 	res, e := r.DB.ExecContext(c, "UPDATE properties SET status=? WHERE id=?", status, id)
 	if e != nil {
 		return e

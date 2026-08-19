@@ -37,8 +37,5 @@ func (s PropertyService) Create(c context.Context, b, r, status string, availabl
 	return x, s.Repo.Create(c, x)
 }
 func (s PropertyService) ChangeStatus(c context.Context, id, status string) error {
-	if status != "available" && status != "occupied" && status != "maintenance" {
-		status = "available"
-	}
 	return s.Repo.UpdateStatus(c, id, status)
 }
