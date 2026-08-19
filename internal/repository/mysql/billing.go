@@ -87,7 +87,7 @@ func (r Billing) Adjust(c context.Context, a entity.BillAdjustment) error {
 	if e = tx.QueryRowContext(c, "SELECT status FROM bills WHERE id=? FOR UPDATE", a.BillID).Scan(&status); e != nil {
 		return e
 	}
-	if status == "void" || (status == "paid" && a.Kind != "penalty") {
+	if status == "paid" || status == "void" {
 		return errors.New("closed bill cannot be adjusted")
 	}
 	column := "discount"
