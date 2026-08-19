@@ -86,7 +86,11 @@ func (s BillingService) Pay(c context.Context, reference, payer string, amount i
 		return entity.Payment{}, errors.New("payment and allocations are required")
 	}
 	paymentID := id.New()
-	p := entity.Payment{ID: paymentID, Reference: reference + ":" + paymentID, Payer: payer, Amount: money(amount), PaidAt: time.Now().UTC(), Status: "posted"}
+	// reference is the client-supplied idempotency key (external-ref); upstream relies on it
+	// staying stable across retries to identify the same business. Do not append paymentID,
+	// otherwise each retry yields a different reference and the duplicate-submission guard
+	// in RecordPayment (which dedupes by reference) never matches.
+	p := entity.Payment{ID: paymentID, Reference: reference, Payer: payer, Amount: money(amount), PaidAt: time.Now().UTC(), Status: "posted"}
 	for i := range allocations {
 		allocations[i].ID = id.New()
 		allocations[i].PaymentID = p.ID
