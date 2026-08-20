@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/report.go",
+        "internal/repository/mysql/report.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "ReportService.RentRoll 把 StartDate 向后移一天",
+        "Reports.RentRoll 又使用 l.end_date>? 的排他比较"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/report.go，符号 ReportService.RentRoll 把 StartDate 向后移一天；文件 internal/repository/mysql/report.go，符号 Reports.RentRoll 又使用 l.end_date>? 的排他比较。起始日期先被推迟，恰好在边界日结束的租约又被排除，两层边界偏移共同造成题面所述起始日数据漏报。标准修复透传 StartDate，并将比较改为 l.end_date>=?，保持结束日期过滤不变。"
+    }
+  }
 }

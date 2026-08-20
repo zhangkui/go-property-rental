@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/audit.go",
+        "internal/repository/mysql/audit.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "AuditService.List",
+        "Audits.List"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/audit.go，符号 AuditService.List，以及文件 internal/repository/mysql/audit.go，符号 Audits.List，都给 resource 加 audit: 前缀，形成 audit:audit:<resource>。数据库只存一层前缀时查询无法命中。标准修复删除两层重复改写，按调用方原始 resource 过滤，空筛选保持查询全部。"
+    }
+  }
 }

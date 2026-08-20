@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/workorder.go",
+        "internal/repository/mysql/workorder.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "WorkOrderService.AddMaterial 构造 WorkOrderMaterial 时把 quantity 与 unitCost 对调",
+        "WorkOrders.AddMaterial 又用 quantity+unitCost 累加 material_cost"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/workorder.go，符号 WorkOrderService.AddMaterial 构造 WorkOrderMaterial 时把 quantity 与 unitCost 对调；文件 internal/repository/mysql/workorder.go，符号 WorkOrders.AddMaterial 又用 quantity+unitCost 累加 material_cost，而不是调用 Total 计算数量乘单价。材料金额因此同时受到字段错位和错误公式影响。标准修复恢复字段映射并按 Total 累加。"
+    }
+  }
 }

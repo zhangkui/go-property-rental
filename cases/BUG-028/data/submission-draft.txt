@@ -11,7 +11,7 @@ user_query:租金报表在日期刚好卡边界时会漏记录。查询从 `2026
 trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124451-d2fc7aad/post_fix.jsonl
 verify_cmds:
 go test ./scripts/verify -count=1 -run '^TestBug028_BusinessRegression$'
-gold_root_cause:文件 internal/service/report.go，符号 ReportService.RentRoll 把 StartDate 向后移一天；文件 internal/repository/mysql/report.go，租约结束日期条件使用 end_date>?，把恰好在起始日结束的租约排除。标准修复透传 StartDate，并将边界比较改为 end_date>=?，保持结束日期过滤不变。
+gold_root_cause:文件 internal/service/report.go，符号 ReportService.RentRoll 把 StartDate 向后移一天；文件 internal/repository/mysql/report.go，符号 Reports.RentRoll 又使用 l.end_date>? 的排他比较。起始日期先被推迟，恰好在边界日结束的租约又被排除，两层边界偏移共同造成题面所述起始日数据漏报。标准修复透传 StartDate，并将比较改为 l.end_date>=?，保持结束日期过滤不变。
 gold_patch:https://github.com/zhangkui/go-property-rental/commit/a1b05cc6c18efb1bdfccb33a9e17a0e66516d6a2
 success_criteria:目标行为是租金报表日期边界按题面输入返回正确结果。文件 internal/service/report.go，符号 ReportService.RentRoll 把 StartDate 向后移一天；文件 internal/repository/mysql/report.go，租约结束日期条件使用 end_date>?，把恰好在起始日结束的租约排除。标准修复透传 StartDate，并将边界比较改为 end_date>=?，保持结束日期过滤不变。 缺陷基线执行 go test ./scripts/verify -count=1 -run '^TestBug028_BusinessRegression$' 为 red；候选仅修改生产 Go 文件 internal/repository/mysql/report.go、internal/service/report.go，没有修改测试，Session 结束后流程独立执行同一命令为 green。合法输入及题面列出的边界或对照场景保持原有行为。
 verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124451-908b80bc/pre_fix.jsonl","session_id":"e731981e-b951-4fd6-93d5-7b9490ed6e35","result":"red"},"post_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124451-d2fc7aad/post_fix.jsonl","session_id":"4934bd12-c099-4b0e-bb4d-fdb469899d19","result":"green"}}

@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/approval.go",
+        "internal/repository/mysql/approval.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "ApprovalService.Cancel 的审计分支把 ActorID 错填为 approvalID",
+        "Approvals.Cancel 只检查 pending 状态"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/approval.go，符号 ApprovalService.Cancel 的审计分支把 ActorID 错填为 approvalID；文件 internal/repository/mysql/approval.go，符号 Approvals.Cancel 只检查 pending 状态，没有校验 owner 与 applicantID。非申请人因此也能撤销并留下错误操作人。标准修复使用 applicantID 写审计，并在仓储锁定后同时校验所有者和 pending 状态。"
+    }
+  }
 }

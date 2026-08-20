@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/notification.go",
+        "internal/repository/mysql/notification.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "NotificationService.runRule 为 ReminderRun.RunKey 使用日期加随机 UUID",
+        "Notifications.StartRun 使用普通 INSERT"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/notification.go，符号 NotificationService.runRule 为 ReminderRun.RunKey 使用日期加随机 UUID；文件 internal/repository/mysql/notification.go，符号 Notifications.StartRun 使用普通 INSERT，无法用稳定的 rule_id/run_key 判断同日任务是否已创建。每次调用都得到不同 key，唯一约束无法命中，所以同一天第二次成功运行仍会创建新的 run，形成题面所述幂等失败。标准修复使用纯日期稳定 key，并以 INSERT IGNORE 判断是否实际创建；失败重试需独立设计。"
+    }
+  }
 }

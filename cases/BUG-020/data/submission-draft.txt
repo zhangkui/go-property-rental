@@ -11,7 +11,7 @@ user_query:房源列表翻第二页时会漏数据。筛选 `maintenance`，传 
 trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124442-70f48e24/post_fix.jsonl
 verify_cmds:
 go test ./scripts/verify -count=1 -run '^TestBug020_BusinessRegression$'
-gold_root_cause:文件 internal/service/property.go，符号 PropertyService.List 对 offset 额外加一，并把页偏移计算为 page*size；文件 internal/repository/mysql/repositories.go 接收该偏移直接查询。第一页会跳过数据，后续页整体错位。标准修复使用 (page-1)*size，保持 size 和 status 筛选不变。
+gold_root_cause:文件 internal/service/property.go，符号 PropertyService.List 对 offset 额外加一，并把页偏移计算为 page*size；文件 internal/repository/mysql/repositories.go，符号 Properties.List 接收该错误 offset 直接执行分页查询。第一页因此跳过前 size+1 条记录，后续页也整体错位，产生题面所述分页漏项。标准修复使用 (page-1)*size，保持 size 和 status 筛选不变。
 gold_patch:https://github.com/zhangkui/go-property-rental/commit/08d30f1bdfab66ad7c7ddab9fdb88ba090a46ba6
 success_criteria:目标行为是房源列表分页按题面输入返回正确结果。文件 internal/service/property.go，符号 PropertyService.List 对 offset 额外加一，并把页偏移计算为 page*size；文件 internal/repository/mysql/repositories.go 接收该偏移直接查询。第一页会跳过数据，后续页整体错位。标准修复使用 (page-1)*size，保持 size 和 status 筛选不变。 缺陷基线执行 go test ./scripts/verify -count=1 -run '^TestBug020_BusinessRegression$' 为 red；候选仅修改生产 Go 文件 internal/repository/mysql/repositories.go、internal/service/property.go，没有修改测试，Session 结束后流程独立执行同一命令为 green。合法输入及题面列出的边界或对照场景保持原有行为。
 verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124441-8ae1a4b2/pre_fix.jsonl","session_id":"45a8bb7c-aabc-4b45-8cf0-232d5d54f178","result":"red"},"post_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124442-70f48e24/post_fix.jsonl","session_id":"84e80983-2c0c-4d08-a5dc-f95e488d4a33","result":"green"}}

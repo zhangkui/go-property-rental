@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/auth.go",
+        "internal/repository/redis/security.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "AuthService.Login 构造的 limiterKey 只有小写用户名",
+        "Security.Reset 删除 auth:attempt:<key>:reset"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/auth.go，符号 AuthService.Login 构造的 limiterKey 只有小写用户名，没有客户端 IP；文件 internal/repository/redis/security.go，符号 Security.Reset 删除 auth:attempt:<key>:reset，而 Allow 实际写入 auth:attempt:<key>。不同 IP 的失败次数因此被合并，成功登录后真正的计数键也无法清除，分别造成题面所述跨 IP 相互影响和计数残留。标准修复把 IP 纳入 key，并让 Reset 删除与 Allow 完全相同的 Redis 键。"
+    }
+  }
 }

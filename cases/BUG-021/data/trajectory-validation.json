@@ -9,5 +9,28 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/repository/mysql/security.go",
+        "internal/service/auth.go",
+        "internal/service/rbac.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "Security.FindUserByID 用 CASE 把 disabled 伪装成 active",
+        "AuthService.Authenticate 与 AuthService.Refresh 只拒绝 blocked",
+        "RBACService.SetUserStatus 在停用后没有撤销目标用户会话"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/repository/mysql/security.go，符号 Security.FindUserByID 用 CASE 把 disabled 伪装成 active；文件 internal/service/auth.go，符号 AuthService.Authenticate 与 AuthService.Refresh 只拒绝 blocked；文件 internal/service/rbac.go，符号 RBACService.SetUserStatus 在停用后没有撤销目标用户会话。读取状态被掩盖、鉴权条件过窄且旧会话未撤销三者叠加，使停用用户的 access token 和 refresh token 继续有效，形成题面症状。标准修复返回真实状态、拒绝所有非 active 用户，并在 disabled 时撤销目标用户会话。"
+    }
+  }
 }

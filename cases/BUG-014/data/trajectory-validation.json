@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/settlement.go",
+        "internal/repository/mysql/settlement.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "SettlementService.Create 在构造结算前执行 deduction++",
+        "Settlements.Create 的退款公式又额外减 1"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/settlement.go，符号 SettlementService.Create 在构造结算前执行 deduction++；文件 internal/repository/mysql/settlement.go，符号 Settlements.Create 的退款公式又额外减 1。两次偏移使零抵扣和正常抵扣场景都少退。标准修复移除两处固定偏移，同时保留抵扣超过可用押金时的拒绝。"
+    }
+  }
 }

@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/billing_plan.go",
+        "internal/repository/mysql/billing_plan.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "BillingPlanService.Retry 把失败项 PeriodStart 推进一个月",
+        "BillingPlans.Generate 的已有账单和新账单分支都将计划推进两个月"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/billing_plan.go，符号 BillingPlanService.Retry 把失败项 PeriodStart 推进一个月；文件 internal/repository/mysql/billing_plan.go，符号 BillingPlans.Generate 的已有账单和新账单分支都将计划推进两个月。重试周期和计划游标因此同时跑偏。标准修复重试原周期，并把两个推进分支统一为一个月。"
+    }
+  }
 }

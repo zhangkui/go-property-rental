@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/repository/redis/dashboard.go",
+        "internal/service/dashboard.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "Dashboard.Get 在 Redis 错误时返回 found=true",
+        "DashboardService.Summary 忽略缓存错误"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/repository/redis/dashboard.go，符号 Dashboard.Get 在 Redis 错误时返回 found=true；文件 internal/service/dashboard.go，符号 DashboardService.Summary 忽略缓存错误，只要 found 就返回零值。缓存故障因此阻断数据库降级。标准修复错误时返回 found=false，并仅在 err==nil 且 found 时采用缓存。"
+    }
+  }
 }

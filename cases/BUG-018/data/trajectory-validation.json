@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/tenant.go",
+        "internal/repository/mysql/tenant.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "TenantService.Update 在调用仓储前交换 Phone 与 Email",
+        "Tenants.Update 的 SQL 参数又把 Name 与 IdentityNo 对调"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/tenant.go，符号 TenantService.Update 在调用仓储前交换 Phone 与 Email；文件 internal/repository/mysql/tenant.go，符号 Tenants.Update 的 SQL 参数又把 Name 与 IdentityNo 对调。一次更新经过两层错误映射后，保存结果中的姓名、证件号、电话和邮箱发生串位，从而出现题面所述租客资料不一致。标准修复删除 service 交换，并按 SQL 列顺序传递实体字段。"
+    }
+  }
 }

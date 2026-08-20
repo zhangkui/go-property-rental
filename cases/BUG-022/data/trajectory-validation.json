@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/repository/mysql/security.go",
+        "internal/service/rbac.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "Security.ReplaceUserRoles 删除旧角色时错误使用 roleIDs[0] 作为 user_id",
+        "RBACService.ReplaceUserRoles 又撤销 actor.UserID 的会话而不是目标 userID"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/repository/mysql/security.go，符号 Security.ReplaceUserRoles 删除旧角色时错误使用 roleIDs[0] 作为 user_id；文件 internal/service/rbac.go，符号 RBACService.ReplaceUserRoles 又撤销 actor.UserID 的会话而不是目标 userID。目标用户旧角色因此可能残留，同时被下线的是操作者而不是权限发生变化的用户，形成题面所述权限和会话对象错乱。标准修复两处统一使用目标 userID。"
+    }
+  }
 }

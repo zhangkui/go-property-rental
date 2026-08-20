@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/auth.go",
+        "internal/repository/mysql/security.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "AuthService.ChangePassword 用 currentPassword 生成新哈希",
+        "UpdatePassword 按 username 过滤"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/auth.go，符号 AuthService.ChangePassword 用 currentPassword 生成新哈希；文件 internal/repository/mysql/security.go，符号 UpdatePassword 按 username 过滤，但调用方传入用户 ID。新密码因此不可用，真实数据库还可能零行更新。标准修复哈希 nextPassword 并按 id 更新，错误当前密码仍在任何写操作前返回。"
+    }
+  }
 }

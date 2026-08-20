@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/workorder.go",
+        "internal/repository/mysql/workorder.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "WorkOrderService.Confirm 给工单 ID 追加 :force",
+        "WorkOrders.Confirm 识别该后缀后把状态条件放宽为任意非 closed/cancelled"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/workorder.go，符号 WorkOrderService.Confirm 给工单 ID 追加 :force；文件 internal/repository/mysql/workorder.go，符号 WorkOrders.Confirm 识别该后缀后把状态条件放宽为任意非 closed/cancelled。reported 工单因此可跳过派单和维修直接关闭。标准修复透传原始 ID，并始终只允许 completed 状态确认关闭。"
+    }
+  }
 }

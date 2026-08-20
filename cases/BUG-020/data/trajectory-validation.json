@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/property.go",
+        "internal/repository/mysql/repositories.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "PropertyService.List 对 offset 额外加一",
+        "Properties.List 接收该错误 offset 直接执行分页查询"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/property.go，符号 PropertyService.List 对 offset 额外加一，并把页偏移计算为 page*size；文件 internal/repository/mysql/repositories.go，符号 Properties.List 接收该错误 offset 直接执行分页查询。第一页因此跳过前 size+1 条记录，后续页也整体错位，产生题面所述分页漏项。标准修复使用 (page-1)*size，保持 size 和 status 筛选不变。"
+    }
+  }
 }

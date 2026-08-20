@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/approval.go",
+        "internal/repository/mysql/approval.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "ApprovalService.Decide 把 reviewerID 改写为 approvalID",
+        "lockPendingApproval 没有拒绝已分配给其他 reviewer 的审批"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/approval.go，符号 ApprovalService.Decide 把 reviewerID 改写为 approvalID；文件 internal/repository/mysql/approval.go，符号 lockPendingApproval 没有拒绝已分配给其他 reviewer 的审批。结果记录错误审核人且允许代签。标准修复透传 reviewerID，并在锁定后校验 assignedReviewer。"
+    }
+  }
 }

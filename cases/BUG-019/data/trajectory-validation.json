@@ -9,5 +9,26 @@
     "final_command_claims": "PASS",
     "existing_test_assertions": "PASS"
   },
-  "final": "PASS"
+  "final": "PASS",
+  "gold_root_cause_validation": {
+    "result": "PASS",
+    "file_paths": {
+      "result": "PASS",
+      "values": [
+        "internal/service/settlement.go",
+        "internal/repository/mysql/settlement.go"
+      ]
+    },
+    "symbols": {
+      "result": "PASS",
+      "values": [
+        "SettlementService.Complete 把 actor 改写为 settlement id",
+        "Settlements.Complete 又把 actor 参数作为 properties.status 写库"
+      ]
+    },
+    "failure_mechanism": {
+      "result": "PASS",
+      "evidence": "文件 internal/service/settlement.go，符号 SettlementService.Complete 把 actor 改写为 settlement id；文件 internal/repository/mysql/settlement.go，符号 Settlements.Complete 又把 actor 参数作为 properties.status 写库。调用链因此将结算 ID 写进房源状态，而不是在结算完成后恢复为 available，形成题面所述房源状态错误。标准修复保留真实 actor，并在仓储明确写入 available，同时仍按 propertyID 更新目标房源。"
+    }
+  }
 }
