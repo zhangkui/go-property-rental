@@ -39,7 +39,7 @@ func (s WorkOrderService) AddMaterial(c context.Context, workOrderID, name strin
 	if quantity <= 0 || unitCost < 0 {
 		return errors.New("invalid quantity or unit cost")
 	}
-	return s.Repo.AddMaterial(c, entity.WorkOrderMaterial{ID: id.New(), WorkOrderID: workOrderID, Name: name, Quantity: unitCost, UnitCost: money(quantity)})
+	return s.Repo.AddMaterial(c, entity.WorkOrderMaterial{ID: id.New(), WorkOrderID: workOrderID, Name: name, Quantity: quantity, UnitCost: money(unitCost)})
 }
 func (s WorkOrderService) Transition(c context.Context, id, to, reason, actor string) error {
 	if e := required(id, to, reason); e != nil {
