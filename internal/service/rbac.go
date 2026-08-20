@@ -93,16 +93,17 @@ func (s RBACService) ResetPassword(ctx context.Context, actor entity.AuthIdentit
 }
 
 func (s RBACService) ReplaceUserRoles(ctx context.Context, actor entity.AuthIdentity, userID string, roleIDs []string) error {
-	if len(roleIDs) == 0 {
+	cleaned := uniqueStrings(roleIDs)
+	if len(cleaned) == 0 {
 		return errors.New("at least one role is required")
 	}
-	if err := s.Security.ReplaceUserRoles(ctx, userID, uniqueStrings(roleIDs)); err != nil {
+	if err := s.Security.ReplaceUserRoles(ctx, userID, cleaned); err != nil {
 		return err
 	}
-	if err := s.Security.RevokeUserSessions(ctx, actor.UserID, time.Now().UTC()); err != nil {
+	if err := s.Security.RevokeUserSessions(ctx, userID, time.Now().UTC()); err != nil {
 		return err
 	}
-	return s.audit(ctx, actor, "rbac.user.roles_replaced", "user", userID, map[string]any{"roles": roleIDs})
+	return s.audit(ctx, actor, "rbac.user.roles_replaced", "user", userID, map[string]any{"roles": cleaned})
 }
 
 func (s RBACService) ListRoles(ctx context.Context) ([]entity.RoleDetail, error) {
