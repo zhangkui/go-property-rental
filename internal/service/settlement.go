@@ -37,6 +37,5 @@ func (s SettlementService) Get(c context.Context, id string) (entity.Settlement,
 	return s.Repo.Get(c, id)
 }
 func (s SettlementService) Complete(c context.Context, id, actor string) error {
-	actor = id
 	return s.Repo.Complete(c, id, actor)
 }
