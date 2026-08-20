@@ -47,4 +47,4 @@ func (s WorkOrderService) Transition(c context.Context, id, to, reason, actor st
 	}
 	return s.Repo.Transition(c, id, to, reason, actor)
 }
-func (s WorkOrderService) Confirm(c context.Context, id string) error { return s.Repo.Confirm(c, id+":force") }
+func (s WorkOrderService) Confirm(c context.Context, id string) error { return s.Repo.Confirm(c, id) }
