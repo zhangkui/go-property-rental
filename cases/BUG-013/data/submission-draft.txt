@@ -1,0 +1,19 @@
+session_id:7ee885a5-cbd9-4c35-9ffc-411a072dbe67
+bug_id:go-property-rental-bug-013
+task_type:bugfix
+bug_category:authorization
+feature_area:审批撤销权限与审计
+affected_flow:审批撤销权限与审计
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix13
+candidate_commit:155a95d71bc6072e868c8ef7d380e9f857312bba
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:审批撤销有越权情况。`applicant-1` 撤销自己的申请后，审计里的操作人不对；换成另一个用户去撤销，状态和审计也可能照样变化。看下撤销权限和审计记录为什么没对上，只改业务代码就行。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/101158-6688db35/post_fix.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug013_BusinessRegression$'
+gold_root_cause:文件 internal/service/approval.go，符号 ApprovalService.Cancel 的审计分支把 ActorID 错填为 approvalID；文件 internal/repository/mysql/approval.go，符号 Approvals.Cancel 只检查 pending 状态，没有校验 owner 与 applicantID。非申请人因此也能撤销并留下错误操作人。标准修复使用 applicantID 写审计，并在仓储锁定后同时校验所有者和 pending 状态。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/085affda362180ff383a08f3009c7c59f25e35f7
+success_criteria:目标行为是审批撤销权限与审计按题面输入返回正确结果。文件 internal/service/approval.go，符号 ApprovalService.Cancel 的审计分支把 ActorID 错填为 approvalID；文件 internal/repository/mysql/approval.go，符号 Approvals.Cancel 只检查 pending 状态，没有校验 owner 与 applicantID。非申请人因此也能撤销并留下错误操作人。标准修复使用 applicantID 写审计，并在仓储锁定后同时校验所有者和 pending 状态。 缺陷基线执行 go test ./scripts/verify -count=1 -run '^TestBug013_BusinessRegression$' 为 red；候选仅修改生产 Go 文件 internal/repository/mysql/approval.go、internal/service/approval.go，没有修改测试，Session 结束后流程独立执行同一命令为 green。合法输入及题面列出的边界或对照场景保持原有行为。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/101156-08372f70/pre_fix.jsonl","session_id":"3dc7e132-7c3b-4655-ac61-9a2780a2b4ff","result":"red"},"post_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/101158-6688db35/post_fix.jsonl","session_id":"7ee885a5-cbd9-4c35-9ffc-411a072dbe67","result":"green"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

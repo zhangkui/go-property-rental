@@ -1,4 +1,1 @@
-docker compose down -v
-docker compose up -d --build
-docker compose -f docker-compose.yml -f docker-compose.verify.yml run --rm verifier scripts/verify/bug-025.sh
-go build ./...
+go test ./scripts/verify -count=1 -run '^TestBug025_BusinessRegression$'

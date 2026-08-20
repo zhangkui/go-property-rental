@@ -1,0 +1,19 @@
+session_id:77d61693-fdcd-4fb7-ad46-2f2b2e0977fd
+bug_id:go-property-rental-bug-030
+task_type:diagnosis
+bug_category:idempotency
+feature_area:账单计划重试
+affected_flow:账单计划重试
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix30
+candidate_commit:
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:账单计划重试时月份会跑偏。`item-1` 的失败周期是 2026-07-01，重试后应该还是这个周期，但回归发现生成的周期不一致，已有账单的路径还会把计划多推进一个月。成功过的账单项也不该再次生成。先看看重试和生成这两条路径为什么会互相影响，不要修改代码。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124453-7d74c579/diagnosis.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug030_BusinessRegression$'
+gold_root_cause:文件 internal/service/billing_plan.go，符号 BillingPlanService.Retry 把失败项 PeriodStart 推进一个月；文件 internal/repository/mysql/billing_plan.go，符号 BillingPlans.Generate 的已有账单和新账单分支都将计划推进两个月。重试周期和计划游标因此同时跑偏。标准修复重试原周期，并把两个推进分支统一为一个月。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/471c775ef21a9dc40f39d540e0a2900f2a87d245
+success_criteria:实际执行 go test ./scripts/verify -count=1 -run '^TestBug030_BusinessRegression$' 在缺陷基线为 red。文件 internal/service/billing_plan.go，符号 BillingPlanService.Retry 把失败项 PeriodStart 推进一个月；文件 internal/repository/mysql/billing_plan.go，符号 BillingPlans.Generate 的已有账单和新账单分支都将计划推进两个月。重试周期和计划游标因此同时跑偏。标准修复重试原周期，并把两个推进分支统一为一个月。 正式诊断先读取测试和生产代码定位因果链，未修改、删除或新增任何代码与测试；目标工作区保持干净，回归测试仍为 red。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124453-6e3a4472/pre_fix.jsonl","session_id":"0f8f0069-5108-45f4-8766-eb72863fe0d8","result":"red"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

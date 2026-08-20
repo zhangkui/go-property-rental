@@ -1,0 +1,19 @@
+session_id:643461bf-b2c2-4c2c-b016-1299ddeacfd0
+bug_id:go-property-rental-bug-017
+task_type:diagnosis
+bug_category:authorization
+feature_area:维修工单派单
+affected_flow:维修工单派单
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix17
+candidate_commit:
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:派维修单时负责人会被换掉。`admin-1` 把 `work-1` 指派给 `technician-1`，最后保存的 assignee 却成了管理员，测试报 `assignee and actor crossed`。想查清这两个身份是在哪一步混到一起的，代码先不要改。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124438-21d6a453/diagnosis.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug017_BusinessRegression$'
+gold_root_cause:文件 internal/service/workorder.go，符号 WorkOrderService.Assign 在调用仓储前执行 assignee=actor；文件 internal/repository/mysql/workorder.go，符号 WorkOrders.Assign 更新 assignee_id 时又写入 actor。指定维修人身份因此被操作者覆盖。标准修复保留 assignee 参数并将其写入 assignee_id，actor 仅用于权限与审计语义。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/947e637c189f2859ab53908692de5ec26a93d3b4
+success_criteria:实际执行 go test ./scripts/verify -count=1 -run '^TestBug017_BusinessRegression$' 在缺陷基线为 red。文件 internal/service/workorder.go，符号 WorkOrderService.Assign 在调用仓储前执行 assignee=actor；文件 internal/repository/mysql/workorder.go，符号 WorkOrders.Assign 更新 assignee_id 时又写入 actor。指定维修人身份因此被操作者覆盖。标准修复保留 assignee 参数并将其写入 assignee_id，actor 仅用于权限与审计语义。 正式诊断先读取测试和生产代码定位因果链，未修改、删除或新增任何代码与测试；目标工作区保持干净，回归测试仍为 red。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124438-5fc6cce4/pre_fix.jsonl","session_id":"9325c66a-c8e1-4987-b194-3eabe04d198e","result":"red"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

@@ -1,0 +1,19 @@
+session_id:7e763190-14b2-40d9-b34e-636dedd4aaf6
+bug_id:go-property-rental-bug-014
+task_type:diagnosis
+bug_category:financial-calculation
+feature_area:退租结算退款
+affected_flow:退租结算退款
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix14
+candidate_commit:
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:退租结算时押金会凭空少一部分。押金 5000、抵扣 2000，本来应该退 3000；抵扣为 0 时也应该全额退回，但现在两个场景都对不上。帮我查一下金额从创建结算到计算退款的过程中哪里发生了变化，先不要提交修改。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/102248-c7d76d59/diagnosis.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug014_BusinessRegression$'
+gold_root_cause:文件 internal/service/settlement.go，符号 SettlementService.Create 在构造结算前执行 deduction++；文件 internal/repository/mysql/settlement.go，符号 Settlements.Create 的退款公式又额外减 1。两次偏移使零抵扣和正常抵扣场景都少退。标准修复移除两处固定偏移，同时保留抵扣超过可用押金时的拒绝。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/8d580c2b0b894785284d4fd1028c6dff4614ec2b
+success_criteria:实际执行 go test ./scripts/verify -count=1 -run '^TestBug014_BusinessRegression$' 在缺陷基线为 red。文件 internal/service/settlement.go，符号 SettlementService.Create 在构造结算前执行 deduction++；文件 internal/repository/mysql/settlement.go，符号 Settlements.Create 的退款公式又额外减 1。两次偏移使零抵扣和正常抵扣场景都少退。标准修复移除两处固定偏移，同时保留抵扣超过可用押金时的拒绝。 正式诊断先读取测试和生产代码定位因果链，未修改、删除或新增任何代码与测试；目标工作区保持干净，回归测试仍为 red。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/102247-6f451804/pre_fix.jsonl","session_id":"98cab425-fbeb-4392-aa07-d9b9dcc4c5b0","result":"red"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

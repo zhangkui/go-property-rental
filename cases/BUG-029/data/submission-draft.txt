@@ -1,0 +1,19 @@
+session_id:14ce4651-39f1-4946-a4dd-9a6f3e6ad2ed
+bug_id:go-property-rental-bug-029
+task_type:diagnosis
+bug_category:authorization
+feature_area:审批决定权限
+affected_flow:审批决定权限
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix29
+candidate_commit:
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:审批决定时操作人身份被换掉了。`reviewer-1` 处理 `approval-1`，结果里记录的 reviewer 不是他，测试报 `reviewer identity corrupted`；如果审批单已经指定了处理人，其他人也不应该能代签。请先查清这条审批链路，代码先别改。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124452-15c4c115/diagnosis.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug029_BusinessRegression$'
+gold_root_cause:文件 internal/service/approval.go，符号 ApprovalService.Decide 把 reviewerID 改写为 approvalID；文件 internal/repository/mysql/approval.go，符号 lockPendingApproval 没有拒绝已分配给其他 reviewer 的审批。结果记录错误审核人且允许代签。标准修复透传 reviewerID，并在锁定后校验 assignedReviewer。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/97723faf79e62ae89c82cf26a663fdb43399f29e
+success_criteria:实际执行 go test ./scripts/verify -count=1 -run '^TestBug029_BusinessRegression$' 在缺陷基线为 red。文件 internal/service/approval.go，符号 ApprovalService.Decide 把 reviewerID 改写为 approvalID；文件 internal/repository/mysql/approval.go，符号 lockPendingApproval 没有拒绝已分配给其他 reviewer 的审批。结果记录错误审核人且允许代签。标准修复透传 reviewerID，并在锁定后校验 assignedReviewer。 正式诊断先读取测试和生产代码定位因果链，未修改、删除或新增任何代码与测试；目标工作区保持干净，回归测试仍为 red。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124452-53c87be4/pre_fix.jsonl","session_id":"c799b047-d5f9-4b40-91df-1e785cd5505b","result":"red"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

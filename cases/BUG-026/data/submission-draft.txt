@@ -1,0 +1,19 @@
+session_id:1b7b1a63-0e8b-482f-8590-8a4be2cf1be0
+bug_id:go-property-rental-bug-026
+task_type:diagnosis
+bug_category:idempotency
+feature_area:每日提醒幂等
+affected_flow:每日提醒幂等
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix26
+candidate_commit:
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:每日提醒任务在同一天跑两次会生成两次运行记录。8 月 19 日的任务第一次已经成功，第二次不应该再创建新的 run，但回归报 `daily idempotency failed`。先查一下日期和运行记录是怎么对应的，失败重试的情况也别混在一起处理，暂时不要改代码。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124449-6a208a98/diagnosis.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug026_BusinessRegression$'
+gold_root_cause:文件 internal/service/notification.go，每日规则的 ReminderRun.RunKey 使用日期加随机 UUID；文件 internal/repository/mysql/notification.go，符号 StartRun 使用普通 INSERT，无法利用 rule_id/run_key 唯一约束返回已存在语义。同日第二次成功运行因此创建新记录。标准修复使用纯日期稳定 key，并以 INSERT IGNORE 判断是否实际创建；失败重试需独立设计。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/07a77c48dd7a21670a06b86e0b0f4b7b43ba29d6
+success_criteria:实际执行 go test ./scripts/verify -count=1 -run '^TestBug026_BusinessRegression$' 在缺陷基线为 red。文件 internal/service/notification.go，每日规则的 ReminderRun.RunKey 使用日期加随机 UUID；文件 internal/repository/mysql/notification.go，符号 StartRun 使用普通 INSERT，无法利用 rule_id/run_key 唯一约束返回已存在语义。同日第二次成功运行因此创建新记录。标准修复使用纯日期稳定 key，并以 INSERT IGNORE 判断是否实际创建；失败重试需独立设计。 正式诊断先读取测试和生产代码定位因果链，未修改、删除或新增任何代码与测试；目标工作区保持干净，回归测试仍为 red。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124448-8824380a/pre_fix.jsonl","session_id":"7673b4ee-daee-4173-86e7-49ba129b899e","result":"red"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

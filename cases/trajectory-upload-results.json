@@ -1,242 +1,562 @@
 [
-    {
-        "case_id":  "BUG-001",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "837af066-9c88-4b72-be55-e8629e1adfa3",
-        "object_key":  "uploads/2026/08/19/140350-dd5a4c98/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/140350-dd5a4c98/pre_fix.jsonl",
-        "local_path":  "cases/BUG-001/trajectories/pre_fix.jsonl",
-        "sha256":  "689A8CF5033FA17445BCA9541C8F1530673B3A9011F853F7B8F49F671A671809",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-001",
-        "trajectory_type":  "post_fix",
-        "session_id":  "130c2922-f616-4090-b225-b0eb4187787e",
-        "object_key":  "uploads/2026/08/19/140351-8da8eb6f/post_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/140351-8da8eb6f/post_fix.jsonl",
-        "local_path":  "cases/BUG-001/trajectories/post_fix.jsonl",
-        "sha256":  "7F43EC75AB5EFCB56EF9BC89BC89CE38D82AEE9AA2F90160946F02539F49BBB2",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-002",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "736fc2f8-8c9e-4c51-90e8-666e3c368fff",
-        "object_key":  "uploads/2026/08/19/150204-df60419f/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/150204-df60419f/pre_fix.jsonl",
-        "local_path":  "cases/BUG-002/trajectories/pre_fix.jsonl",
-        "sha256":  "77C9931B1CF1E2FAE12A9C5BA8EC37F314CDAD0F11AC595D6E31A827E836EA75",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-002",
-        "trajectory_type":  "post_fix",
-        "session_id":  "95bd895b-8b30-4a88-996a-de3734293917",
-        "object_key":  "uploads/2026/08/19/150205-0bf0c2ff/post_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/150205-0bf0c2ff/post_fix.jsonl",
-        "local_path":  "cases/BUG-002/trajectories/post_fix.jsonl",
-        "sha256":  "0EB2C6D365A4CE36FC54AB056DCDA8EB1EA25D6E9C2DAD1DAA4B2072FDD8C433",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-003",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "f748cb34-7875-43a9-9963-4a2d0bd5c754",
-        "object_key":  "uploads/2026/08/19/152845-948386ba/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/152845-948386ba/pre_fix.jsonl",
-        "local_path":  "cases/BUG-003/trajectories/pre_fix.jsonl",
-        "sha256":  "0FA571BC48701E739F3404E1D720880AB996096AFB315B931EBA388BA6726F9B",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-003",
-        "trajectory_type":  "post_fix",
-        "session_id":  "66c2afe6-b71e-4256-b5bd-f1b7809437d4",
-        "object_key":  "uploads/2026/08/19/152845-c6714fd2/post_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/152845-c6714fd2/post_fix.jsonl",
-        "local_path":  "cases/BUG-003/trajectories/post_fix.jsonl",
-        "sha256":  "BAD429546BE9D597D77B0E48FCDA4DDEEDF1DCA585138E6DD821EC24D7C6603C",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-004",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "c1a7cf86-9a66-4991-a9d5-a2d603a73748",
-        "object_key":  "uploads/2026/08/19/154902-4bfe5e03/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/154902-4bfe5e03/pre_fix.jsonl",
-        "local_path":  "cases/BUG-004/trajectories/pre_fix.jsonl",
-        "sha256":  "B15CF694BDD4056D9836E70A4033F5DF863964ABBCEC8D2B7265F390849370D5",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-004",
-        "trajectory_type":  "diagnosis",
-        "session_id":  "e962752d-539d-4d13-abda-32993e9581c3",
-        "object_key":  "uploads/2026/08/19/154903-1976b607/diagnosis.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/154903-1976b607/diagnosis.jsonl",
-        "local_path":  "cases/BUG-004/trajectories/diagnosis.jsonl",
-        "sha256":  "4602B9DB931F30873EB8950FF1F8A1DEFA3DE1082A924A72E2B471AA0F28C855",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-005",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "b2bcccbd-0478-4baf-ba75-0e3694665e26",
-        "object_key":  "uploads/2026/08/19/161730-4164fce9/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/161730-4164fce9/pre_fix.jsonl",
-        "local_path":  "cases/BUG-005/trajectories/pre_fix.jsonl",
-        "sha256":  "8BB139619548C7652AD7AF939153D54CF770095E3512171205F2401C9EF19B2D",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-005",
-        "trajectory_type":  "post_fix",
-        "session_id":  "d022f0a2-eaf7-4f7a-b2ff-52cf55e1cbd0",
-        "object_key":  "uploads/2026/08/19/161730-807dfd6d/post_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/161730-807dfd6d/post_fix.jsonl",
-        "local_path":  "cases/BUG-005/trajectories/post_fix.jsonl",
-        "sha256":  "9ED4C04FAF7AE63E38B2C8C9D4B76A1ABBABB826266C17571DC7ECE3C271E7A6",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-006",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "7e1a75bf-000f-452d-82bd-0587ed443d5c",
-        "object_key":  "uploads/2026/08/19/164132-1b29f564/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/164132-1b29f564/pre_fix.jsonl",
-        "local_path":  "cases/BUG-006/trajectories/pre_fix.jsonl",
-        "sha256":  "2A219388C29499A22DF09FDA45FE960ED15CBD440D83161D031310355AC79444",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-006",
-        "trajectory_type":  "diagnosis",
-        "session_id":  "3c0983cf-940f-40df-9b12-c454ab88799d",
-        "object_key":  "uploads/2026/08/19/164132-969e1b90/diagnosis.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/164132-969e1b90/diagnosis.jsonl",
-        "local_path":  "cases/BUG-006/trajectories/diagnosis.jsonl",
-        "sha256":  "750FCFFA0DB38EF8E4D06772E81228B4E81CEC1823C1948C430500DF7A36EE51",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-007",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "6f3c56f5-bc03-41cb-9894-deba63fa3b3a",
-        "object_key":  "uploads/2026/08/19/170432-5c6c5880/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/170432-5c6c5880/pre_fix.jsonl",
-        "local_path":  "cases/BUG-007/trajectories/pre_fix.jsonl",
-        "sha256":  "F5B621BBEE5258DC8C923C67A565A99701EC5A7C754AFF02A4AD2DFD39781427",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-007",
-        "trajectory_type":  "post_fix",
-        "session_id":  "5ef6f89b-a01c-4316-8395-ca300402dbbd",
-        "object_key":  "uploads/2026/08/19/170432-3c8dbd72/post_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/170432-3c8dbd72/post_fix.jsonl",
-        "local_path":  "cases/BUG-007/trajectories/post_fix.jsonl",
-        "sha256":  "D14056851B2EECD4960FAD274F7FAFD0130B402EE99CBEC8C5C7D90449F10A47",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-008",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "97c8e30f-50f7-44fd-9f62-fe024dc9cee5",
-        "object_key":  "uploads/2026/08/19/172204-88727c09/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/172204-88727c09/pre_fix.jsonl",
-        "local_path":  "cases/BUG-008/trajectories/pre_fix.jsonl",
-        "sha256":  "148CD0A3B748B5B4CACE8043ED121396571C74BB5406E9CB98A387DEEDD581D3",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-008",
-        "trajectory_type":  "post_fix",
-        "session_id":  "51c51254-d2be-4721-b9cc-b47006712463",
-        "object_key":  "uploads/2026/08/19/172205-24749aa7/post_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/172205-24749aa7/post_fix.jsonl",
-        "local_path":  "cases/BUG-008/trajectories/post_fix.jsonl",
-        "sha256":  "10C617703D30FB5EFF28ED2ABFCD97C35D9F581A3AB8956060BA0C17DB45A3DF",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-009",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "da9d2d68-8422-4705-9d44-eaf0669dbecb",
-        "object_key":  "uploads/2026/08/19/183642-2761c7ca/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/183642-2761c7ca/pre_fix.jsonl",
-        "local_path":  "cases/BUG-009/trajectories/pre_fix.jsonl",
-        "sha256":  "944241D2D65ABA821121C129967B513D7F3CF7B37347433E8EA3959F097946AC",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-009",
-        "trajectory_type":  "diagnosis",
-        "session_id":  "3f4f168c-578e-4d91-9ecf-65fbf61c7784",
-        "object_key":  "uploads/2026/08/19/183643-6d77fdc5/diagnosis.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/183643-6d77fdc5/diagnosis.jsonl",
-        "local_path":  "cases/BUG-009/trajectories/diagnosis.jsonl",
-        "sha256":  "D0547A17CDCC05D9E805652839E73664BAC0EBEDE95DBBE13E8627839E769E2C",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-010",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "142e57bd-2583-4862-819d-4e847a951a84",
-        "object_key":  "uploads/2026/08/19/202248-10d76548/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/202248-10d76548/pre_fix.jsonl",
-        "local_path":  "cases/BUG-010/trajectories/pre_fix.jsonl",
-        "sha256":  "A35305F912779CB767F6E63A7AB51AF3E0AB3C61BBA214AE1C85626FE8E61EE9",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-010",
-        "trajectory_type":  "post_fix",
-        "session_id":  "de5f9504-eacd-49e5-a6fb-5ab28c8c25c2",
-        "object_key":  "uploads/2026/08/19/202249-77543498/post_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/202249-77543498/post_fix.jsonl",
-        "local_path":  "cases/BUG-010/trajectories/post_fix.jsonl",
-        "sha256":  "AB5D23420E5A9D6A27D240D13A8F188545844B26FE26475ACE92E63B9458C8D2",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-011",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "34b5b53b-f7b5-46b7-a7e3-048f7fdccc97",
-        "object_key":  "uploads/2026/08/19/210355-e3dc3185/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/210355-e3dc3185/pre_fix.jsonl",
-        "local_path":  "cases/BUG-011/trajectories/pre_fix.jsonl",
-        "sha256":  "D32E8D8869DCFD3C056F5028AC15B0524BCC2CC2D61548FF4766FA6BA9489F68",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-011",
-        "trajectory_type":  "diagnosis",
-        "session_id":  "3e64f630-ab8a-4d03-b1c4-e3184040bc3d",
-        "object_key":  "uploads/2026/08/19/210356-37963f60/diagnosis.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/210356-37963f60/diagnosis.jsonl",
-        "local_path":  "cases/BUG-011/trajectories/diagnosis.jsonl",
-        "sha256":  "6CE8301C524AE633444106C8BBA97CC0A7373030A4D7E21301AB8F680CD34454",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-012",
-        "trajectory_type":  "pre_fix",
-        "session_id":  "8f4c3e69-2132-435d-88d9-d58a1c00526b",
-        "object_key":  "uploads/2026/08/19/212411-936451eb/pre_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/212411-936451eb/pre_fix.jsonl",
-        "local_path":  "cases/BUG-012/trajectories/pre_fix.jsonl",
-        "sha256":  "BBF886D72CE26AB8C651CFFA0A240BB900A6AAE398242E8EAD90DB8EECCB7307",
-        "download_recheck":  "PASS"
-    },
-    {
-        "case_id":  "BUG-012",
-        "trajectory_type":  "post_fix",
-        "session_id":  "ec5277c4-032c-4ef6-aaf6-d69491c7674e",
-        "object_key":  "uploads/2026/08/19/212412-a311d713/post_fix.jsonl",
-        "direct_url":  "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/212412-a311d713/post_fix.jsonl",
-        "local_path":  "cases/BUG-012/trajectories/post_fix.jsonl",
-        "sha256":  "7082A989BD15F649C7786C491150398155442C2728CD8BC2050C2F07D38BE3B6",
-        "download_recheck":  "PASS"
-    }
+  {
+    "case_id": "BUG-001",
+    "trajectory_type": "pre_fix",
+    "session_id": "837af066-9c88-4b72-be55-e8629e1adfa3",
+    "object_key": "uploads/2026/08/19/140350-dd5a4c98/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/140350-dd5a4c98/pre_fix.jsonl",
+    "local_path": "cases/BUG-001/trajectories/pre_fix.jsonl",
+    "sha256": "689A8CF5033FA17445BCA9541C8F1530673B3A9011F853F7B8F49F671A671809",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-001",
+    "trajectory_type": "post_fix",
+    "session_id": "130c2922-f616-4090-b225-b0eb4187787e",
+    "object_key": "uploads/2026/08/19/140351-8da8eb6f/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/140351-8da8eb6f/post_fix.jsonl",
+    "local_path": "cases/BUG-001/trajectories/post_fix.jsonl",
+    "sha256": "7F43EC75AB5EFCB56EF9BC89BC89CE38D82AEE9AA2F90160946F02539F49BBB2",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-002",
+    "trajectory_type": "pre_fix",
+    "session_id": "736fc2f8-8c9e-4c51-90e8-666e3c368fff",
+    "object_key": "uploads/2026/08/19/150204-df60419f/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/150204-df60419f/pre_fix.jsonl",
+    "local_path": "cases/BUG-002/trajectories/pre_fix.jsonl",
+    "sha256": "77C9931B1CF1E2FAE12A9C5BA8EC37F314CDAD0F11AC595D6E31A827E836EA75",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-002",
+    "trajectory_type": "post_fix",
+    "session_id": "95bd895b-8b30-4a88-996a-de3734293917",
+    "object_key": "uploads/2026/08/19/150205-0bf0c2ff/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/150205-0bf0c2ff/post_fix.jsonl",
+    "local_path": "cases/BUG-002/trajectories/post_fix.jsonl",
+    "sha256": "0EB2C6D365A4CE36FC54AB056DCDA8EB1EA25D6E9C2DAD1DAA4B2072FDD8C433",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-003",
+    "trajectory_type": "pre_fix",
+    "session_id": "f748cb34-7875-43a9-9963-4a2d0bd5c754",
+    "object_key": "uploads/2026/08/19/152845-948386ba/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/152845-948386ba/pre_fix.jsonl",
+    "local_path": "cases/BUG-003/trajectories/pre_fix.jsonl",
+    "sha256": "0FA571BC48701E739F3404E1D720880AB996096AFB315B931EBA388BA6726F9B",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-003",
+    "trajectory_type": "post_fix",
+    "session_id": "66c2afe6-b71e-4256-b5bd-f1b7809437d4",
+    "object_key": "uploads/2026/08/19/152845-c6714fd2/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/152845-c6714fd2/post_fix.jsonl",
+    "local_path": "cases/BUG-003/trajectories/post_fix.jsonl",
+    "sha256": "BAD429546BE9D597D77B0E48FCDA4DDEEDF1DCA585138E6DD821EC24D7C6603C",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-004",
+    "trajectory_type": "pre_fix",
+    "session_id": "c1a7cf86-9a66-4991-a9d5-a2d603a73748",
+    "object_key": "uploads/2026/08/19/154902-4bfe5e03/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/154902-4bfe5e03/pre_fix.jsonl",
+    "local_path": "cases/BUG-004/trajectories/pre_fix.jsonl",
+    "sha256": "B15CF694BDD4056D9836E70A4033F5DF863964ABBCEC8D2B7265F390849370D5",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-004",
+    "trajectory_type": "diagnosis",
+    "session_id": "e962752d-539d-4d13-abda-32993e9581c3",
+    "object_key": "uploads/2026/08/19/154903-1976b607/diagnosis.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/154903-1976b607/diagnosis.jsonl",
+    "local_path": "cases/BUG-004/trajectories/diagnosis.jsonl",
+    "sha256": "4602B9DB931F30873EB8950FF1F8A1DEFA3DE1082A924A72E2B471AA0F28C855",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-005",
+    "trajectory_type": "pre_fix",
+    "session_id": "b2bcccbd-0478-4baf-ba75-0e3694665e26",
+    "object_key": "uploads/2026/08/19/161730-4164fce9/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/161730-4164fce9/pre_fix.jsonl",
+    "local_path": "cases/BUG-005/trajectories/pre_fix.jsonl",
+    "sha256": "8BB139619548C7652AD7AF939153D54CF770095E3512171205F2401C9EF19B2D",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-005",
+    "trajectory_type": "post_fix",
+    "session_id": "d022f0a2-eaf7-4f7a-b2ff-52cf55e1cbd0",
+    "object_key": "uploads/2026/08/19/161730-807dfd6d/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/161730-807dfd6d/post_fix.jsonl",
+    "local_path": "cases/BUG-005/trajectories/post_fix.jsonl",
+    "sha256": "9ED4C04FAF7AE63E38B2C8C9D4B76A1ABBABB826266C17571DC7ECE3C271E7A6",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-006",
+    "trajectory_type": "pre_fix",
+    "session_id": "7e1a75bf-000f-452d-82bd-0587ed443d5c",
+    "object_key": "uploads/2026/08/19/164132-1b29f564/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/164132-1b29f564/pre_fix.jsonl",
+    "local_path": "cases/BUG-006/trajectories/pre_fix.jsonl",
+    "sha256": "2A219388C29499A22DF09FDA45FE960ED15CBD440D83161D031310355AC79444",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-006",
+    "trajectory_type": "diagnosis",
+    "session_id": "3c0983cf-940f-40df-9b12-c454ab88799d",
+    "object_key": "uploads/2026/08/19/164132-969e1b90/diagnosis.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/164132-969e1b90/diagnosis.jsonl",
+    "local_path": "cases/BUG-006/trajectories/diagnosis.jsonl",
+    "sha256": "750FCFFA0DB38EF8E4D06772E81228B4E81CEC1823C1948C430500DF7A36EE51",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-007",
+    "trajectory_type": "pre_fix",
+    "session_id": "6f3c56f5-bc03-41cb-9894-deba63fa3b3a",
+    "object_key": "uploads/2026/08/19/170432-5c6c5880/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/170432-5c6c5880/pre_fix.jsonl",
+    "local_path": "cases/BUG-007/trajectories/pre_fix.jsonl",
+    "sha256": "F5B621BBEE5258DC8C923C67A565A99701EC5A7C754AFF02A4AD2DFD39781427",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-007",
+    "trajectory_type": "post_fix",
+    "session_id": "5ef6f89b-a01c-4316-8395-ca300402dbbd",
+    "object_key": "uploads/2026/08/19/170432-3c8dbd72/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/170432-3c8dbd72/post_fix.jsonl",
+    "local_path": "cases/BUG-007/trajectories/post_fix.jsonl",
+    "sha256": "D14056851B2EECD4960FAD274F7FAFD0130B402EE99CBEC8C5C7D90449F10A47",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-008",
+    "trajectory_type": "pre_fix",
+    "session_id": "97c8e30f-50f7-44fd-9f62-fe024dc9cee5",
+    "object_key": "uploads/2026/08/19/172204-88727c09/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/172204-88727c09/pre_fix.jsonl",
+    "local_path": "cases/BUG-008/trajectories/pre_fix.jsonl",
+    "sha256": "148CD0A3B748B5B4CACE8043ED121396571C74BB5406E9CB98A387DEEDD581D3",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-008",
+    "trajectory_type": "post_fix",
+    "session_id": "51c51254-d2be-4721-b9cc-b47006712463",
+    "object_key": "uploads/2026/08/19/172205-24749aa7/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/172205-24749aa7/post_fix.jsonl",
+    "local_path": "cases/BUG-008/trajectories/post_fix.jsonl",
+    "sha256": "10C617703D30FB5EFF28ED2ABFCD97C35D9F581A3AB8956060BA0C17DB45A3DF",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-009",
+    "trajectory_type": "pre_fix",
+    "session_id": "da9d2d68-8422-4705-9d44-eaf0669dbecb",
+    "object_key": "uploads/2026/08/19/183642-2761c7ca/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/183642-2761c7ca/pre_fix.jsonl",
+    "local_path": "cases/BUG-009/trajectories/pre_fix.jsonl",
+    "sha256": "944241D2D65ABA821121C129967B513D7F3CF7B37347433E8EA3959F097946AC",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-009",
+    "trajectory_type": "diagnosis",
+    "session_id": "3f4f168c-578e-4d91-9ecf-65fbf61c7784",
+    "object_key": "uploads/2026/08/19/183643-6d77fdc5/diagnosis.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/183643-6d77fdc5/diagnosis.jsonl",
+    "local_path": "cases/BUG-009/trajectories/diagnosis.jsonl",
+    "sha256": "D0547A17CDCC05D9E805652839E73664BAC0EBEDE95DBBE13E8627839E769E2C",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-010",
+    "trajectory_type": "pre_fix",
+    "session_id": "142e57bd-2583-4862-819d-4e847a951a84",
+    "object_key": "uploads/2026/08/19/202248-10d76548/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/202248-10d76548/pre_fix.jsonl",
+    "local_path": "cases/BUG-010/trajectories/pre_fix.jsonl",
+    "sha256": "A35305F912779CB767F6E63A7AB51AF3E0AB3C61BBA214AE1C85626FE8E61EE9",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-010",
+    "trajectory_type": "post_fix",
+    "session_id": "de5f9504-eacd-49e5-a6fb-5ab28c8c25c2",
+    "object_key": "uploads/2026/08/19/202249-77543498/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/202249-77543498/post_fix.jsonl",
+    "local_path": "cases/BUG-010/trajectories/post_fix.jsonl",
+    "sha256": "AB5D23420E5A9D6A27D240D13A8F188545844B26FE26475ACE92E63B9458C8D2",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-011",
+    "trajectory_type": "pre_fix",
+    "session_id": "34b5b53b-f7b5-46b7-a7e3-048f7fdccc97",
+    "object_key": "uploads/2026/08/19/210355-e3dc3185/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/210355-e3dc3185/pre_fix.jsonl",
+    "local_path": "cases/BUG-011/trajectories/pre_fix.jsonl",
+    "sha256": "D32E8D8869DCFD3C056F5028AC15B0524BCC2CC2D61548FF4766FA6BA9489F68",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-011",
+    "trajectory_type": "diagnosis",
+    "session_id": "3e64f630-ab8a-4d03-b1c4-e3184040bc3d",
+    "object_key": "uploads/2026/08/19/210356-37963f60/diagnosis.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/210356-37963f60/diagnosis.jsonl",
+    "local_path": "cases/BUG-011/trajectories/diagnosis.jsonl",
+    "sha256": "6CE8301C524AE633444106C8BBA97CC0A7373030A4D7E21301AB8F680CD34454",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-012",
+    "trajectory_type": "pre_fix",
+    "session_id": "8f4c3e69-2132-435d-88d9-d58a1c00526b",
+    "object_key": "uploads/2026/08/19/212411-936451eb/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/212411-936451eb/pre_fix.jsonl",
+    "local_path": "cases/BUG-012/trajectories/pre_fix.jsonl",
+    "sha256": "BBF886D72CE26AB8C651CFFA0A240BB900A6AAE398242E8EAD90DB8EECCB7307",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-012",
+    "trajectory_type": "post_fix",
+    "session_id": "ec5277c4-032c-4ef6-aaf6-d69491c7674e",
+    "object_key": "uploads/2026/08/19/212412-a311d713/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/19/212412-a311d713/post_fix.jsonl",
+    "local_path": "cases/BUG-012/trajectories/post_fix.jsonl",
+    "sha256": "7082A989BD15F649C7786C491150398155442C2728CD8BC2050C2F07D38BE3B6",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-015",
+    "trajectory_type": "pre_fix",
+    "session_id": "f4872589-6e76-4ff8-9a85-d3b31f0118bf",
+    "object_key": "uploads/2026/08/20/124435-14bbc4fe/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124435-14bbc4fe/pre_fix.jsonl",
+    "local_path": "cases/BUG-015/trajectories/pre_fix.jsonl",
+    "sha256": "2827630953265CE45411833A23883F668782E0BEA02CA1B03E466DC4A83E14B7",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-015",
+    "trajectory_type": "post_fix",
+    "session_id": "f6eea3f8-fc5e-4c45-b817-13d78c157b0a",
+    "object_key": "uploads/2026/08/20/124436-52915875/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124436-52915875/post_fix.jsonl",
+    "local_path": "cases/BUG-015/trajectories/post_fix.jsonl",
+    "sha256": "C993068F35267E95AC6118EEBB6D909AFD8527D263B0AF861CD48E5B8C7BC9B0",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-016",
+    "trajectory_type": "pre_fix",
+    "session_id": "e4b9290e-0416-4f99-816c-d65315561ad0",
+    "object_key": "uploads/2026/08/20/124437-ca46edd1/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124437-ca46edd1/pre_fix.jsonl",
+    "local_path": "cases/BUG-016/trajectories/pre_fix.jsonl",
+    "sha256": "8431AD76ADA6BA2A35FA5D3F996FC0CA41F4C0CEFA4B7685DB29AA8276B3E106",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-016",
+    "trajectory_type": "post_fix",
+    "session_id": "e744b405-8d16-4b61-aac0-25ade1ba4925",
+    "object_key": "uploads/2026/08/20/124437-f27c2805/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124437-f27c2805/post_fix.jsonl",
+    "local_path": "cases/BUG-016/trajectories/post_fix.jsonl",
+    "sha256": "F382730CF283DD9DFAB5435C29410F12A13100BB1A2F4AEFE17E4AFB011C83EC",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-017",
+    "trajectory_type": "pre_fix",
+    "session_id": "9325c66a-c8e1-4987-b194-3eabe04d198e",
+    "object_key": "uploads/2026/08/20/124438-5fc6cce4/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124438-5fc6cce4/pre_fix.jsonl",
+    "local_path": "cases/BUG-017/trajectories/pre_fix.jsonl",
+    "sha256": "6E584325A9D619D7C93F9D00264F9CBE86340A4505C824F0EDCDCA086818E72F",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-017",
+    "trajectory_type": "diagnosis",
+    "session_id": "643461bf-b2c2-4c2c-b016-1299ddeacfd0",
+    "object_key": "uploads/2026/08/20/124438-21d6a453/diagnosis.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124438-21d6a453/diagnosis.jsonl",
+    "local_path": "cases/BUG-017/trajectories/diagnosis.jsonl",
+    "sha256": "28BD75A0739BA50E40E0657651203568EA87825F36C65B2427692005C5346876",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-018",
+    "trajectory_type": "pre_fix",
+    "session_id": "c886b871-f21b-4e3e-8e69-715e5d66fbe8",
+    "object_key": "uploads/2026/08/20/124439-b7251aad/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124439-b7251aad/pre_fix.jsonl",
+    "local_path": "cases/BUG-018/trajectories/pre_fix.jsonl",
+    "sha256": "6772998CB0982B5BBB9D5EF101D548EF2F25A98B93C338F64F8E9F1E17AFF362",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-018",
+    "trajectory_type": "post_fix",
+    "session_id": "2f8a1dd5-833c-459b-821f-a586c970b554",
+    "object_key": "uploads/2026/08/20/124440-557b82d3/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124440-557b82d3/post_fix.jsonl",
+    "local_path": "cases/BUG-018/trajectories/post_fix.jsonl",
+    "sha256": "A939987D28133068E48DA98E52D2830BC6FD82A1333A681D7DD97B9DA57B98AC",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-019",
+    "trajectory_type": "pre_fix",
+    "session_id": "21a085c9-6fb4-4b44-9608-67a661b5e2df",
+    "object_key": "uploads/2026/08/20/124440-b10dfd89/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124440-b10dfd89/pre_fix.jsonl",
+    "local_path": "cases/BUG-019/trajectories/pre_fix.jsonl",
+    "sha256": "859696724C20F7721F620DD2E8215452014C26CA3A5F3E7852DD177C93035293",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-019",
+    "trajectory_type": "post_fix",
+    "session_id": "f7ca2ffd-8158-4ed2-b67b-043768dab7d3",
+    "object_key": "uploads/2026/08/20/124441-97189d33/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124441-97189d33/post_fix.jsonl",
+    "local_path": "cases/BUG-019/trajectories/post_fix.jsonl",
+    "sha256": "3F1D376479F5FFCDC9AD973BF4DE039AA67DC9BE442C1CECE736140FCCEF1333",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-020",
+    "trajectory_type": "pre_fix",
+    "session_id": "45a8bb7c-aabc-4b45-8cf0-232d5d54f178",
+    "object_key": "uploads/2026/08/20/124441-8ae1a4b2/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124441-8ae1a4b2/pre_fix.jsonl",
+    "local_path": "cases/BUG-020/trajectories/pre_fix.jsonl",
+    "sha256": "005F27D3C312228E64969D58914EA5DFDF104328905279F85875C432C2B4CE94",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-020",
+    "trajectory_type": "post_fix",
+    "session_id": "84e80983-2c0c-4d08-a5dc-f95e488d4a33",
+    "object_key": "uploads/2026/08/20/124442-70f48e24/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124442-70f48e24/post_fix.jsonl",
+    "local_path": "cases/BUG-020/trajectories/post_fix.jsonl",
+    "sha256": "DBFF8CA40992DF0BA9F4DDBBE43E79CD0BB11651AE8E86522F703C6B28723D9E",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-021",
+    "trajectory_type": "pre_fix",
+    "session_id": "168fd13e-35cd-4d27-ad42-659235be4c1b",
+    "object_key": "uploads/2026/08/20/124442-668c091b/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124442-668c091b/pre_fix.jsonl",
+    "local_path": "cases/BUG-021/trajectories/pre_fix.jsonl",
+    "sha256": "F360973DE38E297CCAE8124DC61724177D24D7170520083C545F5A59A538B341",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-021",
+    "trajectory_type": "post_fix",
+    "session_id": "3c8b4e58-3034-4f55-8424-ce9598857db1",
+    "object_key": "uploads/2026/08/20/124443-50d00cea/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124443-50d00cea/post_fix.jsonl",
+    "local_path": "cases/BUG-021/trajectories/post_fix.jsonl",
+    "sha256": "1D9DFF5665E4C1B4597BE020620538DFBB39796D208366E965E0FA1516DC53E6",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-022",
+    "trajectory_type": "pre_fix",
+    "session_id": "db88e776-954c-4264-a2d2-bf75e62a5db2",
+    "object_key": "uploads/2026/08/20/124444-dd4da00f/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124444-dd4da00f/pre_fix.jsonl",
+    "local_path": "cases/BUG-022/trajectories/pre_fix.jsonl",
+    "sha256": "486742FC680223753721650717428526E8AE7C365D4BB9B03B30D00E261A353D",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-022",
+    "trajectory_type": "post_fix",
+    "session_id": "a63a75dd-2c29-4e8b-ab75-480239986852",
+    "object_key": "uploads/2026/08/20/124444-62b132bc/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124444-62b132bc/post_fix.jsonl",
+    "local_path": "cases/BUG-022/trajectories/post_fix.jsonl",
+    "sha256": "E5124DADDD4991C02245FBF29728A2F0972FB00E6280F090A86F9F8075EE826F",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-023",
+    "trajectory_type": "pre_fix",
+    "session_id": "fb1367c1-0f63-4922-aab8-ba752f0d4720",
+    "object_key": "uploads/2026/08/20/124445-0cb25468/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124445-0cb25468/pre_fix.jsonl",
+    "local_path": "cases/BUG-023/trajectories/pre_fix.jsonl",
+    "sha256": "C8242C51A07503AD30FBED0DA81DFC37048FCFF24796DB8CCC310D38A831C18C",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-023",
+    "trajectory_type": "diagnosis",
+    "session_id": "091003bf-7354-499a-968a-3c8bc06c5476",
+    "object_key": "uploads/2026/08/20/124445-e280ac6b/diagnosis.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124445-e280ac6b/diagnosis.jsonl",
+    "local_path": "cases/BUG-023/trajectories/diagnosis.jsonl",
+    "sha256": "E8093A1CC0B26E52841430CA671DCB43E5D94CBB780945430D1921BED1A338AE",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-024",
+    "trajectory_type": "pre_fix",
+    "session_id": "e02cd56a-9962-4187-bc0b-8692c4eb3b41",
+    "object_key": "uploads/2026/08/20/124446-2677bb01/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124446-2677bb01/pre_fix.jsonl",
+    "local_path": "cases/BUG-024/trajectories/pre_fix.jsonl",
+    "sha256": "CAF8C8F95E65F8D842693FA342356304F399CF18060AB8A4E945895190068CD7",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-024",
+    "trajectory_type": "post_fix",
+    "session_id": "ac9be895-cb37-4afe-b4ed-3e00eafed57d",
+    "object_key": "uploads/2026/08/20/124447-b4038a6b/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124447-b4038a6b/post_fix.jsonl",
+    "local_path": "cases/BUG-024/trajectories/post_fix.jsonl",
+    "sha256": "99FB5D3755BFA3EDE43F0E135FA6EEE517879C0125886975CF4BEAED83B7132C",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-025",
+    "trajectory_type": "pre_fix",
+    "session_id": "8259e29a-5f42-4471-871c-d6a9651241c1",
+    "object_key": "uploads/2026/08/20/124447-0121404d/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124447-0121404d/pre_fix.jsonl",
+    "local_path": "cases/BUG-025/trajectories/pre_fix.jsonl",
+    "sha256": "02900E4009D8CCF39133C7470637683D48A19856A0B398CF9B9856374EEB8F7A",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-025",
+    "trajectory_type": "post_fix",
+    "session_id": "8c2771e3-0558-46aa-83c7-708c3e17b121",
+    "object_key": "uploads/2026/08/20/124448-54bf174a/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124448-54bf174a/post_fix.jsonl",
+    "local_path": "cases/BUG-025/trajectories/post_fix.jsonl",
+    "sha256": "1F967E46AD2BD628A5B49875C170151854A1FA767347E9E9FBC8795237CFED25",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-026",
+    "trajectory_type": "pre_fix",
+    "session_id": "7673b4ee-daee-4173-86e7-49ba129b899e",
+    "object_key": "uploads/2026/08/20/124448-8824380a/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124448-8824380a/pre_fix.jsonl",
+    "local_path": "cases/BUG-026/trajectories/pre_fix.jsonl",
+    "sha256": "2CDAE47D3C6D6C1E5A2185D37F357E821E74EF305DB671B04083885FD12966AB",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-026",
+    "trajectory_type": "diagnosis",
+    "session_id": "1b7b1a63-0e8b-482f-8590-8a4be2cf1be0",
+    "object_key": "uploads/2026/08/20/124449-6a208a98/diagnosis.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124449-6a208a98/diagnosis.jsonl",
+    "local_path": "cases/BUG-026/trajectories/diagnosis.jsonl",
+    "sha256": "D6D1A22C66ED446AD0B6FF35FFB19F519DE0CFFFB80927AE91A2C84AD464C223",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-027",
+    "trajectory_type": "pre_fix",
+    "session_id": "2e37cbaa-9816-4008-9b03-d6d26e4d1bd5",
+    "object_key": "uploads/2026/08/20/124450-498808b3/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124450-498808b3/pre_fix.jsonl",
+    "local_path": "cases/BUG-027/trajectories/pre_fix.jsonl",
+    "sha256": "BEB28943AA7EE4A6D8821998F52928F2C5C78320B659C76F80F5D19CC6A34623",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-027",
+    "trajectory_type": "post_fix",
+    "session_id": "3a05d96f-b4a9-4220-b33c-242abf57bcbb",
+    "object_key": "uploads/2026/08/20/124450-f0512658/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124450-f0512658/post_fix.jsonl",
+    "local_path": "cases/BUG-027/trajectories/post_fix.jsonl",
+    "sha256": "54EE1B08C55AA007D7DCCF9DF0F0F7B5E8A48DD39AA69052E9F2B2CDF5955FFD",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-028",
+    "trajectory_type": "pre_fix",
+    "session_id": "e731981e-b951-4fd6-93d5-7b9490ed6e35",
+    "object_key": "uploads/2026/08/20/124451-908b80bc/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124451-908b80bc/pre_fix.jsonl",
+    "local_path": "cases/BUG-028/trajectories/pre_fix.jsonl",
+    "sha256": "DDEC0B9A8148163A489CA104B566F5451C22EB4726F8B3EE40FD0AC539958AAE",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-028",
+    "trajectory_type": "post_fix",
+    "session_id": "4934bd12-c099-4b0e-bb4d-fdb469899d19",
+    "object_key": "uploads/2026/08/20/124451-d2fc7aad/post_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124451-d2fc7aad/post_fix.jsonl",
+    "local_path": "cases/BUG-028/trajectories/post_fix.jsonl",
+    "sha256": "F7AD6AC5DEE941816F72CC24E0FB46557DE2B3AD92C671CF8BFE230CE8DEF4A4",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-029",
+    "trajectory_type": "pre_fix",
+    "session_id": "c799b047-d5f9-4b40-91df-1e785cd5505b",
+    "object_key": "uploads/2026/08/20/124452-53c87be4/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124452-53c87be4/pre_fix.jsonl",
+    "local_path": "cases/BUG-029/trajectories/pre_fix.jsonl",
+    "sha256": "154CF4BD452951A0B19E28E574740A33A0F6908B0A3ABF6C9A087A94C2CB9E83",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-029",
+    "trajectory_type": "diagnosis",
+    "session_id": "14ce4651-39f1-4946-a4dd-9a6f3e6ad2ed",
+    "object_key": "uploads/2026/08/20/124452-15c4c115/diagnosis.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124452-15c4c115/diagnosis.jsonl",
+    "local_path": "cases/BUG-029/trajectories/diagnosis.jsonl",
+    "sha256": "C6161AAE52323F559010B112AEEDCB40C5A4BFC5754A396D90175BB6667EDBD8",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-030",
+    "trajectory_type": "pre_fix",
+    "session_id": "0f8f0069-5108-45f4-8766-eb72863fe0d8",
+    "object_key": "uploads/2026/08/20/124453-6e3a4472/pre_fix.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124453-6e3a4472/pre_fix.jsonl",
+    "local_path": "cases/BUG-030/trajectories/pre_fix.jsonl",
+    "sha256": "EAFBD8D887F1BFF70241C9340CBB90E36D7E102BCBBE439BB9CD57506984B558",
+    "download_recheck": "PASS"
+  },
+  {
+    "case_id": "BUG-030",
+    "trajectory_type": "diagnosis",
+    "session_id": "77d61693-fdcd-4fb7-ad46-2f2b2e0977fd",
+    "object_key": "uploads/2026/08/20/124453-7d74c579/diagnosis.jsonl",
+    "direct_url": "https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124453-7d74c579/diagnosis.jsonl",
+    "local_path": "cases/BUG-030/trajectories/diagnosis.jsonl",
+    "sha256": "27BACEF3FE0EB85A09F6C18F5EDC75494DA66A2EC60B92F104F5E1D53A7EEB4A",
+    "download_recheck": "PASS"
+  }
 ]

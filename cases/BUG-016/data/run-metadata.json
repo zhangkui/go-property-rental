@@ -1,0 +1,17 @@
+{
+  "case_id": "BUG-016",
+  "task_type": "bugfix",
+  "model": "model_hub/glm-52-coding",
+  "claude_code_version": "2.1.228",
+  "branch": "test_model_fix16",
+  "candidate_commit": "9e3993160e198053f323ff61f9675c9d255dfb2e",
+  "gold_commit": "1d7b87ef7d14b79492ec25ee65f4090d97d1daba",
+  "pre": {
+    "session_id": "e4b9290e-0416-4f99-816c-d65315561ad0",
+    "trajectory_sha256": "8431AD76ADA6BA2A35FA5D3F996FC0CA41F4C0CEFA4B7685DB29AA8276B3E106"
+  },
+  "post_fix": {
+    "session_id": "e744b405-8d16-4b61-aac0-25ade1ba4925",
+    "trajectory_sha256": "F382730CF283DD9DFAB5435C29410F12A13100BB1A2F4AEFE17E4AFB011C83EC"
+  }
+}

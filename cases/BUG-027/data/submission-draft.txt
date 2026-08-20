@@ -1,0 +1,19 @@
+session_id:3a05d96f-b4a9-4220-b33c-242abf57bcbb
+bug_id:go-property-rental-bug-027
+task_type:bugfix
+bug_category:cache-fallback
+feature_area:仪表盘缓存降级
+affected_flow:仪表盘缓存降级
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix27
+candidate_commit:0253f4af501e3a4e06aa027dbb34521eac8e1134
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:仪表盘缓存偶尔会出现坏 JSON。遇到这种缓存时接口直接返回空汇总，没有去数据库取数据，回归提示 `corrupt cache did not fall back`。缓存读失败后的回源需要修好，正常缓存命中不要改坏。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124450-f0512658/post_fix.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug027_BusinessRegression$'
+gold_root_cause:文件 internal/repository/redis/dashboard.go，符号 Dashboard.Get 在 Redis 错误时返回 found=true；文件 internal/service/dashboard.go，符号 DashboardService.Summary 忽略缓存错误，只要 found 就返回零值。缓存故障因此阻断数据库降级。标准修复错误时返回 found=false，并仅在 err==nil 且 found 时采用缓存。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/17965a36f34fb250d8a53f9d1b2a07af9cb97ae2
+success_criteria:目标行为是仪表盘缓存降级按题面输入返回正确结果。文件 internal/repository/redis/dashboard.go，符号 Dashboard.Get 在 Redis 错误时返回 found=true；文件 internal/service/dashboard.go，符号 DashboardService.Summary 忽略缓存错误，只要 found 就返回零值。缓存故障因此阻断数据库降级。标准修复错误时返回 found=false，并仅在 err==nil 且 found 时采用缓存。 缺陷基线执行 go test ./scripts/verify -count=1 -run '^TestBug027_BusinessRegression$' 为 red；候选仅修改生产 Go 文件 internal/service/dashboard.go，没有修改测试，Session 结束后流程独立执行同一命令为 green。合法输入及题面列出的边界或对照场景保持原有行为。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124450-498808b3/pre_fix.jsonl","session_id":"2e37cbaa-9816-4008-9b03-d6d26e4d1bd5","result":"red"},"post_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124450-f0512658/post_fix.jsonl","session_id":"3a05d96f-b4a9-4220-b33c-242abf57bcbb","result":"green"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

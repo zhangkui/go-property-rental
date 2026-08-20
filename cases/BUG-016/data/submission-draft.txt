@@ -1,0 +1,19 @@
+session_id:e744b405-8d16-4b61-aac0-25ade1ba4925
+bug_id:go-property-rental-bug-016
+task_type:bugfix
+bug_category:financial-calculation
+feature_area:维修材料金额
+affected_flow:维修材料金额
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix16
+candidate_commit:9e3993160e198053f323ff61f9675c9d255dfb2e
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:维修单录材料后金额不对。给 `work-1` 加 3 个 filter，单价 2500，保存出来的数量、单价和 7500 的合计对不上，测试提示 `material values crossed`。请处理材料录入的问题，数量为 0 的请求也不能落库。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124437-f27c2805/post_fix.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug016_BusinessRegression$'
+gold_root_cause:文件 internal/service/workorder.go，符号 WorkOrderService.AddMaterial 构造 WorkOrderMaterial 时把 quantity 与 unitCost 对调；文件 internal/repository/mysql/workorder.go，符号 WorkOrders.AddMaterial 又用 quantity+unitCost 累加 material_cost，而不是调用 Total 计算数量乘单价。材料金额因此同时受到字段错位和错误公式影响。标准修复恢复字段映射并按 Total 累加。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/1d7b87ef7d14b79492ec25ee65f4090d97d1daba
+success_criteria:目标行为是维修材料金额按题面输入返回正确结果。文件 internal/service/workorder.go，符号 WorkOrderService.AddMaterial 构造 WorkOrderMaterial 时把 quantity 与 unitCost 对调；文件 internal/repository/mysql/workorder.go，符号 WorkOrders.AddMaterial 又用 quantity+unitCost 累加 material_cost，而不是调用 Total 计算数量乘单价。材料金额因此同时受到字段错位和错误公式影响。标准修复恢复字段映射并按 Total 累加。 缺陷基线执行 go test ./scripts/verify -count=1 -run '^TestBug016_BusinessRegression$' 为 red；候选仅修改生产 Go 文件 internal/service/workorder.go，没有修改测试，Session 结束后流程独立执行同一命令为 green。合法输入及题面列出的边界或对照场景保持原有行为。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124437-ca46edd1/pre_fix.jsonl","session_id":"e4b9290e-0416-4f99-816c-d65315561ad0","result":"red"},"post_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124437-f27c2805/post_fix.jsonl","session_id":"e744b405-8d16-4b61-aac0-25ade1ba4925","result":"green"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

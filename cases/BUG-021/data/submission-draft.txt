@@ -1,0 +1,19 @@
+session_id:3c8b4e58-3034-4f55-8424-ce9598857db1
+bug_id:go-property-rental-bug-021
+task_type:bugfix
+bug_category:authorization
+feature_area:用户停用与会话
+affected_flow:用户停用与会话
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix21
+candidate_commit:c8968a3462c3bfdff68620f451738ace5c7ff0ea
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:用户被停用以后，旧 token 还能继续用。把 `target-1` 设为 disabled 后，原来的 access token 仍能鉴权，refresh token 也能换新会话，而且被清掉的会话有时不是这个用户的。需要把停用后的登录状态处理好，正常 active 用户不要受影响。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124443-50d00cea/post_fix.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug021_BusinessRegression$'
+gold_root_cause:文件 internal/repository/mysql/security.go，符号 FindUserByID 用 CASE 把 disabled 伪装成 active；文件 internal/service/auth.go 的 Authenticate 与 Refresh 只拒绝 blocked；文件 internal/service/rbac.go 的 SetUserStatus 未在停用时撤销目标用户会话。停用用户旧 token 因此继续有效。标准修复返回真实状态、拒绝所有非 active 用户，并在 disabled 时撤销目标用户会话。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/2e0305f18e65e91ce9521f36f39c168dc9954255
+success_criteria:目标行为是用户停用与会话按题面输入返回正确结果。文件 internal/repository/mysql/security.go，符号 FindUserByID 用 CASE 把 disabled 伪装成 active；文件 internal/service/auth.go 的 Authenticate 与 Refresh 只拒绝 blocked；文件 internal/service/rbac.go 的 SetUserStatus 未在停用时撤销目标用户会话。停用用户旧 token 因此继续有效。标准修复返回真实状态、拒绝所有非 active 用户，并在 disabled 时撤销目标用户会话。 缺陷基线执行 go test ./scripts/verify -count=1 -run '^TestBug021_BusinessRegression$' 为 red；候选仅修改生产 Go 文件 internal/repository/mysql/security.go、internal/service/auth.go、internal/service/rbac.go，没有修改测试，Session 结束后流程独立执行同一命令为 green。合法输入及题面列出的边界或对照场景保持原有行为。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124442-668c091b/pre_fix.jsonl","session_id":"168fd13e-35cd-4d27-ad42-659235be4c1b","result":"red"},"post_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124443-50d00cea/post_fix.jsonl","session_id":"3c8b4e58-3034-4f55-8424-ce9598857db1","result":"green"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

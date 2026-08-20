@@ -1,0 +1,19 @@
+session_id:4934bd12-c099-4b0e-bb4d-fdb469899d19
+bug_id:go-property-rental-bug-028
+task_type:bugfix
+bug_category:date-boundary
+feature_area:租金报表日期边界
+affected_flow:租金报表日期边界
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix28
+candidate_commit:ee5ccc5c4235cc1e5a21a4d9b8592124e8ddd7f4
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:租金报表在日期刚好卡边界时会漏记录。查询从 `2026-08-18` 开始时，结束日正好是这一天的租约没有出现在结果里，测试报 `inclusive start boundary shifted`。帮忙查一下 API 到报表查询的日期传递，等于边界的情况要保留。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124451-d2fc7aad/post_fix.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug028_BusinessRegression$'
+gold_root_cause:文件 internal/service/report.go，符号 ReportService.RentRoll 把 StartDate 向后移一天；文件 internal/repository/mysql/report.go，租约结束日期条件使用 end_date>?，把恰好在起始日结束的租约排除。标准修复透传 StartDate，并将边界比较改为 end_date>=?，保持结束日期过滤不变。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/a1b05cc6c18efb1bdfccb33a9e17a0e66516d6a2
+success_criteria:目标行为是租金报表日期边界按题面输入返回正确结果。文件 internal/service/report.go，符号 ReportService.RentRoll 把 StartDate 向后移一天；文件 internal/repository/mysql/report.go，租约结束日期条件使用 end_date>?，把恰好在起始日结束的租约排除。标准修复透传 StartDate，并将边界比较改为 end_date>=?，保持结束日期过滤不变。 缺陷基线执行 go test ./scripts/verify -count=1 -run '^TestBug028_BusinessRegression$' 为 red；候选仅修改生产 Go 文件 internal/repository/mysql/report.go、internal/service/report.go，没有修改测试，Session 结束后流程独立执行同一命令为 green。合法输入及题面列出的边界或对照场景保持原有行为。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124451-908b80bc/pre_fix.jsonl","session_id":"e731981e-b951-4fd6-93d5-7b9490ed6e35","result":"red"},"post_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124451-d2fc7aad/post_fix.jsonl","session_id":"4934bd12-c099-4b0e-bb4d-fdb469899d19","result":"green"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

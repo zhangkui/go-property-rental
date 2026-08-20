@@ -1,0 +1,19 @@
+session_id:8c2771e3-0558-46aa-83c7-708c3e17b121
+bug_id:go-property-rental-bug-025
+task_type:bugfix
+bug_category:data-query
+feature_area:审计日志筛选
+affected_flow:审计日志筛选
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix25
+candidate_commit:513c4119cba0fa194e040434eb1207e89d44a8bd
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:审计列表用 `resource=property, actor=admin` 查询时，仓储收到的筛选条件和请求不一样，已有日志就查不到；两个条件都为空时也不能被偷偷补值。请修一下查询筛选，审计详情的正常写入别受影响。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124448-54bf174a/post_fix.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug025_BusinessRegression$'
+gold_root_cause:文件 internal/service/audit.go，符号 AuditService.List，以及文件 internal/repository/mysql/audit.go，符号 Audits.List，都给 resource 加 audit: 前缀，形成 audit:audit:<resource>。数据库只存一层前缀时查询无法命中。标准修复删除两层重复改写，按调用方原始 resource 过滤，空筛选保持查询全部。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/09ee1dc44d08410f4ad4bc432066afaf79aa9547
+success_criteria:目标行为是审计日志筛选按题面输入返回正确结果。文件 internal/service/audit.go 与 internal/repository/mysql/audit.go 的审计查询路径都给 resource 加 audit: 前缀，形成 audit:audit:<resource>。数据库只存一层前缀时查询无法命中。标准修复删除两层重复改写，按调用方原始 resource 过滤，空筛选保持查询全部。 缺陷基线执行 go test ./scripts/verify -count=1 -run '^TestBug025_BusinessRegression$' 为 red；候选仅修改生产 Go 文件 internal/repository/mysql/audit.go、internal/service/audit.go，没有修改测试，Session 结束后流程独立执行同一命令为 green。合法输入及题面列出的边界或对照场景保持原有行为。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124447-0121404d/pre_fix.jsonl","session_id":"8259e29a-5f42-4471-871c-d6a9651241c1","result":"red"},"post_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124448-54bf174a/post_fix.jsonl","session_id":"8c2771e3-0558-46aa-83c7-708c3e17b121","result":"green"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

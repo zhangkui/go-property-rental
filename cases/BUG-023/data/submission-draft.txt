@@ -1,0 +1,19 @@
+session_id:091003bf-7354-499a-968a-3c8bc06c5476
+bug_id:go-property-rental-bug-023
+task_type:diagnosis
+bug_category:authentication
+feature_area:登录限流
+affected_flow:登录限流
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix23
+candidate_commit:
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:登录限流会把不同 IP 混在一起。用户名 ` Alice ` 从 `10.0.0.1` 和 `10.0.0.2` 登录时，本来应该各算各的，实际失败次数会互相影响；成功登录后计数也没清干净。想查一下限流键和清理逻辑，先别改代码。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124445-e280ac6b/diagnosis.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug023_BusinessRegression$'
+gold_root_cause:文件 internal/service/auth.go，登录限流 limiterKey 只有小写用户名，没有 IP；文件 internal/repository/redis/security.go，符号 Security.Reset 删除 auth:attempt:<key>:reset，而 Allow 使用 auth:attempt:<key>。不同 IP 被错误合并，成功登录后真实计数也无法清除。标准修复把 IP 纳入 key，并删除与 Allow 完全相同的 Redis 键。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/1fbd465961eec7cefbcde44c09fbdd2e982ad65d
+success_criteria:实际执行 go test ./scripts/verify -count=1 -run '^TestBug023_BusinessRegression$' 在缺陷基线为 red。文件 internal/service/auth.go，登录限流 limiterKey 只有小写用户名，没有 IP；文件 internal/repository/redis/security.go，符号 Security.Reset 删除 auth:attempt:<key>:reset，而 Allow 使用 auth:attempt:<key>。不同 IP 被错误合并，成功登录后真实计数也无法清除。标准修复把 IP 纳入 key，并删除与 Allow 完全相同的 Redis 键。 正式诊断先读取测试和生产代码定位因果链，未修改、删除或新增任何代码与测试；目标工作区保持干净，回归测试仍为 red。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124445-0cb25468/pre_fix.jsonl","session_id":"fb1367c1-0f63-4922-aab8-ba752f0d4720","result":"red"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

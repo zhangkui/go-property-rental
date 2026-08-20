@@ -1,0 +1,19 @@
+session_id:ac9be895-cb37-4afe-b4ed-3e00eafed57d
+bug_id:go-property-rental-bug-024
+task_type:bugfix
+bug_category:authentication
+feature_area:修改密码
+affected_flow:修改密码
+repo_url:https://github.com/zhangkui/go-property-rental/tree/test_model_fix24
+candidate_commit:8726c4c0e5e1e90ebb9a58dca3dec77a61201228
+go_version:go.mod go 1.22; local go1.26.1 windows/amd64
+user_query:用户 `user-1` 修改密码后，新密码登录不了，旧密码却还能用，回归报 `stored hash does not accept new password`。输入错误的当前密码时也不能更新任何东西。把改密码流程修好，会话撤销也要针对当前用户。
+trajectory:https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124447-b4038a6b/post_fix.jsonl
+verify_cmds:
+go test ./scripts/verify -count=1 -run '^TestBug024_BusinessRegression$'
+gold_root_cause:文件 internal/service/auth.go，符号 AuthService.ChangePassword 用 currentPassword 生成新哈希；文件 internal/repository/mysql/security.go，符号 UpdatePassword 按 username 过滤，但调用方传入用户 ID。新密码因此不可用，真实数据库还可能零行更新。标准修复哈希 nextPassword 并按 id 更新，错误当前密码仍在任何写操作前返回。
+gold_patch:https://github.com/zhangkui/go-property-rental/commit/5cef03d7defe6672a18863ae4d1b88fe1ef1c98c
+success_criteria:目标行为是修改密码按题面输入返回正确结果。文件 internal/service/auth.go，符号 AuthService.ChangePassword 用 currentPassword 生成新哈希；文件 internal/repository/mysql/security.go，符号 UpdatePassword 按 username 过滤，但调用方传入用户 ID。新密码因此不可用，真实数据库还可能零行更新。标准修复哈希 nextPassword 并按 id 更新，错误当前密码仍在任何写操作前返回。 缺陷基线执行 go test ./scripts/verify -count=1 -run '^TestBug024_BusinessRegression$' 为 red；候选仅修改生产 Go 文件 internal/repository/mysql/security.go、internal/service/auth.go，没有修改测试，Session 结束后流程独立执行同一命令为 green。合法输入及题面列出的边界或对照场景保持原有行为。
+verify_result:{"pre_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124446-2677bb01/pre_fix.jsonl","session_id":"e02cd56a-9962-4187-bc0b-8692c4eb3b41","result":"red"},"post_fix":{"trajectory_url":"https://bduse-1304520688.cos.ap-beijing.myqcloud.com/uploads/2026/08/20/124447-b4038a6b/post_fix.jsonl","session_id":"ac9be895-cb37-4afe-b4ed-3e00eafed57d","result":"green"}}
+harness:backend=go-test; isolation=workspace; target_cli=claude; target_cli_version=2.1.228; model=model_hub/glm-52-coding; local_go=go1.26.1 windows/amd64
+generator_model:OpenAI Codex

@@ -1,0 +1,13 @@
+{
+  "case_id": "BUG-014",
+  "session_id": "7e763190-14b2-40d9-b34e-636dedd4aaf6",
+  "checks": {
+    "other_branch_or_directory_read": "PASS",
+    "user_query_consistency": "PASS",
+    "answer_material_isolation": "PASS",
+    "read_before_edit_or_conclusion": "PASS",
+    "final_command_claims": "PASS",
+    "existing_test_assertions": "PASS"
+  },
+  "final": "PASS"
+}
