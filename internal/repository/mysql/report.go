@@ -23,7 +23,7 @@ func (r Reports) Occupancy(ctx context.Context, filter entity.ReportFilter) (ent
 }
 
 func (r Reports) RentRoll(ctx context.Context, filter entity.ReportFilter) ([]entity.RentRollRow, error) {
-	query := `SELECT p.id,p.building,p.room,l.id,t.name,l.status,l.start_date,l.end_date,l.monthly_rent,l.deposit FROM leases l JOIN properties p ON p.id=l.property_id JOIN tenants t ON t.id=l.tenant_id WHERE (?='' OR p.id=?) AND (? IS NULL OR l.end_date>?) AND (? IS NULL OR l.start_date<=?) ORDER BY p.building,p.room,l.start_date`
+	query := `SELECT p.id,p.building,p.room,l.id,t.name,l.status,l.start_date,l.end_date,l.monthly_rent,l.deposit FROM leases l JOIN properties p ON p.id=l.property_id JOIN tenants t ON t.id=l.tenant_id WHERE (?='' OR p.id=?) AND (? IS NULL OR l.end_date>=?) AND (? IS NULL OR l.start_date<=?) ORDER BY p.building,p.room,l.start_date`
 	rows, err := r.DB.QueryContext(ctx, query, filter.PropertyID, filter.PropertyID, filter.StartDate, filter.StartDate, filter.EndDate, filter.EndDate)
 	if err != nil {
 		return nil, err
