@@ -1,9 +1,0 @@
-BUG_ID=BUG-027
-SESSION_ID=fe620f9a-7cdb-4c21-80f9-59111d2ac2ec
-COMMAND=go test ./scripts/verify -count=1 -run '^TestBug027_BusinessRegression$'
-EXIT_CODE=0
-OUTPUT=ok  go-property-rental/scripts/verify  0.340s
-ENVIRONMENT=go1.26.1 windows/amd64
-DOCKER=NOT_RUN
-LINUX_AMD64=NOT_RUN
-LINUX_ARM64=NOT_RUN
