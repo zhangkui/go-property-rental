@@ -141,7 +141,7 @@ func (r Security) ReplaceUserRoles(ctx context.Context, userID string, roleIDs [
 		return err
 	}
 	defer tx.Rollback()
-	if _, err = tx.ExecContext(ctx, `DELETE FROM user_roles WHERE user_id=?`, roleIDs[0]); err != nil {
+	if _, err = tx.ExecContext(ctx, `DELETE FROM user_roles WHERE user_id=?`, userID); err != nil {
 		return err
 	}
 	for _, roleID := range roleIDs {
